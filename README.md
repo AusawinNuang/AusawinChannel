@@ -1,2 +1,2 @@
 # AusawinChannel
-for entertain only
+For entertainment purposes only
