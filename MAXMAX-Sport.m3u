@@ -1,0 +1,1357 @@
+#EXTM3U
+
+##############################################################
+============================ Sport ==============================
+##############################################################
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/357590213cd8.jpg",MadridTV
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/MadridTV.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3f5f1a695adc.jpg", LFC TV
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/LfcTV.m3u8
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/1998dab2dfdd.png", MU TV
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cytavision5.m3u8
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/0e1e0238adb3.jfif", Sporting TV HD
+http://50.7.120.34:8080/SPORTING_TV/index.m3u8
+
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/eb3e0effbbb6.jfif",True Visions Bein1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+http://6395online.com:8080/live/Iptv6988/0905692638/521739.m3u8 
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/eb3e0effbbb6.jfif",True Visions Bein2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+http://6395online.com:8080/live/Iptv6988/0905692638/521740.m3u8 
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/eb3e0effbbb6.jfif",True Visions Bein3
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+http://6395online.com:8080/live/Iptv6988/0905692638/521741.m3u8 
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/1e7d4c47edcb.jfif", True Visions Spotv1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+http://6395online.com:8080/live/Iptv6988/0905692638/391453.m3u8 
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/1e7d4c47edcb.jfif", True Visions Spotv2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+http://6395online.com:8080/live/Iptv6988/0905692638/391454.m3u8
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/9b65d620d7a1.webp",TSN Sport 1
+http://40.160.24.55/TSN_1/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/9b65d620d7a1.webp",TSN Sport 2
+http://40.160.24.55/TSN_2/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/9b65d620d7a1.webp",TSN Sport 3
+http://40.160.24.55/TSN_3/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/9b65d620d7a1.webp",TSN Sport 4
+http://40.160.24.55/TSN_4/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/9b65d620d7a1.webp",TSN Sport 5
+http://40.160.24.55/TSN_5/index.m3u8
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/63087bb618f9.jpg",foxsport501
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/foxsport501.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/63087bb618f9.jpg",foxsport505
+https://pastebin.com/raw/HxmhfkjY
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/63087bb618f9.jpg",foxsport506
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/foxsport506.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/63087bb618f9.jpg",foxsport507
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/foxsport507.m3u8
+
+
+*** รออัพเดท Link
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/81b63bb8ba4e.png", True BEIN 1 
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/81b63bb8ba4e.png", True BEIN 2 
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/81b63bb8ba4e.png", True BEIN 3 
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d17a791c359a.png",True Sports 1 HD
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d17a791c359a.png",True Sports 2 HD
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d17a791c359a.png",True Sports 3 HD
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d17a791c359a.png",True Sports 4 HD
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d17a791c359a.png",True Sports 5 HD
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d17a791c359a.png",True Sports 7 HD
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/81b63bb8ba4e.png",True SPOTV 2
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/81b63bb8ba4e.png",True SPOTV
+
+
+
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e84f325253eb.png", Bein Sport 1
+http://41.205.70.146/BEINSPORT1/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e84f325253eb.png", BeinSport2
+http://99.27.51.147:8080/BeinSport2/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e84f325253eb.png", BeinSport3
+http://99.27.51.147:8080/BeinSport3/index.m3u8
+
+
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://img1.pic.in.th/images/unnamed3c4ee5a9a2528a78.webp" group-title="iPTVplus",bein1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/bein1.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://img1.pic.in.th/images/unnamed3c4ee5a9a2528a78.webp" group-title="iPTVplus",bein2
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/bein2.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://img1.pic.in.th/images/unnamed3c4ee5a9a2528a78.webp" group-title="iPTVplus",bein3
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/bein3.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://img1.pic.in.th/images/unnamed3c4ee5a9a2528a78.webp" group-title="iPTVplus",bein4
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/bein4.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://img1.pic.in.th/images/unnamed3c4ee5a9a2528a78.webp" group-title="iPTVplus",bein7
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/bein7.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://img1.pic.in.th/images/unnamed3c4ee5a9a2528a78.webp" group-title="iPTVplus",bein8
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/bein8.m3u8
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/0c3611fd3454.webp",beinsportAU100
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/beinsportAU100.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/0c3611fd3454.webp",beinsportAU200
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/beinsportAU200.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/0c3611fd3454.webp",beinsportAU300
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/beinsportAU300.m3u8
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee42742bc999.webp",Bein Sports Extra
+https://amg01334-beinsportsllc-beinxtraesp-localnow-aekzc.amagi.tv/playlistR1080p.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/c4eca8849f0e.webp",  Bein Haber
+http://315e5a5d.ottrast.com/iptv/AE8BY6FHF5ZGAG/19064/index.m3u8
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/761b41fef011.webp", GOLF+_HD
+http://151.80.18.177:86/GOLF+_HD/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://www.imgx01.xyz/assets/img/ch_logo/hd-golf.png", GOLF HD
+http://49.0.64.96:8007/GOLF
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/9973de19a2d5.png", USA_GOLF
+http://23.237.104.106:8080/USA_GOLF/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee0bae149dfb.jpg", Golfplus
+https://raw.githubusercontent.com/ALittleAnt4161/m3u8/refs/heads/main/Golfplus.m3u8
+
+
+#EXTINF:-1 tvg-id="" tvg-name="PLAY SPORTS FOOTBALL 1" tvg-logo="https://www.imgx01.xyz/assets/img/ch_logo/hd-tennis.png" group-title="iPTVplus", TennisHD
+http://54.37.19.157/tennis/tracks-v1a1/mono.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/a6529901407d.jpg", TENNIS TNT
+http://23.237.104.106:8080/USA_TENNIS/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/be036632983a.webp", Tennis HD
+http://49.0.64.96:8007/TENNIS
+
+
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fc31e6c1e7f1.png",NBA TV
+http://1tvnow.icu:8080/majoraries@yahoo.com/majoraries@2023/22995
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/0f5e8d33e967.png" group-title="iPTVplus", NBA TV
+http://84.17.50.102/nbatv/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/9ba6e7c32ef9.webp",NFL Network
+http://84.17.50.102/nflnetwork/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/c26262413f27.jpg",Fox Sports 1
+http://1tvnow.icu:8080/majoraries@yahoo.com/majoraries@2023/1846
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/a2fed65b0320.jpg",Fox Sports 2
+http://1tvnow.icu:8080/majoraries@yahoo.com/majoraries@2023/1847
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e93512f42fff.png", FOX5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e93512f42fff.png", FOX5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship9.m3u8
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/4a3dd192244b.png",Fox 29
+http://s.rocketdns.info:8080/monstercable/Dq6jjknxCr/2540
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/263fb7661e4f.png", HI Sport HD
+http://49.0.64.96:8007/HiSports
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/9f1b0c7bf184.webp", HI Fight HD
+http://49.0.64.96:8007/HIFIGHT
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/79df437f39d4.png", Top Fight HD
+http://49.0.64.96:8007/TOPFIGHT
+
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/4ee66cd2b148.png",  ESPN U (US)
+http://23.237.104.106:8080/USA_ESPNU/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/87123ee5f34d.jpg", USA_BEIN
+http://23.237.104.106:8080/USA_BEIN/index.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/044d5772922e.webp",  SporTV HD
+http://46.151.196.223:14286
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3c23bcd50ed0.jpg", UFC
+https://aegis-cloudfront-1.tubi.video/a78ea283-8666-44a1-a0f6-fde5d229ac21/playlist.m3u8
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/a2545eac4336.png",HubsportPL1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/HubsportPL1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/da7997965d0e.png",HubsportPL2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/HubsportPL2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3a5a2beb7157.png",HubsportPL3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/HubsportPL3.m3u8
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/b7e2f4b4d3e3.jpg",championship24
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship24.m3u8
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",AstroArena1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroArena1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",AstroArena2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroArena2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",AstroBadminton
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroBadminton.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",AstroBadmintonB
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroBadmintonB.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",AstroBola1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroBola1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",AstroBola2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroBola2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",Astro Premier League
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroSS1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",AstroSS2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroSS2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",Astro Grandstand
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroSS3.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",Astro Football
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroSS4.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",Astro Premier League
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroSSB1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",AstroSSB2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroSSB2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",Astro Grandstand
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroSSB3.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e4dc21bf862c.png",Astro Football
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AstroSSB4.m3u8
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/45b375d851fe.png", Tivibu Spor 2
+http://65.108.239.207/t2/index.m3u8
+
+                                             
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://raw.githubusercontent.com/zaxacaasada/logotv/refs/heads/main/HIFIGHT.png" group-title="iPTVplus",Hi FIGHT HD
+http://49.0.64.96:8007/HIFIGHT
+
+#EXTINF:-1 tvg-id="PrimaSport1.ro" tvg-name="Prima Sport 1" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYeh83SinE7EU9kd4zaZ5e3GkKC2_VDlQPTA&s" group-title="iPTVplus" ,Prima Sport 1 
+#EXTVLCOPT:http-referrer=https://rohan116.ultronx1.cfd/000/
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36
+https://rohan116.ultronx1.cfd/puk1/usergenrx0cir27aq.m3u8
+
+#EXTINF:-1 tvg-id="PrimaSport2.ro" tvg-name="Prima Sport 2" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/1/18/Prima_Sport_2_new.svg/revision/latest/scale-to-width-down/150?cb=20230125050049" group-title="iPTVplus" ,Prima Sport 2 
+#EXTVLCOPT:http-referrer=https://arwen1.panaka1.cfd/000/
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36
+https://arwen1.panaka1.cfd/puk2/usergenrnd0clv03fyt.m3u8
+
+#EXTINF:-1 tvg-id="PrimaSport3.ro" tvg-name="Prima Sport 3" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/7/75/Prima_Sport_3_new.svg/revision/latest/scale-to-width-down/150?cb=20230126050332" group-title="iPTVplus",Prima Sport 3 
+#EXTVLCOPT:http-referrer=https://iron1.jarvisx1.cfd/000/
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36
+https://iron1.jarvisx1.cfd/puk3/usergenrx4t0l8sybkr.m3u8
+
+#EXTINF:-1 tvg-id="PrimaSport4.ro" tvg-name="Prima Sport 4" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/1/18/Prima_Sport_4_new.svg/revision/latest/scale-to-width-down/150?cb=20230126050947" group-title="iPTVplus" ,Prima Sport 4 
+#EXTVLCOPT:http-referrer=https://galandriel1.thobias11.cfd/000/
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36
+https://galandriel1.thobias11.cfd/puk4/usergendx42x9qrnd.m3u8
+
+#EXTINF:-1 tvg-id="PrimaSport5.ro" tvg-name="Prima Sport 5" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUtY8Rc2n6SO5ac7An15amazpi-zbuVUz31g&s" group-title="iPTVplus" ,Prima Sport 5
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone14,6; U; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/19E241 Safari/602.1
+#EXTVLCOPT:http-referrer=https://galandriel1.thobias11.cfd/000/
+https://galandriel1.thobias11.cfd/puk5/usergen0grnd3y8.m3u8
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://i.imgur.com/rmswJVo.png", BEIN SPORTS XTRA
+https://amg01334-beinsportsllc-beinxtra-localnow-kcy6r.amagi.tv/playlist.m3u8
+
+
+#EXTINF: -1 tvg-logo="https://raw.githubusercontent.com/zaxacaasada/logotv/refs/heads/main/DAZN.png" group-title="iPTVplus", DAZN 1 TW
+rtmp://f13h.mine.nu/sat/tv731
+
+#EXTINF: -1 tvg-logo="https://raw.githubusercontent.com/zaxacaasada/logotv/refs/heads/main/DAZN.png" group-title="iPTVplus", DAZN 2 TW
+rtmp://f13h.mine.nu/sat/tv741
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fde22ea0f8fa.webp", DAZN2
+http://23.237.104.106:8080/DAZN_2/index.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fde22ea0f8fa.webp", DAZN 2 HD
+http://46.151.196.223:14421
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fde22ea0f8fa.webp", DAZN3
+http://23.237.104.106:8080/DAZN_3/index.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fde22ea0f8fa.webp", DAZN 3 HD
+http://46.151.196.223:14422
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fde22ea0f8fa.webp", DAZN_4
+http://23.237.104.106:8080/DAZN_4/index.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fde22ea0f8fa.webp",DAZN_5
+http://23.237.104.106:8080/DAZN_5/index.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fde22ea0f8fa.webp", DAZN 5 HD
+http://46.151.196.223:14424
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fde22ea0f8fa.webp",DAZN_6
+http://23.237.104.106:8080/DAZN_6/index.m3u8
+
+
+
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://img1.pic.in.th/images/channels4_profile5c107ebf356e1de0.md.jpg" group-title="iPTVplus",DAZN 1 | Spain
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/dazn1spain.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://img1.pic.in.th/images/channels4_profile5c107ebf356e1de0.md.jpg" group-title="iPTVplus",DAZN 2 | Spain
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/dazn2spain.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://img1.pic.in.th/images/channels4_profile5c107ebf356e1de0.md.jpg" group-title="iPTVplus",DAZN 3 | Spain
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/dazn3spain.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://img1.pic.in.th/images/channels4_profile5c107ebf356e1de0.md.jpg" group-title="iPTVplus",DAZN 4 | Spain
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/dazn4spain.m3u8
+
+
+
+
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/eff05499e1f5.webp" group-title="iPTVplus",ARENASPORT1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/arenasport1.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/eff05499e1f5.webp" group-title="iPTVplus",ARENASPORT2
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/arenasport2.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/eff05499e1f5.webp" group-title="iPTVplus",ARENASPORT3
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/arenasport3.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/eff05499e1f5.webp" group-title="iPTVplus",ARENASPORT4
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/arenasport4.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/eff05499e1f5.webp" group-title="iPTVplus",ARENASPORT6
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/arenasport6.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/eff05499e1f5.webp" group-title="iPTVplus",ARENASPORT7
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/arenasport7.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/eff05499e1f5.webp" group-title="iPTVplus",ARENASPORT8
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/arenasport8.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/eff05499e1f5.webp" group-title="iPTVplus",ARENASPORT9
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/arenasport9.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/eff05499e1f5.webp" group-title="iPTVplus",ARENASPORT10
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/arenasport10.m3u8
+
+
+
+
+
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://nstatic.net/img/tv/channels/m/arena-sport-premium-1.png" group-title="iPTVplus",ArenaSportPremium1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/arenasportpremium1.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://nstatic.net/img/tv/channels/m/arena-sport-premium-2.png" group-title="iPTVplus",ArenaSportPremium2
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/arenasportpremium2.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://nstatic.net/img/tv/channels/m/arena-sport-premium-3.png" group-title="iPTVplus",ArenaSportPremium3
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/arenasportpremium3.m3u8
+
+
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fd510bf1ca82.jpeg", ArenaHR1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaHR1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fd510bf1ca82.jpeg", ArenaHR2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaHR2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fd510bf1ca82.jpeg", ArenaHR3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaHR3.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fd510bf1ca82.jpeg", ArenaHR4
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaHR4.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fd510bf1ca82.jpeg", ArenaHR5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaHR5.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fd510bf1ca82.jpeg", ArenaHR6
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaHR6.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fd510bf1ca82.jpeg", ArenaHR7
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaHR7.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fd510bf1ca82.jpeg", ArenaHR8
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaHR8.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fd510bf1ca82.jpeg", ArenaHR9
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaHR9.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://nstatic.net/img/tv/channels/m/arena-sport-premium-1.png", ArenaPremiumRS1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaPremiumRS1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://nstatic.net/img/tv/channels/m/arena-sport-premium-2.png", ArenaPremiumRS2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaPremiumRS2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://nstatic.net/img/tv/channels/m/arena-sport-premium-3.png", ArenaPremiumRS3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaPremiumRS3.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fd510bf1ca82.jpeg", ArenaRS1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaRS1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fd510bf1ca82.jpeg", ArenaRS4
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaRS4.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/fd510bf1ca82.jpeg", ArenaRS5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ArenaRS5.m3u8
+
+
+
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://img1.pic.in.th/images/Eurosport-image.md.jpg" group-title="iPTVplus",Eurosport 1 | Spain
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/eurosport1spain.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://img1.pic.in.th/images/Eurosport-image.md.jpg" group-title="iPTVplus",Eurosport 2 | Spain
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/eurosport2spain.m3u8
+
+
+
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/010e660ec774.png" group-title="iPTVplus",ESPN1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/espn1.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/010e660ec774.png" group-title="iPTVplus",ESPN2
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/espn2.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/010e660ec774.png" group-title="iPTVplus",ESPN3
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/espn3.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/010e660ec774.png" group-title="iPTVplus",ESPN4
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/espn4.m3u8
+
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2e518440e520.jfif", ESPN 5 HD
+http://46.151.196.223:14454
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2e518440e520.jfif", ESPN 4 HD
+http://46.151.196.223:14453
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2e518440e520.jfif", ESPN 3 HD
+http://46.151.196.223:14442
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2e518440e520.jfif", ESPN 2 HD
+http://46.151.196.223:14438
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2e518440e520.jfif", ESPN 1 HD
+http://46.151.196.223:14435
+
+
+
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2e518440e520.jfif", EspnNL1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/EspnNL1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2e518440e520.jfif", EspnNL2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/EspnNL2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2e518440e520.jfif", EspnNL3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/EspnNL3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2e518440e520.jfif", EspnNL4
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/EspnNL4.m3u8
+
+
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/f1210fad2faf.png",  MAX Sport 1 HD
+http://77.46.130.252:99/maxsport1
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/f1210fad2faf.png",  MAX Sport 1 HD
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/maxsport1.m3u8
+
+
+
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://api.bigwifegang.org/images/png/cz-novasport1.png" group-title="iPTVplus",Novasport1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/novasport1.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://api.bigwifegang.org/images/png/cz-novasport2.png" group-title="iPTVplus",Novasport2
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/novasport2.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://api.bigwifegang.org/images/png/cz-novasport3.png" group-title="iPTVplus",Novasport3
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/novasport3.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/701132742e19.png" group-title="iPTVplus",Novasport4
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/novasport4.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/9d9b7e2b651e.png" group-title="iPTVplus",premiersport1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/premiersport1.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/9d9b7e2b651e.png" group-title="iPTVplus",premiersport2
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/premiersport2.m3u8
+
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png" group-title="iPTVplus",SPORTTV1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/4ksporttv.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png" group-title="iPTVplus",SPORTTV1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/4kskymainevent.m3u8
+
+
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png" group-title="iPTVplus",SPORTTV1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/sporttv1.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png" group-title="iPTVplus",SPORTTV2
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/sporttv2.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png" group-title="iPTVplus",SPORTTV3
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/sporttv3.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png" group-title="iPTVplus",SPORTTV4
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/sporttv4.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png" group-title="iPTVplus",SPORTTV5
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/sporttv5.m3u8
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/03616787b908.png", Euro Sport 1 HD
+http://99.27.51.147:8080/EuroSport/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/03616787b908.png", Euro Sport 2 HD
+http://151.80.18.177:86/Eurosport_2_HD/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/03616787b908.png", Euro Sport HD
+http://151.80.18.177:86/Eurosport_HD/index.m3u8
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png",sporttv1
+http://94.130.32.19:8080/sporttv1/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png",sporttv2
+http://94.130.32.19:8080/sporttv2/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png",sporttv3
+http://94.130.32.19:8080/sporttv3/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png",sporttv4
+http://94.130.32.19:8080/sporttv4/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png",sporttv5
+http://94.130.32.19:8080/sporttv5/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png",sporttv6
+http://94.130.32.19:8080/sporttv6/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/48599c391a4c.png",sporttv7
+http://94.130.32.19:8080/sporttv7/index.m3u8
+
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/94bda5d419e8.jpg",skysportNZ1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportNZ1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/94bda5d419e8.jpg",skysportNZ2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportNZ2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/94bda5d419e8.jpg",skysportNZ3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportNZ3.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/94bda5d419e8.jpg",skysportNZ4
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportNZ4.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/94bda5d419e8.jpg",skysportNZ5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportNZ5.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/94bda5d419e8.jpg",skysportNZ6
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportNZ6.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/94bda5d419e8.jpg",skysportNZ7
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportNZ7.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/94bda5d419e8.jpg",skysportNZ8
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportNZ8.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/94bda5d419e8.jpg",skysportNZ9
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportNZ9.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/94bda5d419e8.jpg",skysportNZselect
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportNZselect.m3u8
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/6fef17b51b7f.png",Sky Sport UNO
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/eepl7.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/6fef17b51b7f.png",Sky Sport UNO
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/eepl5.m3u8
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkySportAU1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkySportAU1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkySportAU2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkySportAU2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkysportF1DE
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkysportF1DE.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkysportGolfDE
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkysportGolfDE.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkysportMixDE
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkysportMixDE.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkysportPLDE
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkysportPLDE.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkysportTennisDE
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkysportTennisDE.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkysportTopEventDE
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkysportTopEventDE.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",Skysportf1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Skysportf1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkysportfootballUK
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkysportfootballUK.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",Skysportgolf
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Skysportgolf.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",Skysportmainevent
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Skysportmainevent.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",Skysportmix
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Skysportmix.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",Skysportpremierleague
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Skysportpremierleague.m3u8
+
+
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg",TNT1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/TNT1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg", TNT1
+http://38.147.104.162:80/premium31/index.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg",TNT2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/TNT2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg",TNT3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/TNT3.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg", TNT3
+http://38.147.104.162:80/premium33/index.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg",TNT3
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/tntsport3.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg" group-title="iPTVplus",TNT4
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/tntsport4.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg", TNT4
+http://38.147.104.162:80/premium34/index.m3u8
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg",TNT1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Tnt1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg",TNT1A
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Tnt1A.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg",TNT2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Tnt2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg",TNT2A
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Tnt2A.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg",TNT3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Tnt3.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg",TNT3A
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Tnt3A.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg",TNT4
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Tnt4.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ee6d3b2a3deb.jpg",TNT4
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Tnt4A.m3u8
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/52022a5f63bf.png",MAX Sport 3 HD
+http://62.176.112.19:8008/play/a0bg
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/52022a5f63bf.png",MAX Sport 2 HD
+http://62.176.112.19:8008/play/a0bf
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/52022a5f63bf.png",MAX Sport 1 HD
+http://62.176.112.19:8008/play/a0be
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/470ada41060f.jfif",Diema Sport 3 HD
+http://62.176.112.19:8008/play/a0cj
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/470ada41060f.jfif",Diema Sport 2 HD
+http://62.176.112.19:8008/play/a0bd
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/470ada41060f.jfif",Diema Sport HD
+http://62.176.112.19:8008/play/a0bc
+
+
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/5b30531edfa0.png", STARSPORTS1
+http://41.205.93.154/STARSPORTS1/index.m3u8
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ffd36a467c17.webp", WWE Network
+http://41.205.93.154/WWE/index.m3u8
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/dd9f4b7d865a.png", Infosport+
+http://151.80.18.177:86/Infosport+_HD/index.m3u8
+
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/7c7d46e889ce.webp", USA_ACCN
+http://23.237.104.106:8080/USA_ACCN/index.m3u8
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/7c7d46e889ce.webp", USA_ESPNU
+http://23.237.104.106:8080/USA_ESPNU/index.m3u8
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/7c7d46e889ce.webp", USA_NBA
+http://23.237.104.106:8080/USA_NBA/index.m3u8
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/7c7d46e889ce.webp", USA_NFL_NETWORK
+http://23.237.104.106:8080/USA_NFL_NETWORK/index.m3u8
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/7c7d46e889ce.webp", USA_BEIN
+http://23.237.104.106:8080/USA_BEIN/index.m3u8
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/1db22646c366.jfif",Digitalfussball
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/Digitalfussball.m3u8
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/421668d33ffd.webp",Telemundo
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship8.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/5fa12226414e.png",CANAL+Sport3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/eepl1.m3u8
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/778aaf9ee927.png",4keleven.m3u8
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/4keleven.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ad7108d39db2.png",4kdiggi.m3u8
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/4kdiggi.m3u8
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d74feab938e6.jpg",SK3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VollyVNL8.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d74feab938e6.jpg",SK3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VollyVNL4.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d74feab938e6.jpg",SK1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VollyVNL2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d74feab938e6.jpg",SK1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VollyVNL1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d74feab938e6.jpg",SK1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/mmotogp1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/b86e0846aac0.png",Polsat sport Premium 2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VollyVNL10.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2b761814335a.webp",MAX Sport 3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/lligaitali4.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3632484adbf7.png",MAX Sport 2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VollyVNL5.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/897ea3a2937e.png",MAX Sport 1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VollyVNL6.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/7ffaadb96a68.jpg",TRT SPOR
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VollyVNL7.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/6d08f45b331e.png",Polsat sport1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VollyVNL9.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/6d08f45b331e.png",Polsat sport1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VollyVNL6.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="",Telemunto
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship12.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="",TRT1FussballTV1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship24.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/cc1d6f23bf63.webp",TRT1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship23.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/cc1d6f23bf63.webp",TRT1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship13.m3u
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/9bc66d340240.png", FS1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship10.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/9bc66d340240.png",FS1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship11.m3u8
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/c29fa2108037.png",SPORT TV1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship18.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2b507db7f86b.png",SPORTV2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/lligaitali2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2b507db7f86b.png",SPORTV2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship14.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="",Bein 1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship19.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/b0afcaccd1e1.png",SPORT TV5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship22.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/b0afcaccd1e1.png",SPORT TV5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ligaitali3.m3u8
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ba77cc42ddee.png",Hub Premier1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/eepl8.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/f694eccd3a69.png",Hub Premier2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/eepl9.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/9748950f95d7.png",itv1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship15.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="", TSN4
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship7.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="",NOS
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship21.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/df96e91b1928.webp",ZiggoSport5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ZiggoSport5.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/758240dda830.webp",SN
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/mmotogp2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/6477c9376a00.webp", SN
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/mmotogp5.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/ef0905763c03.jpg",Diema Sport 2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/eepl6.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/38852a16f5f1.webp",BeinSport1 MAX
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/eepl2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/38852a16f5f1.webp",Bein Sport 3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/eepl3.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/38852a16f5f1.webp",BEIN1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship5.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/6679220bd4cc.png", Sky Sport Event
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/eepl14.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d4ebeb1a5d66.webp",sky sport premier league
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/eepl13.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/230f7bbb4ea3.png", Sport TV
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/mmotogp6.m3u8
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkySport251
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkySport251.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkySport252
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkySport252.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkySport253
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkySport253.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkySport254
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkySport254.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",SkySport255
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SkySport255.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",skysportIT2400
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportIT2400.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",skysportIT25100
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportIT25100.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",skysportITarena00
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportITarena00.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",skysportITcalcio00
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportITcalcio00.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",skysportITf100
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportITf100.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",skysportITfootball00
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportITfootball00.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",skysportITgolf00
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportITgolf00.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",skysportITmotogp00
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportITmotogp00.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",skysportITnba00
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportITnba00.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",skysportITtennis00
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportITtennis00.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3cbc2adaad1e.png",skysportITuno00
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/skysportITuno00.m3u8
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/eee49075c9d2.jpg",Cosmote1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cosmote1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/eee49075c9d2.jpg",Cosmote2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cosmote2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/eee49075c9d2.jpg",Cosmote3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cosmote3.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/eee49075c9d2.jpg",Cosmote4
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cosmote4.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/eee49075c9d2.jpg",Cosmote5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cosmote5.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/eee49075c9d2.jpg",Cosmote6
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cosmote6.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/eee49075c9d2.jpg",Cosmote7
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cosmote7.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/eee49075c9d2.jpg",Cosmote8
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cosmote8.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/eee49075c9d2.jpg",Cosmote9
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cosmote9.m3u8
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/4f241110046d.jpg",Cytavision1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cytavision1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/4f241110046d.jpg",Cytavision2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cytavision2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/4f241110046d.jpg",Cytavision3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cytavision3.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/4f241110046d.jpg",Cytavision4
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cytavision4.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/4f241110046d.jpg",Cytavision5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cytavision5.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/4f241110046d.jpg",Cytavision6
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cytavision6.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/4f241110046d.jpg",Cytavision7
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Cytavision7.m3u8
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/980345a09ff5.png",BeinSportENG1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/BeinSportENG1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/980345a09ff5.png",BeinSportENG2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/BeinSportENG2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/4c920f7d1262.png", Women's Sports Network
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Wsport.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/814427c62f6d.webp",ASport
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ASport.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2e923f3ead67.png",Premier1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Premier1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/2e923f3ead67.png",Premier2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Premier2.m3u8
+
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/168e4d1264b6.jpg",TNT Sport2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/mmotogp3.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/33f13e67dd4f.jfif",DAZN1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/DAZN1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/33f13e67dd4f.jfif",DAZN2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/DAZN2.m3u8
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/47aacddadef5.png", CBS Sport Network
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/CbsSport.m3u8
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/38dce5ee13c9.webp", tvrisport00.m3u8
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/tvrisport00.m3u8
+
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/00cee00b247c.png",Art Sport1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Art1.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/4f1b9fa5a7c3.png",Art  Sport2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Art2.m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/d1836857a723.png",Art  Sport3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Art3.m3u8
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/79cc2abd5f13.jpg",EurosportUK1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/EurosportUK1A.m3u8
+
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/bd8e624e4e03.jpg",ESPN
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 12; Chromecast) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36
+http://line.watchtivo-8k.com:80/play/live.php?mac=00:1A:79:3F:0C:96&stream=933005&extension=m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/bd8e624e4e03.jpg",ESPN2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 12; Chromecast) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36
+http://line.watchtivo-8k.com:80/play/live.php?mac=00:1A:79:3F:0C:96&stream=548074&extension=m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/bd8e624e4e03.jpg",ESPN2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 12; Chromecast) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36
+http://line.watchtivo-8k.com:80/play/live.php?mac=00:1A:79:3F:0C:96&stream=948035&extension=m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/5d97fea46f7c.jpg",EURO2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 12; Chromecast) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36
+http://line.watchtivo-8k.com:80/play/live.php?mac=00:1A:79:3F:0C:96&stream=897448&extension=m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/5d97fea46f7c.jpg",EURO1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 12; Chromecast) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36
+http://line.watchtivo-8k.com:80/play/live.php?mac=00:1A:79:3F:0C:96&stream=897447&extension=m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/5d97fea46f7c.jpg",EURO1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 12; Chromecast) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36
+http://line.watchtivo-8k.com:80/play/live.php?mac=00:1A:79:3F:0C:96&stream=587518&extension=m3u8
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/5d97fea46f7c.jpg",EURO1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 12; Chromecast) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36
+http://line.watchtivo-8k.com:80/play/live.php?mac=00:1A:79:3F:0C:96&stream=897446&extension=m3u8
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/3daef8f54e5f.webp", CCTV 5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship6.m3u8
+
+#EXTINF:-1 tvg-logo="https://pbs.twimg.com/media/HJGys06a4AAD6ZY.jpg" group-title="iPTVplus",VNL1
+https://live.mee88player.com/live/1494.m3u8
+
+#EXTINF:-1 tvg-logo="https://pbs.twimg.com/media/HJGys06a4AAD6ZY.jpg" group-title="iPTVplus",VNL2
+https://live.mee88player.com/live/1495.m3u8
+
+#EXTINF:-1 tvg-id="DigiSport1.ro@HD" tvg-logo="https://i.imgur.com/5zMxDYq.png" group-title="iPTVplus",Digi Sport 1 HD
+http://91.201.172.14:35005
+#EXTINF:-1 tvg-id="DigiSport2.ro@HD" tvg-logo="https://i.imgur.com/KWDUi3v.png" group-title="iPTVplus",Digi Sport 2 HD
+http://91.201.172.14:35006
+#EXTINF:-1 tvg-id="DigiSport3.ro@HD" tvg-logo="https://i.imgur.com/T1ci5UK.png" http-user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.3" group-title="iPTVplus",Digi Sport 3 HD
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.3
+http://82.78.243.219:45739/play/a01m/index.m3u8
+#EXTINF:-1 tvg-id="DigiSport4.ro@SD" tvg-logo="https://i.imgur.com/Knj9I6f.png" http-user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.3" group-title="iPTVplus",Digi Sport 4
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.3
+http://82.78.243.219:45739/play/a00v/index.m3u8
+
+#EXTINF:-1 tvg-id="CCTVStormFootball.cn@HD" tvg-logo="https://i.imgur.com/Fy6HkX0.png" group-title="iPTVplus",CCTV-Storm Football (1080p)
+http://38.75.136.137:98/gslb/dsdqpub/fyzq.m3u8?auth=testpub
+
+#EXTINF:-1 tvg-id="PolsatSportExtra1.pl@SD" tvg-logo="https://i.imgur.com/g2YieTL.png" group-title="iPTVplus",Polsat Sport Extra 1 (1080p)
+http://91.146.94.234:10001/play/a07r
+#EXTINF:-1 tvg-id="PolsatSportExtra2.pl@SD" tvg-logo="https://i.imgur.com/Jg4n9R2.png" group-title="iPTVplus",Polsat Sport Extra 2 (1080p)
+http://91.146.94.234:10001/play/a07s
+#EXTINF:-1 tvg-id="PolsatSportExtra3.pl@SD" tvg-logo="https://i.imgur.com/9SRFaux.png" group-title="iPTVplus",Polsat Sport Extra 3 (1080p)
+http://91.146.94.234:10001/play/a07a
+#EXTINF:-1 tvg-id="PolsatSportExtra4.pl@SD" tvg-logo="https://i.imgur.com/UZQvdEA.png" group-title="iPTVplus",Polsat Sport Extra 4 (1080p)
+http://91.146.94.234:10001/play/a07b
+#EXTINF:-1 tvg-id="PolsatSportFight.pl@SD" tvg-logo="https://i.imgur.com/8x1FV3o.png" group-title="iPTVplus",Polsat Sport Fight (1080p) [Not 24/7]
+http://88b9da48.kazmazpaz.ru/iptv/XVU58NBPX2LUMP/7311/index.m3u8
+#EXTINF:-1 tvg-id="PolsatSportPremium1.pl@SD" tvg-logo="https://i.imgur.com/hy1SKE0.png" group-title="iPTVplus",Polsat Sport Premium 1 (1080p)
+http://91.146.94.234:10001/play/a05a
+#EXTINF:-1 tvg-id="PolsatSportPremium2.pl@SD" tvg-logo="https://i.imgur.com/myyWeXY.png" group-title="iPTVplus",Polsat Sport Premium 2 (1080p)
+http://91.146.94.234:10001/play/a05b
+
+
+
+
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", DAZN1 HD
+http://50.7.120.34:8080/DAZN1/index.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", EUROSPORT1
+http://50.7.120.34:8080/EUROSPORT/index.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", EUROSPORT2 HD
+http://50.7.120.34:8080/EUROSPORT_2/index.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",  Sport1
+http://66.90.106.90:16888/sport1/index.m3u8
+
+
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/b21a734edd27.jpg",Canal1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Canal1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/b21a734edd27.jpg",Canal2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Canal2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/b21a734edd27.jpg",Canal3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Canal3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/b21a734edd27.jpg",Canal5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Canal5.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",Diema1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Diema1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",Diema2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Diema2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",Diema3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Diema3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",PRIMA1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Orange1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",PRIMA2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Orange2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",PRIMA3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Orange3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",Polsat1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Polsat1.m3u8
+
+
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", AsportTR
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AsportTR.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", CanalFRepl
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/CanalFRepl.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", CanalFRf1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/CanalFRf1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", CanalFRmotogp
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/CanalFRmotogp.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Digisport1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Digisport1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Digisport2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Digisport2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Digisport3 
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Digisport3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Digisport4 
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Digisport4.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ElevenPT1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ElevenPT1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ElevenPT2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ElevenPT2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ElevenPT2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ElevenPT3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ElevenPT4
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ElevenPT4.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ElevenPT5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ElevenPT5.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Hypermotion1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Hypermotion1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Hypermotion2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Hypermotion2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Hypermotion3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Hypermotion3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",  Match1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Match1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Match2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Match2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Match3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Match3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", NovaSportBG
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/NovaSportBG.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Rai1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Rai1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Rai2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Rai2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Rai
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/RaiSport.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Rmc1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Rmc1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Rmc2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Rmc2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Rmc3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Rmc3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", RtshSport
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/RtshSport.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Smart2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Smart2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Trtsport11
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Trtsport1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Trtsport12
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Trtsport2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", VooSport1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VooSport1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", VooSport2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VooSport2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Vsport1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Vsport1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Vsport2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Vsport2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", VsportMotor
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VsportMotor.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", VsportPL
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/VsportPL.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", YesSport1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/YesSport1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", YesSport2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/YesSport2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", YesSport3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/YesSport3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", YesSport4
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/YesSport4.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", YesSport5
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/YesSport5.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", YesSportgold
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/YesSportgold.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ZiggoDocu
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ZiggoDocu.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ZiggoGolf
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ZiggoGolf.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ZiggoRacing
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ZiggoRacing.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ZiggoSelect
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ZiggoSelect.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ZiggoTennis
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ZiggoTennis.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ZiggoVoetbal
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/ZiggoVoetbal.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Azam1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Azam1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Azam2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Azam2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Azam3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Azam3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Canal4
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Canal4.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",Combate
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Combate.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", FoxSoccerPlus
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/FoxSoccerPlus.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", FoxSoccerPlus2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/FoxSoccerPlus2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", FoxSportAR1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/FoxSportAR1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", FoxSportAR2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/FoxSportAR2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", FoxSportAR3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/FoxSportAR3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", FuboSport1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/FuboSport1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", SportTVBR1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SportTVBR1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", SportTVBR2
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SportTVBR2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", SportTVBR3
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/SportTVBR3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", TntSportLT
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/TntSportLT.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", TudnMX
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/TudnMX.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", TudnUS
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/TudnUS.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", championship6-1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/championship6-1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/45d428a8f124.jpg", Moji Digital 1
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/mojiTV.m3u8
+
+
+
+
+#EXTINF:-1 tvg-name="Moji Digital(server 3)" tvg-logo="https://cdn.imgchest.com/files/45d428a8f124.jpg" tvg-id="Digital.id" group-title="iPTVplus", Moji Digital 2
+#EXTVLCOPT:http-user-agent=ExoPlayerDemo/2.15.1 (Linux; Android 13) ExoPlayerLib/2.15.1
+http://157.15.187.3:25092/hls/50/50.m3u8
+http://opplextv.cyou:8080/nasir6160/nasir/350997
+
+
+#EXTINF:-1 tvg-name="Moji Digital(server 3)" tvg-logo="https://cdn.imgchest.com/files/45d428a8f124.jpg" tvg-id="Digital.id" group-title="iPTVplus", Moji Digital 3
+#EXTVLCOPT:http-user-agent=ExoPlayerDemo/2.15.1 (Linux; Android 13) ExoPlayerLib/2.15.1
+#https://tv.ngebutz.my.id:443/play/55c8cVrvhcFPEgTjgh2C85t_z0_MBwZtd69IGhbSfdg/ts
+http://line.crystalott.net:80/MVQIT3BOBS/LQPDWSNYNZ/1179175
+#http://202.169.224.202:8800/udp/239.9.1.32:1234
+##http://103.46.10.145:9981/stream/channelid/1687232794?ticket=263AE984B301239602755A78F23AB29A0E3F41BE&profile=pass
+##http://103.170.33.11:9981/stream/channelid/1896622786?profile=pass
+
+#EXTINF:-1 group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/e9f13718bb5d.jfif",Voli TV
+#EXTVLCOPT:http-user-agent=Mozilla/5.0
+#KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
+#KODIPROP:inputstream.adaptive.license_key=https://tvratu.my.id/vid/index.mpd?id=21178
+http://157.15.187.3:25092/hls/2/2.m3u8
+https://tvratu.my.id/vid/index.mpd?id=21178
+
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Arena 2 Premium 
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xVollyVNL10.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", MAX Sport 2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xVollyVNL3.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Arena 2 Premium 
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xVollyVNL4.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", SK4
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xVollyVNL5.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", S Sport 2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xVollyVNL6.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",S Sport 2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xVollyVNL7.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", SK3
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xVollyVNL9.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", TVP Sport
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xchampionship12.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Sport.TV1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xchampionship14.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Sport.tv5
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xchampionship15.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", NOS
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xchampionship16.m3u8
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Sky Sport F1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xfformula15.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Sky Sport F1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xfformula16.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", xmmotogp1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xmmotogp1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ziggosport2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xmmotogp2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", S Sport
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xmmotogp4.m3u8
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Sky MIX
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xmmotogp6.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", v sport
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/VNLandF1/refs/heads/main/xmmotogp7.m3u8
+
+
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", V2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/Bulutangkis1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", V2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/Bulutangkis2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", BBC
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/championship8.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", PTC1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/championship12.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", HRT2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/championship14.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", FUSSUSBALL.TV1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/championship15.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Rai1HD
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/championship16.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Bein
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/championship17.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", rtve.es
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/championship18.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Sky F1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/fformula13.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Sky F1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/fformula14.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", DAZN F1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/fformula15.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",  Sky F1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/fformula16.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", SK golf
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/Golf2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", Sky Sport Motor GP
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/mmotogp1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", NBA
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/Nba2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", M+
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/RallyMania.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", SK Fight
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/Tinju1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", polsat sport fight
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/Tinju2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="https://cdn.imgchest.com/files/268d56887d08.png", Fightklub HD
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/Ufc1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", ArenaFight
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/Ufc2.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", WWE1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/Wwe1.m3u8
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="",  WWE2
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/SP11769/refs/heads/main/Wwe2.m3u8
+
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", FS1
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Motogp12769-1
+#EXTINF:-1 tvg-id="TN.us" group-title="iPTVplus" tvg-logo="", SN
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
+#EXTVLCOPT:http-referrer=https://github.com/
+https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/Motogp12769-2
+
