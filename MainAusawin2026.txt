@@ -1,0 +1,130 @@
+{
+"name": "Ausawin CH.2026 ",
+"author": "@Win 03/7/69",
+"image": "https://cdn.imgchest.com/files/d19843b614b4.gif",
+"url": "https://docs.google.com/uc?export=download&id=1-EnPaQGHnE6WsJ8uR88MGleNOw_M8d9z",
+"groups": [
+
+
+
+
+{
+"name": "Baphomet+","author":"อัศวิน",
+"image": "https://cdn.imgchest.com/files/71c5adef46d7.gif",
+"url": "https://squidmantv.lfctv.online/baphoplus/main.m3u8?user=segram01@gmail.com&pass=4aee0e",
+"import": false},
+
+{
+"name": "ละครไทยย้อนหลัง",
+"image": "https://cdn.imgchest.com/files/68a4c58a185f.gif",
+"url": "https://drive.google.com/uc?id=1XhJGNdKm2YLw-PlMnkaTb1w56XOxV719",
+"import": false},
+
+
+{
+"name": "World Cup 2026",
+"image": "https://cdn.imgchest.com/files/1214a7920aae.gif",
+"url": "https://drive.google.com/uc?id=1XBqKWGaxb0CYdZ6-QgbJTwudGjzDUCpu",
+"import": false},
+
+
+{
+"name": "Favorite Channel","author":"อัศวิน",
+"url": "https://docs.google.com/uc?export=download&id=1x7KtxxiTsT8xcreSz5HwjuPuIsuvoTji",
+"image": "https://cdn.imgchest.com/files/0cdaf42f93c1.gif",
+"import": false},
+
+{
+"name": "Favorite Sports","author":"อัศวิน",
+"url": "https://drive.google.com/uc?id=12WTRH_W51ejWw0Rr6pArAS3xZlpvILG1",
+"image": "https://cdn.imgchest.com/files/0cdaf42f93c1.gif",
+"import": false},
+
+{
+"name": "ถ่ายทอดสด","author":"อัศวิน",
+"url": "https://drive.google.com/uc?id=1fLLyLz7D1zJhyeysSkVSG-wfgJUdrZoc",
+"image": "https://cdn.imgchest.com/files/bfc301fec37a.png",
+"import": false},
+
+
+
+
+
+{
+"name": "ซีรี่ย์ออนแอร์",
+"image": "https://cdn.imgchest.com/files/6f9d806f5ac9.gif",
+"url": "https://drive.google.com/uc?id=1vpXALQrutdn2GJ9vQ8BXmw40miAY0wer",
+"import": false},
+
+
+{
+"name": "ซีรี่ย์จบแล้ว",
+"image": "https://cdn.imgchest.com/files/6f9d806f5ac9.gif",
+"url": "https://drive.google.com/uc?id=1eW9L2tuVMi2vmh6uTR4UZUkVNW3_I7jm",
+"import": false},
+
+
+
+{
+"name": "รายการทีวีย้อนหลัง",
+"image": "https://cdn.imgchest.com/files/f76acd6b052a.gif",
+"url": "https://drive.google.com/uc?id=1QlKNIJCrbtu5uo5r9I-t8UAn1dczUfx3",
+"import": false},
+
+
+
+{
+"name": "ซี่รี่ย์แนวตั้ง",
+"image": "https://cdn.imgchest.com/files/67c159f68682.gif",
+"url": "https://drive.google.com/uc?id=1LArHjYTEx1Vfgy044dmUA1uZ-k7Cp_d3",
+"import": false},
+
+
+{
+"name": "หนังเด็ด/หนังใหม่",
+"image": "https://cdn.imgchest.com/files/7a5740383024.gif",
+"url": "https://drive.google.com/uc?id=1Gmrhf1k7GThcMmJUGSrnrNN2fupNWWkl",
+"import": false},
+
+{
+"name": "Happy HUB",
+"image": "https://cdn.imgchest.com/files/98029d4d98fb.webp",
+"url": "https://drive.google.com/uc?id=1m-csLmhANzNXv9eIZOiZyAvi1U_7ZKdC",
+"import": false},
+
+
+{
+"name": "WWE",
+"image": "https://cdn.imgchest.com/files/597620292329.gif",
+"url": "https://drive.google.com/uc?id=1EsA73KIiWbs05QbTPYajwMnn1VgZbgAS",
+"import": false},
+
+
+
+{
+"name": "Link หลายสำนัก","author":"อัศวิน",
+"image": "https://cdn.imgchest.com/files/302d27b306fe.gif",
+"url": "https://docs.google.com/uc?export=download&id=11mSCmi7XuHgrtwkRhnuKjh4D5vbqeNUN",
+"import": false},
+
+
+
+{
+"name": "รายการวิทยุ",
+"image": "https://cdn.imgchest.com/files/081246a7cca7.gif",
+"url": "https://docs.google.com/uc?export=download&id=15zoaOTufm9ef9J9BOzQ0C_BEQ1sYMWbz",
+"import": false},
+
+
+
+
+{
+"name": "Fun Box","author":"Ausawin",
+"url": "https://docs.google.com/uc?export=download&id=142fRiQBPgzAhqZxOPYCux0fzMoR7v-6T",
+"image": "https://cdn.imgchest.com/files/cd09fb30e983.gif",
+"import": false},
+
+
+
+
+]},
