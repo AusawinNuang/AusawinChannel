@@ -477,11 +477,14 @@
         <input type="text" id="search-input" placeholder="ค้นหาชื่อช่องรายการ..." aria-label="ค้นหาชื่อช่องรายการ">
         <div class="category-tabs" id="category-tabs" role="tablist">
           <button type="button" class="tab-btn active" data-cat="ทั้งหมด">ทั้งหมด</button>
+          <button type="button" class="tab-btn" data-cat="ภาพยนตร์">สารคดี</button>
           <button type="button" class="tab-btn" data-cat="ทั่วไป">ทั่วไป</button>
           <button type="button" class="tab-btn" data-cat="ข่าวสาร">ข่าวสาร</button>
           <button type="button" class="tab-btn" data-cat="บันเทิง">บันเทิง</button>
           <button type="button" class="tab-btn" data-cat="กีฬา">กีฬา</button>
           <button type="button" class="tab-btn" data-cat="สารคดี">สารคดี</button>
+          
+
         </div>
       </div>
       <div id="channel-list" class="channel-list"></div>
@@ -492,6 +495,21 @@
     (function () {
       // กำหนดรายการช่องทีวีและลิงก์สตรีมตรงนี้ (สำหรับผู้ดูแลแอป)
       const channels = [
+
+{ id: 'ch_268', name: 'MTV(ATMflix)', category: 'ดนตรี', logo: 'https://cdn.imgchest.com/files/93e778a0c482.webp', url: 'https://app.ipplaybox.fun/atmflixlive/mtv/playlist.m3u8' },
+{ id: 'ch_269', name: 'True film1(ATMflix)', category: 'ภาพยนตร์', logo: 'https://cdn.imgchest.com/files/35348deb64cb.webp', url: 'https://app.ipplaybox.fun/atmflixlive/truefilm1/playlist.m3u8' },
+{ id: 'ch_270', name: 'True film2(ATMflix)', category: 'ภาพยนตร์', logo: 'https://cdn.imgchest.com/files/40de2167af80.webp', url: 'https://app.ipplaybox.fun/atmflixlive/truefilm2/playlist.m3u8' },
+{ id: 'ch_271', name: 'HBO(ATMflix)', category: 'ภาพยนตร์', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbo.png', url: 'https://app.ipplaybox.fun/atmflixlive/hbo/playlist.m3u8' },
+{ id: 'ch_272', name: 'HBOHits(ATMflix)', category: 'ภาพยนตร์', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbohits.png', url: 'https://app.ipplaybox.fun/atmflixlive/hbo-hits/playlist.m3u8' },
+{ id: 'ch_273', name: 'HBOSignature(ATMflix)', category: 'ภาพยนตร์', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbosig.png', url: 'https://app.ipplaybox.fun/atmflixlive/hbo-signature/playlist.m3u8' },
+{ id: 'ch_274', name: 'rock-entertainment(ATMflix)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rocken.webp', url: 'https://app.ipplaybox.fun/atmflixlive/rock-entertainment/playlist.m3u8' },
+{ id: 'ch_275', name: 'ROCKAction(ATMflix)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rockac.png', url: 'https://app.ipplaybox.fun/atmflixlive/rock-action/playlist.m3u8' },
+{ id: 'ch_276', name: 'True Asian More(ATMflix)', category: 'บันเทิง', logo: 'https://cdn.imgchest.com/files/15202ff45da6.png', url: 'https://app.ipplaybox.fun/atmflixlive/trueasianmore/playlist.m3u8' },
+{ id: 'ch_277', name: 'Aniplus(ATMflix)', category: 'อนิเมะ', logo: 'https://cdn.imgchest.com/files/247234af7e13.webp', url: 'https://app.ipplaybox.fun/atmflixlive/anipluschannel/playlist.m3u8' },
+{ id: 'ch_278', name: 'A\'lure channel(ATMflix)', category: 'บันเทิง', logo: 'https://cdn.imgchest.com/files/fb0e90e062f6.jfif', url: 'https://app.ipplaybox.fun/atmflixlive/alure-channel/playlist.m3u8' },
+{ id: 'ch_279', name: 'RUSH Stories(ATMflix)', category: 'บันเทิง', logo: 'https://cdn.imgchest.com/files/4cdf45e6a841.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/rush-stories/playlist.m3u8' },
+{ id: 'ch_280', name: 'MONO29(ATMflix)', category: 'ฟรีทีวี/ภาพยนตร์', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mono29.webp', url: 'https://app.ipplaybox.fun/atmflixlive/mono29/playlist.m3u8' },
+{ id: 'ch_281', name: 'mono29plus(ATMflix)', category: 'ฟรีทีวี/ภาพยนตร์', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mono29plus.png', url: 'https://app.ipplaybox.fun/atmflixlive/mono29plus/playlist.m3u8' }
         { id: 'ch_1', name: 'T-Sports7(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tsport7.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/T-Sports7/master.m3u8' },
         { id: 'ch_2', name: 'T-Sports7-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tsport7.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/T-Sports7/master.m3u8' },
         { id: 'ch_3', name: 'pptvhd(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/pptv36.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/pptvhd/master.m3u8' },
@@ -758,26 +776,7 @@
         { id: 'ch_264', name: 'polsatsportpremium2(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/aca767a86d07.png', url: 'https://app.ipplaybox.fun/atmflixlive/polsatsportpremium2/playlist.m3u8' },
         { id: 'ch_265', name: 'L1MAX(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/611dfbc346b6.webp', url: 'https://app.ipplaybox.fun/atmflixlive/l1max/playlist.m3u8' },
         { id: 'ch_266', name: 'AppleTV1(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/0c617fdb89a0.png', url: 'https://app.ipplaybox.fun/atmflixlive/atvp1/playlist.m3u8' },
-        { id: 'ch_267', name: 'AppleTV2(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/0c617fdb89a0.png', url: 'https://app.ipplaybox.fun/atmflixlive/atvp2/playlist.m3u8' },
-{ id: 'ch_268', name: 'MTV(ATMflix)', category: 'ดนตรี', logo: 'https://cdn.imgchest.com/files/93e778a0c482.webp', url: 'https://app.ipplaybox.fun/atmflixlive/mtv/playlist.m3u8' },
-{ id: 'ch_269', name: 'True film1(ATMflix)', category: 'ภาพยนตร์', logo: 'https://cdn.imgchest.com/files/35348deb64cb.webp', url: 'https://app.ipplaybox.fun/atmflixlive/truefilm1/playlist.m3u8' },
-{ id: 'ch_270', name: 'True film2(ATMflix)', category: 'ภาพยนตร์', logo: 'https://cdn.imgchest.com/files/40de2167af80.webp', url: 'https://app.ipplaybox.fun/atmflixlive/truefilm2/playlist.m3u8' },
-{ id: 'ch_271', name: 'HBO(ATMflix)', category: 'ภาพยนตร์', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbo.png', url: 'https://app.ipplaybox.fun/atmflixlive/hbo/playlist.m3u8' },
-{ id: 'ch_272', name: 'HBOHits(ATMflix)', category: 'ภาพยนตร์', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbohits.png', url: 'https://app.ipplaybox.fun/atmflixlive/hbo-hits/playlist.m3u8' },
-{ id: 'ch_273', name: 'HBOSignature(ATMflix)', category: 'ภาพยนตร์', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbosig.png', url: 'https://app.ipplaybox.fun/atmflixlive/hbo-signature/playlist.m3u8' },
-{ id: 'ch_274', name: 'rock-entertainment(ATMflix)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rocken.webp', url: 'https://app.ipplaybox.fun/atmflixlive/rock-entertainment/playlist.m3u8' },
-{ id: 'ch_275', name: 'ROCKAction(ATMflix)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rockac.png', url: 'https://app.ipplaybox.fun/atmflixlive/rock-action/playlist.m3u8' },
-{ id: 'ch_276', name: 'True Asian More(ATMflix)', category: 'บันเทิง', logo: 'https://cdn.imgchest.com/files/15202ff45da6.png', url: 'https://app.ipplaybox.fun/atmflixlive/trueasianmore/playlist.m3u8' },
-{ id: 'ch_277', name: 'Aniplus(ATMflix)', category: 'อนิเมะ', logo: 'https://cdn.imgchest.com/files/247234af7e13.webp', url: 'https://app.ipplaybox.fun/atmflixlive/anipluschannel/playlist.m3u8' },
-{ id: 'ch_278', name: 'A\'lure channel(ATMflix)', category: 'บันเทิง', logo: 'https://cdn.imgchest.com/files/fb0e90e062f6.jfif', url: 'https://app.ipplaybox.fun/atmflixlive/alure-channel/playlist.m3u8' },
-{ id: 'ch_279', name: 'RUSH Stories(ATMflix)', category: 'บันเทิง', logo: 'https://cdn.imgchest.com/files/4cdf45e6a841.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/rush-stories/playlist.m3u8' },
-{ id: 'ch_280', name: 'MONO29(ATMflix)', category: 'ฟรีทีวี/ภาพยนตร์', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mono29.webp', url: 'https://app.ipplaybox.fun/atmflixlive/mono29/playlist.m3u8' },
-{ id: 'ch_281', name: 'mono29plus(ATMflix)', category: 'ฟรีทีวี/ภาพยนตร์', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mono29plus.png', url: 'https://app.ipplaybox.fun/atmflixlive/mono29plus/playlist.m3u8' }
-
-
-
-
-
+        { id: 'ch_267', name: 'AppleTV2(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/0c617fdb89a0.png', url: 'https://app.ipplaybox.fun/atmflixlive/atvp2/playlist.m3u8' }
 
        ];
 
