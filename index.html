@@ -1,737 +1,113 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>Online TV Player</title>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
-  <style>
-    :root {
-      --bg: #0f172a;
-      --surface: #1e293b;
-      --surface-hover: #334155;
-      --border: #334155;
-      --ink: #f8fafc;
-      --muted: #94a3b8;
-      --brand: #3b82f6;
-      --brand-hover: #2563eb;
-      --brand-ink: #ffffff;
-      --accent: #06b6d4;
-      --danger: #ef4444;
-      --radius: 12px;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-      --space-1: 4px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-6: 24px;
-      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPTVplus Player</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Sarabun', sans-serif; background-color: #0b0f19; color: #f3f4f6; }
+        .video-js { width: 100% !important; height: 100% !important; border-radius: 0.75rem; overflow: hidden; }
+        .video-js .vjs-big-play-button {
+            background-color: rgba(59, 130, 246, 0.85) !important;
+            border-color: #3b82f6 !important;
+            border-radius: 50% !important;
+            width: 2.5em !important; height: 2.5em !important; line-height: 2.5em !important;
+            margin-top: -1.25em !important; margin-left: -1.25em !important;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: var(--font);
-      background-color: var(--bg);
-      color: var(--ink);
-      line-height: 1.5;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      background-color: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: var(--space-3) var(--space-4);
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
-
-    .header-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-3);
-      flex-wrap: wrap;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .brand-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--brand), var(--accent));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--brand-ink);
-    }
-
-    .main-container {
-      max-width: 1120px;
-      width: 100%;
-      margin: 0 auto;
-      padding: var(--space-4);
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--space-4);
-      flex: 1;
-    }
-
-    @media (min-width: 900px) {
-      .main-container {
-        grid-template-columns: 1.5fr 1fr;
-        padding: var(--space-6);
-        gap: var(--space-6);
-        align-items: start;
-      }
-    }
-
-    .card {
-      background-color: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    /* Player Section */
-    .player-wrapper {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background-color: #020617;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    video {
-      width: 100%;
-      height: 100%;
-      display: none;
-      background-color: #000;
-    }
-
-    video.active {
-      display: block;
-    }
-
-    .player-placeholder {
-      text-align: center;
-      padding: var(--space-6);
-      color: var(--muted);
-      max-width: 360px;
-    }
-
-    .player-placeholder svg {
-      width: 48px;
-      height: 48px;
-      margin-bottom: var(--space-3);
-      stroke: var(--muted);
-      opacity: 0.7;
-    }
-
-    .player-placeholder h2 {
-      font-size: 1.05rem;
-      color: var(--ink);
-      margin-bottom: var(--space-1);
-    }
-
-    .player-placeholder p {
-      font-size: 0.875rem;
-    }
-
-    .now-playing-bar {
-      padding: var(--space-4);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-3);
-      border-top: 1px solid var(--border);
-    }
-
-    .now-playing-info {
-      min-width: 0;
-    }
-
-    .now-playing-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .now-playing-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .status-msg {
-      font-size: 0.8rem;
-      color: var(--danger);
-      margin-top: var(--space-1);
-      display: none;
-    }
-
-    .status-msg.visible {
-      display: block;
-    }
-
-    /* Controls & Form */
-    .section-header {
-      padding: var(--space-4);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-2);
-    }
-
-    .section-title {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .form-body {
-      padding: var(--space-4);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-1);
-    }
-
-    .field label {
-      font-size: 0.85rem;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    input[type="text"],
-    input[type="url"],
-    select {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background-color: var(--bg);
-      color: var(--ink);
-      font: inherit;
-      font-size: 0.9rem;
-      transition: border-color 0.15s ease;
-    }
-
-    input:focus,
-    select:focus {
-      outline: none;
-      border-color: var(--brand);
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-3);
-    }
-
-    .btn {
-      font: inherit;
-      font-size: 0.9rem;
-      font-weight: 600;
-      padding: 10px 16px;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-2);
-      transition: background-color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
-    }
-
-    .btn-primary {
-      background-color: var(--brand);
-      color: var(--brand-ink);
-    }
-
-    .btn-primary:hover {
-      background-color: var(--brand-hover);
-    }
-
-    .btn-secondary {
-      background-color: transparent;
-      color: var(--ink);
-      border-color: var(--border);
-    }
-
-    .btn-secondary:hover {
-      background-color: var(--surface-hover);
-    }
-
-    .btn:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    /* Channel List */
-    .filter-bar {
-      padding: var(--space-3) var(--space-4);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-    }
-
-    .category-tabs {
-      display: flex;
-      gap: var(--space-2);
-      overflow-x: auto;
-      padding-bottom: 2px;
-    }
-
-    .tab-btn {
-      background: var(--bg);
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.15s ease;
-    }
-
-    .tab-btn:hover {
-      color: var(--ink);
-      border-color: var(--muted);
-    }
-
-    .tab-btn.active {
-      background: var(--brand);
-      color: var(--brand-ink);
-      border-color: var(--brand);
-    }
-
-    .channel-list {
-      max-height: 440px;
-      overflow-y: auto;
-      divide-y: 1px solid var(--border);
-    }
-
-    .channel-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-3);
-      padding: var(--space-3) var(--space-4);
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      transition: background-color 0.15s ease;
-    }
-
-    .channel-item:last-child {
-      border-bottom: none;
-    }
-
-    .channel-item:hover {
-      background-color: var(--surface-hover);
-    }
-
-    .channel-item.active {
-      background-color: rgba(59, 130, 246, 0.15);
-      border-left: 3px solid var(--brand);
-    }
-
-    .channel-meta {
-      min-width: 0;
-      flex: 1;
-    }
-
-    .channel-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      object-fit: contain;
-      background-color: var(--bg);
-      border: 1px solid var(--border);
-      padding: 2px;
-      flex-shrink: 0;
-    }
-
-    .channel-name {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--ink);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .channel-cat {
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    .icon-btn {
-      background: transparent;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      padding: 6px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .icon-btn:hover {
-      color: var(--danger);
-      background-color: rgba(239, 68, 68, 0.12);
-    }
-
-    .empty-state {
-      padding: var(--space-6) var(--space-4);
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .left-col {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-    }
-  </style>
-<style data-link-removed-style>a[data-link-removed],a[href*="zPythonSafez"]:not([onclick]){pointer-events:none!important;cursor:default!important;opacity:.6}</style></head>
-<body>
-
-  <header>
-    <div class="header-inner">
-      <div class="brand">
-        <div class="brand-icon" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
-            <polyline points="17 2 12 7 7 2"></polyline>
-          </svg>
+    <!-- Header -->
+    <header class="bg-[#111827] border-b border-[#1f2937] px-6 py-4 flex items-center justify-between flex-shrink-0 z-10">
+        <div class="flex items-center space-x-3">
+            <div class="bg-blue-600 text-white p-2.5 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <i class="fa-solid fa-tv text-lg"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold tracking-wider text-white">iPTV<span class="text-blue-500">plus</span></h1>
+                <p class="text-xs text-gray-400">Premium Web Player</p>
+            </div>
         </div>
-        <span>TV Online Player</span>
-      </div>
-    </div>
-  </header>
-
-  <main class="main-container">
-    <!-- Left Column: Video Player + Add Channel Form -->
-    <div class="left-col">
-      <section class="card" aria-label="เครื่องเล่นทีวีออนไลน์">
-        <div class="player-wrapper">
-          <video id="tv-video" controls playsinline></video>
-          <div id="player-placeholder" class="player-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
-            </svg>
-            <h2>ยังไม่ได้เลือกช่องรายการ</h2>
-            <p>เลือกช่องจากรายการเพื่อเริ่มรับชมทีวีออนไลน์</p>
-          </div>
+        <div class="flex items-center space-x-3">
+            <div class="relative hidden sm:block">
+                <input type="text" id="searchInput" placeholder="ค้นหาช่องรายการ..." 
+                       class="bg-[#1f2937] text-white pl-10 pr-4 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 border border-[#374151]">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400 text-xs"></i>
+            </div>
+            <div class="bg-[#1f2937] px-4 py-2 rounded-xl text-xs text-gray-300 border border-[#374151]">
+                <i class="fa-solid fa-list-ol mr-1 text-blue-500"></i> ทั้งหมด <span id="channelCount" class="font-bold text-white">0</span> ช่อง
+            </div>
         </div>
-        <div class="now-playing-bar">
-          <div class="now-playing-info">
-            <div class="now-playing-label" id="current-cat">พร้อมใช้งาน</div>
-            <div class="now-playing-title" id="current-title">เลือกช่องเพื่อรับชม</div>
-            <div class="status-msg" id="error-msg" role="alert"></div>
-          </div>
-        </div>
-      </section>
-    </div>
+    </header>
 
-    <!-- Right Column: Channel Guide & Filter -->
-    <section class="card" aria-label="รายการช่องทั้งหมด">
-      <div class="section-header">
-        <h2 class="section-title">รายการช่องทีวี</h2>
-      </div>
-      <div class="filter-bar">
-        <input type="text" id="search-input" placeholder="ค้นหาชื่อช่องรายการ..." aria-label="ค้นหาชื่อช่องรายการ">
-        <div class="category-tabs" id="category-tabs" role="tablist">
-          <button type="button" class="tab-btn active" data-cat="ทั้งหมด">ทั้งหมด</button>
-          <button type="button" class="tab-btn" data-cat="ทั่วไป">ทั่วไป</button>
-          <button type="button" class="tab-btn" data-cat="ข่าวสาร">ข่าวสาร</button>
-          <button type="button" class="tab-btn" data-cat="บันเทิง">บันเทิง</button>
-          <button type="button" class="tab-btn" data-cat="กีฬา">กีฬา</button>
-          <button type="button" class="tab-btn" data-cat="สารคดี">สารคดี</button>
-        </div>
-      </div>
-      <div id="channel-list" class="channel-list"></div>
-    </section>
-  </main>
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col md:flex-row overflow-hidden">
+        <!-- Sidebar -->
+        <section class="w-full md:w-96 bg-[#111827] border-r border-[#1f2937] flex flex-col flex-shrink-0 h-1/2 md:h-full order-2 md:order-1">
+            <div class="p-3 border-b border-[#1f2937] flex-shrink-0">
+                <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1" id="categoryContainer"></div>
+            </div>
+            <div class="p-3 border-b border-[#1f2937] sm:hidden flex-shrink-0">
+                <div class="relative">
+                    <input type="text" id="mobileSearchInput" placeholder="ค้นหาช่องรายการ..." 
+                           class="bg-[#1f2937] text-white pl-10 pr-4 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full border border-[#374151]">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400 text-xs"></i>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto p-3 space-y-2 no-scrollbar" id="channelListContainer"></div>
+        </section>
 
-  <script>
-    (function () {
-      // กำหนดรายการช่องทีวีและลิงก์สตรีมตรงนี้ (สำหรับผู้ดูแลแอป)
-      const channels = [
-        { id: 'ch_1', name: 'T-Sports7(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tsport7.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/T-Sports7/master.m3u8' },
-        { id: 'ch_2', name: 'T-Sports7-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tsport7.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/T-Sports7/master.m3u8' },
-        { id: 'ch_3', name: 'pptvhd(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/pptv36.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/pptvhd/master.m3u8' },
-        { id: 'ch_4', name: 'pptvhd-2(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/pptv36.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/pptvhd/master.m3u8' },
-        { id: 'ch_5', name: 'tnn16(ATMflix)', category: 'ข่าวสาร', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tnn16.webp', url: 'https://app.ipplaybox.fun/atmflixlive/tnn/playlist.m3u8' },
-        { id: 'ch_6', name: 'tnn16(m-fixer)', category: 'ข่าวสาร', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tnn16.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/tnn24/master.m3u8' },
-        { id: 'ch_7', name: 'tnn16(m-fixer)', category: 'ข่าวสาร', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tnn16.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tnn24/master.m3u8' },
-        { id: 'ch_8', name: 'CH8(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch8.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/ch8/master.m3u8' },
-        { id: 'ch_9', name: 'CH8(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch8.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/ch8/master.m3u8' },
-        { id: 'ch_10', name: 'Workpoint(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/workpoint.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/workpoint/master.m3u8' },
-        { id: 'ch_11', name: 'Workpoint(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/workpoint.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/workpoint/master.m3u8' },
-        { id: 'ch_12', name: 'CH7HD(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch7.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/ch7hd/master.m3u8' },
-        { id: 'ch_13', name: 'CH7HD(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch7.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/ch7hd/master.m3u8' },
-        { id: 'ch_14', name: 'ThaiRath TV(m-fixer)', category: 'ข่าวสาร', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thairath.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/thairathtvhd/master.m3u8' },
-        { id: 'ch_15', name: 'ThaiRath TV(m-fixer)', category: 'ข่าวสาร', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thairath.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/thairathtvhd/master.m3u8' },
-        { id: 'ch_16', name: 'mono29plus(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mono29plus.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/mono29plus/master.m3u8' },
-        { id: 'ch_17', name: 'mono29plus-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mono29plus.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/mono29plus/master.m3u8' },
-        { id: 'ch_18', name: 'HBO(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbo.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/hbo-hd/master.m3u8' },
-        { id: 'ch_19', name: 'HBO-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbo.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/hbo-hd/master.m3u8' },
-        { id: 'ch_20', name: 'HBOHits(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbohits.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/hbohits/master.m3u8' },
-        { id: 'ch_21', name: 'HBOHits-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbohits.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/hbohits/master.m3u8' },
-        { id: 'ch_22', name: 'HBOHits NoThai', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbohits.png', url: 'https://raw.githubusercontent.com/ALittleAnt4161/m3u8/refs/heads/main/HBOHits.m3u8' },
-        { id: 'ch_23', name: 'AXN NoThai', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/AXN.webp', url: 'https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AXN.m3u8' },
-        { id: 'ch_24', name: 'HBOSignature(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbosig.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/hbosignature/master.m3u8' },
-        { id: 'ch_25', name: 'HBOSignature-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbosig.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/hbosignature/master.m3u8' },
-        { id: 'ch_26', name: 'hbofamily(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbofam.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/hbofamily/master.m3u8' },
-        { id: 'ch_27', name: 'hbofamily-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbofam.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/hbofamily/master.m3u8' },
-        { id: 'ch_28', name: 'cinemax(ATMflix)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cinemax.png', url: 'https://app.ipplaybox.fun/atmflixlive/cinemax/playlist.m3u8' },
-        { id: 'ch_29', name: 'cinemax(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cinemax.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/cinemax/master.m3u8' },
-        { id: 'ch_30', name: 'cinemax-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cinemax.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/cinemax/master.m3u8' },
-        { id: 'ch_31', name: 'Warnertv(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/warnertv.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/warnertv/master.m3u8' },
-        { id: 'ch_32', name: 'Warnertv-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/warnertv.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/warnertv/master.m3u8' },
-        { id: 'ch_33', name: 'rock-entertainment(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rocken.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/rock-entertainment/master.m3u8' },
-        { id: 'ch_34', name: 'rock-entertainment-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rocken.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/rock-entertainment/master.m3u8' },
-        { id: 'ch_35', name: 'ROCKAction(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rockac.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/rockaction/master.m3u8' },
-        { id: 'ch_36', name: 'ROCKAction-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rockac.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/rockaction/master.m3u8' },
-        { id: 'ch_37', name: 'asianhits(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/asianhits.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/asianhits/master.m3u8' },
-        { id: 'ch_38', name: 'asianhits-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/asianhits.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/asianhits/master.m3u8' },
-        { id: 'ch_39', name: 'Khong Dee Thailand(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/khongdee.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/khongdeethailand/master.m3u8' },
-        { id: 'ch_40', name: 'Khong Dee Thailand-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/khongdee.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/khongdeethailand/master.m3u8' },
-        { id: 'ch_41', name: 'Thainess(ATMflix)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thainess.png', url: 'https://app.ipplaybox.fun/atmflixlive/thainess/playlist.m3u8' },
-        { id: 'ch_42', name: 'Thainess(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thainess.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/thainess/master.m3u8' },
-        { id: 'ch_43', name: 'Thainess-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thainess.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/thainess/master.m3u8' },
-        { id: 'ch_44', name: 'Samrujlok(ATMflix)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/samrojlok.png', url: 'https://app.ipplaybox.fun/atmflixlive/samrujlok/playlist.m3u8' },
-        { id: 'ch_45', name: 'Samrujlok(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/samrojlok.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/samrujlok/master.m3u8' },
-        { id: 'ch_46', name: 'Samrujlok-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/samrojlok.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/samrujlok/master.m3u8' },
-        { id: 'ch_47', name: 'MySci(ATMflix)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mysci.png', url: 'https://app.ipplaybox.fun/atmflixlive/mysci/playlist.m3u8' },
-        { id: 'ch_48', name: 'MySci(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mysci.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/mysci/master.m3u8' },
-        { id: 'ch_49', name: 'MySci-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mysci.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/mysci/master.m3u8' },
-        { id: 'ch_50', name: 'Animal Show(ATMflix)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/animalshow.png', url: 'https://app.ipplaybox.fun/atmflixlive/animalshow/playlist.m3u8' },
-        { id: 'ch_51', name: 'Animal Show(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/animalshow.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/animalshow/master.m3u8' },
-        { id: 'ch_52', name: 'Animal Show-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/animalshow.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/animalshow/master.m3u8' },
-        { id: 'ch_53', name: 'Discovery(ATMflix)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/diccovery.png', url: 'https://app.ipplaybox.fun/atmflixlive/discovery/playlist.m3u8' },
-        { id: 'ch_54', name: 'Discovery(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/diccovery.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/discovery/master.m3u8' },
-        { id: 'ch_55', name: 'Discovery-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/diccovery.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/discovery/master.m3u8' },
-        { id: 'ch_56', name: 'asianfoodnetwork(ATMflix)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/asianfood.png', url: 'https://app.ipplaybox.fun/atmflixlive/afn/playlist.m3u8' },
-        { id: 'ch_57', name: 'asianfoodnetwork(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/asianfood.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/asianfoodnetwork/master.m3u8' },
-        { id: 'ch_58', name: 'asianfoodnetwork-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/asianfood.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/asianfoodnetwork/master.m3u8' },
-        { id: 'ch_59', name: 'foodnetwork(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/foodnetwork.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/foodnetwork/master.m3u8' },
-        { id: 'ch_60', name: 'foodnetwork-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/foodnetwork.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/foodnetwork/master.m3u8' },
-        { id: 'ch_61', name: 'dmax(ATMflix)', category: 'สารคดี', logo: 'https://cdn.imgchest.com/files/5fbb6f96f05f.png', url: 'https://app.ipplaybox.fun/atmflixlive/dmax/playlist.m3u8' },
-        { id: 'ch_62', name: 'tlc(ATMflix)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tlc.webp', url: 'https://app.ipplaybox.fun/atmflixlive/tlc/playlist.m3u8' },
-        { id: 'ch_63', name: 'tlc(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tlc.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/tlc/master.m3u8' },
-        { id: 'ch_64', name: 'tlc-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tlc.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tlc/master.m3u8' },
-        { id: 'ch_65', name: 'eurosport(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/eurosport.jfif', url: 'https://edge-1.m-fixer.net:8092/stream/ais/eurosport/master.m3u8' },
-        { id: 'ch_66', name: 'eurosport-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/eurosport.jfif', url: 'https://edge-2.m-fixer.net:8092/stream/ais/eurosport/master.m3u8' },
-        { id: 'ch_67', name: 'premiersport(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/premieasport.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/premiersport/master.m3u8' },
-        { id: 'ch_68', name: 'premiersport-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/premieasport.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/premiersport/master.m3u8' },
-        { id: 'ch_69', name: 'wsport(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/w-sport.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/wsport/master.m3u8' },
-        { id: 'ch_70', name: 'wsport-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/w-sport.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/wsport/master.m3u8' },
-        { id: 'ch_71', name: 'mutv(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mutv.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/mutv/master.m3u8' },
-        { id: 'ch_72', name: 'mutv-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mutv.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/mutv/master.m3u8' },
-        { id: 'ch_73', name: 'realmadridtv(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/realmaddridtv.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/realmadridtv/master.m3u8' },
-        { id: 'ch_74', name: 'realmadridtv-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/realmaddridtv.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/realmadridtv/master.m3u8' },
-        { id: 'ch_75', name: 'nickjr(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nickjr.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/nickjr/master.m3u8' },
-        { id: 'ch_76', name: 'nickjr-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nickjr.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/nickjr/master.m3u8' },
-        { id: 'ch_77', name: 'nickelodeon(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nickelo.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/nickelodeon/master.m3u8' },
-        { id: 'ch_78', name: 'nickelodeon-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nickelo.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/nickelodeon/master.m3u8' },
-        { id: 'ch_79', name: 'cartoonito(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cartoonnito.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/cartoonito/master.m3u8' },
-        { id: 'ch_80', name: 'cartoonito-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cartoonnito.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/cartoonito/master.m3u8' },
-        { id: 'ch_81', name: 'cartoonnetwork(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cnnetwork.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/cartoonnetwork/master.m3u8' },
-        { id: 'ch_82', name: 'cartoonnetwork-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cnnetwork.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/cartoonnetwork/master.m3u8' },
-        { id: 'ch_83', name: 'TV5MONDE(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tv5monde.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/tv5monde/master.m3u8' },
-        { id: 'ch_84', name: 'TV5MONDE(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tv5monde.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tv5monde/master.m3u8' }
-      ];
+        <!-- Player Area -->
+        <section class="flex-1 bg-[#090d16] p-4 md:p-6 flex flex-col h-1/2 md:h-full overflow-y-auto order-1 md:order-2">
+            <div class="w-full aspect-video max-h-[70vh] bg-[#111827] rounded-2xl overflow-hidden relative shadow-2xl border border-[#1f2937] flex items-center justify-center">
+                <div id="playerWrapper" class="w-full h-full hidden">
+                    <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto"></video>
+                </div>
+                <div id="standbyScreen" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-0">
+                    <div class="w-20 h-20 bg-blue-600/10 rounded-full flex items-center justify-center mb-4 border border-blue-500/20">
+                        <i class="fa-solid fa-circle-play text-4xl text-blue-500 animate-pulse"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">ยินดีต้อนรับสู่ iPTVplus Player</h3>
+                    <p class="text-sm text-gray-400 max-w-sm">เลือกช่องรายการจากเมนูเพื่อเริ่มรับชมสตรีมสด</p>
+                </div>
+            </div>
 
-      let activeChannelId = null;
-      let selectedCategory = 'ทั้งหมด';
-      let searchQuery = '';
-      let hlsInstance = null;
+            <div class="mt-4 bg-[#111827] p-4 rounded-2xl border border-[#1f2937] flex items-center justify-between">
+                <div class="flex items-center space-x-4 w-full">
+                    <img id="currentLogo" src="https://placehold.co/150x150/111827/ffffff?text=TV" alt="Logo" 
+                         class="w-14 h-14 object-contain bg-[#1f2937] p-2 rounded-xl border border-[#374151] flex-shrink-0" onerror="this.src='https://placehold.co/150x150/111827/ffffff?text=TV'">
+                    <div class="min-w-0 flex-1">
+                        <span id="currentCategory" class="px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full text-[10px] font-semibold">สแตนด์บาย</span>
+                        <h2 id="currentChannelName" class="text-base font-bold text-white mt-1 truncate">กรุณาเลือกช่องรายการ...</h2>
+                        <p id="currentUrlText" class="text-xs text-gray-400 mt-0.5 truncate">ไม่ได้เชื่อมต่อสตรีม</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-      const videoEl = document.getElementById('tv-video');
-      const placeholderEl = document.getElementById('player-placeholder');
-      const currentTitleEl = document.getElementById('current-title');
-      const currentCatEl = document.getElementById('current-cat');
-      const errorMsgEl = document.getElementById('error-msg');
-
-      const searchInput = document.getElementById('search-input');
-      const categoryTabs = document.getElementById('category-tabs');
-      const channelListEl = document.getElementById('channel-list');
-
-      function showPlayerError(msg) {
-        if (msg) {
-          errorMsgEl.textContent = msg;
-          errorMsgEl.classList.add('visible');
-        } else {
-          errorMsgEl.textContent = '';
-          errorMsgEl.classList.remove('visible');
-        }
-      }
-
-      function playChannel(channel) {
-        if (!channel) return;
-        activeChannelId = channel.id;
-        showPlayerError('');
-        currentTitleEl.textContent = channel.name;
-        currentCatEl.textContent = 'หมวดหมู่: ' + channel.category;
-
-        placeholderEl.style.display = 'none';
-        videoEl.classList.add('active');
-
-        if (hlsInstance) {
-          hlsInstance.destroy();
-          hlsInstance = null;
-        }
-
-        const url = channel.url.trim();
-        const isHls = url.toLowerCase().includes('.m3u8');
-
-        if (isHls && window.Hls && window.Hls.isSupported()) {
-          hlsInstance = new window.Hls();
-          hlsInstance.loadSource(url);
-          hlsInstance.attachMedia(videoEl);
-          hlsInstance.on(window.Hls.Events.MANIFEST_PARSED, function () {
-            videoEl.play().catch(function () {});
-          });
-          hlsInstance.on(window.Hls.Events.ERROR, function (event, data) {
-            if (data && data.fatal) {
-              showPlayerError('ไม่สามารถโหลดสตรีมนี้ได้ กรุณาตรวจสอบลิงก์หรือการรองรับ CORS ของสตรีม');
-            }
-          });
-        } else {
-          videoEl.src = url;
-          videoEl.play().catch(function () {});
-        }
-
-        renderChannels();
-      }
-
-      videoEl.addEventListener('error', function () {
-        if (activeChannelId) {
-          showPlayerError('ไม่สามารถเล่นไฟล์สตรีมจากลิงก์นี้ได้');
-        }
-      });
-
-      function renderChannels() {
-        const filtered = channels.filter(function (ch) {
-          const matchCat = selectedCategory === 'ทั้งหมด' || ch.category === selectedCategory;
-          const matchSearch = ch.name.toLowerCase().includes(searchQuery.toLowerCase());
-          return matchCat && matchSearch;
-        });
-
-        channelListEl.innerHTML = '';
-
-        if (filtered.length === 0) {
-          const empty = document.createElement('div');
-          empty.className = 'empty-state';
-          empty.textContent = channels.length === 0
-            ? 'ยังไม่มีช่องรายการในระบบ'
-            : 'ไม่พบช่องรายการที่ตรงกับการค้นหา';
-          channelListEl.appendChild(empty);
-          return;
-        }
-
-        filtered.forEach(function (ch) {
-          const item = document.createElement('div');
-          item.className = 'channel-item' + (ch.id === activeChannelId ? ' active' : '');
-          item.setAttribute('role', 'button');
-          item.setAttribute('tabindex', '0');
-
-          if (ch.logo) {
-            const logoImg = document.createElement('img');
-            logoImg.className = 'channel-logo';
-            logoImg.src = ch.logo;
-            logoImg.alt = ch.name;
-            logoImg.loading = 'lazy';
-            logoImg.addEventListener('error', function () {
-              logoImg.style.display = 'none';
-            });
-            item.appendChild(logoImg);
-          }
-
-          const meta = document.createElement('div');
-          meta.className = 'channel-meta';
-
-          const name = document.createElement('div');
-          name.className = 'channel-name';
-          name.textContent = ch.name;
-
-          const cat = document.createElement('div');
-          cat.className = 'channel-cat';
-          cat.textContent = ch.category;
-
-          meta.appendChild(name);
-          meta.appendChild(cat);
-
-          item.appendChild(meta);
-
-          item.addEventListener('click', function () {
-            playChannel(ch);
-          });
-
-          item.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              playChannel(ch);
-            }
-          });
-
-          channelListEl.appendChild(item);
-        });
-      }
-
-      searchInput.addEventListener('input', function (e) {
-        searchQuery = e.target.value;
-        renderChannels();
-      });
-
-      categoryTabs.addEventListener('click', function (e) {
-        const btn = e.target.closest('.tab-btn');
-        if (!btn) return;
-        selectedCategory = btn.getAttribute('data-cat');
-        Array.from(categoryTabs.querySelectorAll('.tab-btn')).forEach(function (b) {
-          b.classList.toggle('active', b === btn);
-        });
-        renderChannels();
-      });
-
-      renderChannels();
-    })();
-  </script>
-</body>
-</html>
+    <!-- Raw M3U Playlist Data -->
+    <script id="m3u-data" type="text/plain">
+============================ หนังและบันเทิง (ATMflix) ==============================
+#EXTINF:-1 tvg-logo="https://cdn.imgchest.com/files/93e778a0c482.webp" group-title="iPTVplus", MTV(ATMflix)
+https://app.ipplaybox.fun/atmflixlive/mtv/playlist.m3u8
+#EXTINF:-1 tvg-logo="https://cdn.imgchest.com/files/35348deb64cb.webp" group-title="iPTVplus", True film1(ATMflix)
+https://app.ipplaybox.fun/atmflixlive/truefilm1/playlist.m3u8
+#EXTINF:-1 tvg-logo="https://cdn.imgchest.com/files/40de2167af80.webp" group-title="iPTVplus", True film2(ATMflix)
+https://app.ipplaybox.fun/atmflixlive/truefilm2/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbo.png"group-title="iPTVplus", HBO(ATMflix)
+https://app.ipplaybox.fun/atmflixlive/hbo/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbohits.png"group-title="iPTVplus", HBOHits(ATMflix)
+https://app.ipplaybox.fun/atmflixlive/hbo-hits/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbosig.png" group-title="iPTVplus", HBOSignature(ATMflix)
+https://app.ipplaybox.fun/atmflixlive/hbo-signature/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rocken.webp" group-title="iPTVplus", rock-entertainment(ATMflix)
+htt
