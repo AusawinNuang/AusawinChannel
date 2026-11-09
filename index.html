@@ -94,14 +94,19 @@
       flex: 1;
     }
 
+  
+
+
     @media (min-width: 900px) {
       .main-container {
-        grid-template-columns: 1fr; /* ปรับให้แสดงผลบน-ล่าง เต็มความกว้าง */
+        grid-template-columns: 1fr; /* เรียงบน-ล่าง เพื่อให้ตาราง 9 ช่องกว้างเต็มหน้าจอ */
         padding: var(--space-6);
         gap: var(--space-6);
         align-items: start;
       }
     }
+
+    
 
     .card {
       background-color: var(--surface);
@@ -273,15 +278,80 @@
       border-color: var(--brand);
     }
 
+
+
+
     .channel-list {
-      display: flex;
-      flex-direction: row;
-      gap: var(--space-3);
+      max-height: 520px;
+      overflow-y: auto; /* เลื่อนขึ้น-ลง */
+      overflow-x: hidden; /* ปิดการเลื่อนซ้าย-ขวา */
+      display: grid;
+      grid-template-columns: repeat(9, minmax(0, 1fr)); /* แสดงแถวละ 9 ช่องเท่าๆ กัน */
+      gap: var(--space-2);
       padding: var(--space-4);
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-behavior: smooth;
     }
+
+    .channel-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 6px;
+      padding: var(--space-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background-color: var(--bg);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      min-width: 0;
+    }
+
+    .channel-item:hover {
+      background-color: var(--surface-hover);
+      transform: translateY(-2px);
+    }
+
+    .channel-item.active {
+      background-color: rgba(59, 130, 246, 0.15);
+      border: 2px solid var(--brand);
+    }
+
+    .channel-meta {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .channel-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: contain;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      padding: 3px;
+      flex-shrink: 0;
+    }
+
+    .channel-name {
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .channel-cat {
+      font-size: 0.7rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+
+    
 
     .channel-item {
       display: flex;
