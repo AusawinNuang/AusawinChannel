@@ -96,7 +96,7 @@
 
     @media (min-width: 900px) {
       .main-container {
-        grid-template-columns: 1.5fr 1fr;
+        grid-template-columns: 1fr; /* ปรับให้แสดงผลบน-ล่าง เต็มความกว้าง */
         padding: var(--space-6);
         gap: var(--space-6);
         align-items: start;
@@ -213,25 +213,6 @@
       font-weight: 600;
     }
 
-    .form-body {
-      padding: var(--space-4);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-1);
-    }
-
-    .field label {
-      font-size: 0.85rem;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
     input[type="text"],
     input[type="url"],
     select {
@@ -252,52 +233,7 @@
       border-color: var(--brand);
     }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-3);
-    }
-
-    .btn {
-      font: inherit;
-      font-size: 0.9rem;
-      font-weight: 600;
-      padding: 10px 16px;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-2);
-      transition: background-color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
-    }
-
-    .btn-primary {
-      background-color: var(--brand);
-      color: var(--brand-ink);
-    }
-
-    .btn-primary:hover {
-      background-color: var(--brand-hover);
-    }
-
-    .btn-secondary {
-      background-color: transparent;
-      color: var(--ink);
-      border-color: var(--border);
-    }
-
-    .btn-secondary:hover {
-      background-color: var(--surface-hover);
-    }
-
-    .btn:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    /* Channel List */
+    /* Channel List (Horizontal Scroll) */
     .filter-bar {
       padding: var(--space-3) var(--space-4);
       border-bottom: 1px solid var(--border);
@@ -338,54 +274,61 @@
     }
 
     .channel-list {
-      max-height: 440px;
-      overflow-y: auto;
-      divide-y: 1px solid var(--border);
+      display: flex;
+      flex-direction: row;
+      gap: var(--space-3);
+      padding: var(--space-4);
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
     }
 
     .channel-item {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      gap: var(--space-3);
-      padding: var(--space-3) var(--space-4);
-      border-bottom: 1px solid var(--border);
+      justify-content: center;
+      text-align: center;
+      gap: var(--space-2);
+      padding: var(--space-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--bg);
       cursor: pointer;
-      transition: background-color 0.15s ease;
-    }
-
-    .channel-item:last-child {
-      border-bottom: none;
+      transition: all 0.15s ease;
+      min-width: 130px;
+      max-width: 130px;
+      flex-shrink: 0;
     }
 
     .channel-item:hover {
       background-color: var(--surface-hover);
+      transform: translateY(-2px);
     }
 
     .channel-item.active {
       background-color: rgba(59, 130, 246, 0.15);
-      border-left: 3px solid var(--brand);
+      border: 2px solid var(--brand);
     }
 
     .channel-meta {
-      min-width: 0;
-      flex: 1;
+      width: 100%;
     }
 
     .channel-logo {
-      width: 40px;
-      height: 40px;
+      width: 56px;
+      height: 56px;
       border-radius: 8px;
       object-fit: contain;
-      background-color: var(--bg);
+      background-color: var(--surface);
       border: 1px solid var(--border);
-      padding: 2px;
+      padding: 4px;
       flex-shrink: 0;
     }
 
     .channel-name {
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       color: var(--ink);
       white-space: nowrap;
       overflow: hidden;
@@ -393,25 +336,8 @@
     }
 
     .channel-cat {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: var(--muted);
-    }
-
-    .icon-btn {
-      background: transparent;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      padding: 6px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .icon-btn:hover {
-      color: var(--danger);
-      background-color: rgba(239, 68, 68, 0.12);
     }
 
     .empty-state {
@@ -419,6 +345,7 @@
       text-align: center;
       color: var(--muted);
       font-size: 0.9rem;
+      width: 100%;
     }
 
     .left-col {
@@ -427,7 +354,7 @@
       gap: var(--space-4);
     }
   </style>
-<style data-link-removed-style>a[data-link-removed],a[href*="zPythonSafez"]:not([onclick]){pointer-events:none!important;cursor:default!important;opacity:.6}</style></head>
+</head>
 <body>
 
   <header>
@@ -445,7 +372,7 @@
   </header>
 
   <main class="main-container">
-    <!-- Left Column: Video Player + Add Channel Form -->
+    <!-- Video Player -->
     <div class="left-col">
       <section class="card" aria-label="เครื่องเล่นทีวีออนไลน์">
         <div class="player-wrapper">
@@ -468,7 +395,7 @@
       </section>
     </div>
 
-    <!-- Right Column: Channel Guide & Filter -->
+    <!-- Channel Guide & Filter -->
     <section class="card" aria-label="รายการช่องทั้งหมด">
       <div class="section-header">
         <h2 class="section-title">รายการช่องทีวี</h2>
@@ -476,7 +403,7 @@
       <div class="filter-bar">
         <input type="text" id="search-input" placeholder="ค้นหาชื่อช่องรายการ..." aria-label="ค้นหาชื่อช่องรายการ">
         <div class="category-tabs" id="category-tabs" role="tablist">
-                  <button type="button" class="tab-btn active" data-cat="ทั้งหมด">ทั้งหมด</button>
+          <button type="button" class="tab-btn active" data-cat="ทั้งหมด">ทั้งหมด</button>
           <button type="button" class="tab-btn" data-cat="ฟรีทีวี">ฟรีทีวี</button>
           <button type="button" class="tab-btn" data-cat="ข่าวสาร">ข่าวสาร</button>
           <button type="button" class="tab-btn" data-cat="ทั่วไป">ทั่วไป</button>
@@ -490,6 +417,7 @@
       <div id="channel-list" class="channel-list"></div>
     </section>
   </main>
+
   <script>
     (function () {
       // กำหนดรายการช่องทีวีและลิงก์สตรีมตรงนี้ (สำหรับผู้ดูแลแอป)
