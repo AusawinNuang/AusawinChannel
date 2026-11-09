@@ -1,539 +1,737 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPTVplus Web Player</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #121212;
-            color: #ffffff;
-        }
-        header {
-            background-color: #1e1e1e;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid #ff4500;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-            color: #ff4500;
-        }
-        .container {
-            display: flex;
-            height: calc(100vh - 60px);
-        }
-        .sidebar {
-            width: 300px;
-            background-color: #1a1a1a;
-            border-right: 1px solid #333;
-            display: flex;
-            flex-direction: column;
-        }
-        .search-box {
-            padding: 15px;
-            border-bottom: 1px solid #333;
-        }
-        .search-box input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #444;
-            background-color: #2a2a2a;
-            color: #fff;
-            box-sizing: border-box;
-        }
-        .category-filter {
-            padding: 10px 15px;
-            border-bottom: 1px solid #333;
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-        }
-        .category-btn {
-            background-color: #333;
-            color: #fff;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .category-btn.active {
-            background-color: #ff4500;
-        }
-        .channel-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-        }
-        .channel-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .channel-item:hover {
-            background-color: #2a2a2a;
-        }
-        .channel-item.active {
-            background-color: #ff4500;
-        }
-        .channel-logo {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            object-fit: cover;
-            margin-right: 15px;
-            background-color: #333;
-        }
-        .channel-info {
-            flex: 1;
-        }
-        .channel-name {
-            font-weight: bold;
-            font-size: 16px;
-        }
-        .channel-category {
-            font-size: 12px;
-            color: #aaa;
-            margin-top: 4px;
-        }
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background-color: #000;
-        }
-        .video-container {
-            flex: 1;
-            position: relative;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        .video-details {
-            padding: 20px;
-            background-color: #1a1a1a;
-            border-top: 1px solid #333;
-        }
-        .video-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-    </style>
-    <!-- Include Hls.js library for m3u8 playback -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-</head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Online TV Player</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-hover: #334155;
+      --border: #334155;
+      --ink: #f8fafc;
+      --muted: #94a3b8;
+      --brand: #3b82f6;
+      --brand-hover: #2563eb;
+      --brand-ink: #ffffff;
+      --accent: #06b6d4;
+      --danger: #ef4444;
+      --radius: 12px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-6: 24px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font);
+      background-color: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: var(--space-3) var(--space-4);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--brand), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-ink);
+    }
+
+    .main-container {
+      max-width: 1120px;
+      width: 100%;
+      margin: 0 auto;
+      padding: var(--space-4);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+      flex: 1;
+    }
+
+    @media (min-width: 900px) {
+      .main-container {
+        grid-template-columns: 1.5fr 1fr;
+        padding: var(--space-6);
+        gap: var(--space-6);
+        align-items: start;
+      }
+    }
+
+    .card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    /* Player Section */
+    .player-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-color: #020617;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      display: none;
+      background-color: #000;
+    }
+
+    video.active {
+      display: block;
+    }
+
+    .player-placeholder {
+      text-align: center;
+      padding: var(--space-6);
+      color: var(--muted);
+      max-width: 360px;
+    }
+
+    .player-placeholder svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: var(--space-3);
+      stroke: var(--muted);
+      opacity: 0.7;
+    }
+
+    .player-placeholder h2 {
+      font-size: 1.05rem;
+      color: var(--ink);
+      margin-bottom: var(--space-1);
+    }
+
+    .player-placeholder p {
+      font-size: 0.875rem;
+    }
+
+    .now-playing-bar {
+      padding: var(--space-4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      border-top: 1px solid var(--border);
+    }
+
+    .now-playing-info {
+      min-width: 0;
+    }
+
+    .now-playing-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .now-playing-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .status-msg {
+      font-size: 0.8rem;
+      color: var(--danger);
+      margin-top: var(--space-1);
+      display: none;
+    }
+
+    .status-msg.visible {
+      display: block;
+    }
+
+    /* Controls & Form */
+    .section-header {
+      padding: var(--space-4);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .form-body {
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .field label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: var(--bg);
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.9rem;
+      transition: border-color 0.15s ease;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--brand);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+    }
+
+    .btn {
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      transition: background-color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--brand);
+      color: var(--brand-ink);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--brand-hover);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--ink);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--surface-hover);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Channel List */
+    .filter-bar {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: var(--space-2);
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .tab-btn {
+      background: var(--bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--ink);
+      border-color: var(--muted);
+    }
+
+    .tab-btn.active {
+      background: var(--brand);
+      color: var(--brand-ink);
+      border-color: var(--brand);
+    }
+
+    .channel-list {
+      max-height: 440px;
+      overflow-y: auto;
+      divide-y: 1px solid var(--border);
+    }
+
+    .channel-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .channel-item:last-child {
+      border-bottom: none;
+    }
+
+    .channel-item:hover {
+      background-color: var(--surface-hover);
+    }
+
+    .channel-item.active {
+      background-color: rgba(59, 130, 246, 0.15);
+      border-left: 3px solid var(--brand);
+    }
+
+    .channel-meta {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .channel-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      object-fit: contain;
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      padding: 2px;
+      flex-shrink: 0;
+    }
+
+    .channel-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .channel-cat {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-btn:hover {
+      color: var(--danger);
+      background-color: rgba(239, 68, 68, 0.12);
+    }
+
+    .empty-state {
+      padding: var(--space-6) var(--space-4);
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+  </style>
+<style data-link-removed-style>a[data-link-removed],a[href*="zPythonSafez"]:not([onclick]){pointer-events:none!important;cursor:default!important;opacity:.6}</style></head>
 <body>
 
-    <header>
-        <h1>iPTVplus Web Player</h1>
-        <div id="current-channel-header">เลือกช่องเพื่อรับชม</div>
-    </header>
-
-    <div class="container">
-        <!-- Sidebar containing filters and channels -->
-        <div class="sidebar">
-            <div class="search-box">
-                <input type="text" id="search-input" placeholder="ค้นหาช่องรายการ...">
-            </div>
-            <div class="category-filter" id="category-container">
-                <button class="category-btn active" onclick="filterCategory('ทั้งหมด')">ทั้งหมด</button>
-                <button class="category-btn" onclick="filterCategory('กีฬา')">กีฬา</button>
-                <button class="category-btn" onclick="filterCategory('ทั่วไป')">ทั่วไป</button>
-            </div>
-            <div class="channel-list" id="channel-container">
-                <!-- Channel items will be injected here by JS -->
-            </div>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+            <polyline points="17 2 12 7 7 2"></polyline>
+          </svg>
         </div>
+        <span>TV Online Player</span>
+      </div>
+    </div>
+  </header>
 
-        <!-- Main content video player area -->
-        <div class="main-content">
-            <div class="video-container">
-                <video id="video-player" controls autoplay></video>
-            </div>
-            <div class="video-details">
-                <div class="video-title" id="player-channel-name">ยินดีต้อนรับสู่ iPTVplus</div>
-                <div id="player-channel-desc">กรุณาเลือกช่องรายการทางซ้ายมือเพื่อเริ่มต้นความบันเทิง</div>
-            </div>
+  <main class="main-container">
+    <!-- Left Column: Video Player + Add Channel Form -->
+    <div class="left-col">
+      <section class="card" aria-label="เครื่องเล่นทีวีออนไลน์">
+        <div class="player-wrapper">
+          <video id="tv-video" controls playsinline></video>
+          <div id="player-placeholder" class="player-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <h2>ยังไม่ได้เลือกช่องรายการ</h2>
+            <p>เลือกช่องจากรายการเพื่อเริ่มรับชมทีวีออนไลน์</p>
+          </div>
         </div>
+        <div class="now-playing-bar">
+          <div class="now-playing-info">
+            <div class="now-playing-label" id="current-cat">พร้อมใช้งาน</div>
+            <div class="now-playing-title" id="current-title">เลือกช่องเพื่อรับชม</div>
+            <div class="status-msg" id="error-msg" role="alert"></div>
+          </div>
+        </div>
+      </section>
     </div>
 
-    <script>
-        // Database of channels including the newly added ones (starting from ch_85 to ch_268)
-        const channels = [
-            { id: 'ch_1', name: 'Workpoint 23', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/workpoint.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/workpoint/master.m3u8' },
-            { id: 'ch_2', name: 'One 31', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/one31.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/one/master.m3u8' },
-            { id: 'ch_3', name: 'Ch3 HD', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch3.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/3hd/master.m3u8' },
-            { id: 'ch_4', name: 'Ch7 HD', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch7.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/7hd/master.m3u8' },
-            { id: 'ch_5', name: 'Amarin TV 34', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/amarin.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/amarin/master.m3u8' },
-            { id: 'ch_6', name: 'Thairath TV 32', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thairath.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/thairath/master.m3u8' },
-            { id: 'ch_7', name: 'Ch8', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch8.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/thaich8/master.m3u8' },
-            { id: 'ch_8', name: 'PPTV HD 36', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/pptv.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/pptv/master.m3u8' },
-            { id: 'ch_9', name: 'Mono 29', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mono29.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/mono29/master.m3u8' },
-            { id: 'ch_10', name: 'GMM 25', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/gmm25.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/gmm25/master.m3u8' },
-            { id: 'ch_11', name: 'True4U', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/true4u.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/true4u/master.m3u8' },
-            { id: 'ch_12', name: 'NBT HD', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbt.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/nbt/master.m3u8' },
-            { id: 'ch_13', name: 'Thai PBS', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thaipbs.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/thaipbs/master.m3u8' },
-            { id: 'ch_14', name: 'TNN 16', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tnn16.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tnn16/master.m3u8' },
-            { id: 'ch_15', name: 'JKN 18', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/jkn18.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/new18/master.m3u8' },
-            { id: 'ch_16', name: 'Nation TV 22', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nation.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/nation/master.m3u8' },
-            { id: 'ch_17', name: 'True Plookpanya', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/plookpanya.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/trueplookpanya/master.m3u8' },
-            { id: 'ch_18', name: 'T Sports 7', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tsports7.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tsports/master.m3u8' },
-            { id: 'ch_19', name: 'Parliament TV', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/parliament.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/parliament/master.m3u8' },
-            { id: 'ch_20', name: 'ALTV 4', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/altv.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/altv/master.m3u8' },
-            { id: 'ch_21', name: 'True Inside', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/trueinside.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/trueinside/master.m3u8' },
-            { id: 'ch_22', name: 'True Film1', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/truefilm1.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/truefilm1/master.m3u8' },
-            { id: 'ch_23', name: 'True Film2', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/truefilm2.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/truefilm2/master.m3u8' },
-            { id: 'ch_24', name: 'True Movie Hits', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/truemoviehits.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/truemoviehits/master.m3u8' },
-            { id: 'ch_25', name: 'True Film Asia', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/truefilmasia.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/truefilmasia/master.m3u8' },
-            { id: 'ch_26', name: 'True Asian More', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/trueasianmore.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/trueasianmore/master.m3u8' },
-            { id: 'ch_27', name: 'True Series', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/trueseries.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/trueseries/master.m3u8' },
-            { id: 'ch_28', name: 'True Spark Jump', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/truesparkjump.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/truesparkjump/master.m3u8' },
-            { id: 'ch_29', name: 'True Spark Play', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/truesparkplay.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/truesparkplay/master.m3u8' },
-            { id: 'ch_30', name: 'True Explore Sci', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/trueexploresci.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/trueexploresci/master.m3u8' },
-            { id: 'ch_31', name: 'True Explore Wild', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/trueexplorewild.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/trueexplorewild/master.m3u8' },
-            { id: 'ch_32', name: 'True Explore Life', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/trueexplorelife.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/trueexplorelife/master.m3u8' },
-            { id: 'ch_33', name: 'KBS World', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/kbsworld.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/kbsworld/master.m3u8' },
-            { id: 'ch_34', name: 'tvN', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tvn.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tvn/master.m3u8' },
-            { id: 'ch_35', name: 'Snoopy', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/snoopy.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/snoopy/master.m3u8' },
-            { id: 'ch_36', name: 'Warner TV', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/warnertv.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/warnertv/master.m3u8' },
-            { id: 'ch_37', name: 'Paramount Network', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/paramount.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/paramount/master.m3u8' },
-            { id: 'ch_38', name: 'AXN', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/axn.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/axn/master.m3u8' },
-            { id: 'ch_39', name: 'Rock Action', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rockaction.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/rockaction/master.m3u8' },
-            { id: 'ch_40', name: 'Rock Entertainment', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rockent.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/rockent/master.m3u8' },
-            { id: 'ch_41', name: 'HITS Movies', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hitsmovies.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/hitsmovies/master.m3u8' },
-            { id: 'ch_42', name: 'HITS', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hits.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/hits/master.m3u8' },
-            { id: 'ch_43', name: 'Cartoon Network', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cartoonnetwork.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/cartoonnetwork/master.m3u8' },
-            { id: 'ch_44', name: 'Nickelodeon', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nickelodeon.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/nickelodeon/master.m3u8' },
-            { id: 'ch_45', name: 'Nick Jr.', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nickjr.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/nickjr/master.m3u8' },
-            { id: 'ch_46', name: 'Boomerang', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/boomerang.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/boomerang/master.m3u8' },
-            { id: 'ch_47', name: 'Aniplus', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aniplus.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/aniplus/master.m3u8' },
-            { id: 'ch_48', name: 'Animax', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/animax.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/animax/master.m3u8' },
-            { id: 'ch_49', name: 'Discovery', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/discovery.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/discovery/master.m3u8' },
-            { id: 'ch_50', name: 'Animal Planet', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/animalplanet.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/animalplanet/master.m3u8' },
-            { id: 'ch_51', name: 'Discovery Asia', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/discoveryasia.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/discoveryasia/master.m3u8' },
-            { id: 'ch_52', name: 'Asian Food Network', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/afn.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/afn/master.m3u8' },
-            { id: 'ch_53', name: 'History Channel', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/history.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/history/master.m3u8' },
-            { id: 'ch_54', name: 'C+I', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ci.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/ci/master.m3u8' },
-            { id: 'ch_55', name: 'Lifetime', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/lifetime.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/lifetime/master.m3u8' },
-            { id: 'ch_56', name: 'Global Trekker', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/globaltrekker.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/globaltrekker/master.m3u8' },
-            { id: 'ch_57', name: 'Love Nature 4K', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/lovenature.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/lovenature/master.m3u8' },
-            { id: 'ch_58', name: 'BBC Earth', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/bbcearth.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/bbcearth/master.m3u8' },
-            { id: 'ch_59', name: 'BBC Lifestyle', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/bbclifestyle.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/bbclifestyle/master.m3u8' },
-            { id: 'ch_60', name: 'TLN', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tln.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tln/master.m3u8' },
-            { id: 'ch_61', name: 'Outdoor Channel', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/outdoor.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/outdoor/master.m3u8' },
-            { id: 'ch_62', name: 'Insight TV', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/insight.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/insight/master.m3u8' },
-            { id: 'ch_63', name: 'My Zen TV', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/myzen.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/myzen/master.m3u8' },
-            { id: 'ch_64', name: 'BBC News', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/bbcnews.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/bbcworld/master.m3u8' },
-            { id: 'ch_65', name: 'CNN International', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cnn.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/cnn/master.m3u8' },
-            { id: 'ch_66', name: 'HLN', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hln.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/hln/master.m3u8' },
-            { id: 'ch_67', name: 'CNBC', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cnbc.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/cnbc/master.m3u8' },
-            { id: 'ch_68', name: 'Bloomberg', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/bloomberg.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/bloomberg/master.m3u8' },
-            { id: 'ch_69', name: 'Al Jazeera', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aljazeera.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/aljazeera/master.m3u8' },
-            { id: 'ch_70', name: 'EuroNews', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/euronews.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/euronews/master.m3u8' },
-            { id: 'ch_71', name: 'Channel News Asia', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cna.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/cna/master.m3u8' },
-            { id: 'ch_72', name: 'NHK World Premium', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nhkpremium.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/nhkpremium/master.m3u8' },
-            { id: 'ch_73', name: 'NHK World Japan', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nhkworld.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/nhkworld/master.m3u8' },
-            { id: 'ch_74', name: 'RT', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rt.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/rt/master.m3u8' },
-            { id: 'ch_75', name: 'RT Document', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rtdoc.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/rtdoc/master.m3u8' },
-            { id: 'ch_76', name: 'France 24 English', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/france24.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/france24eng/master.m3u8' },
-            { id: 'ch_77', name: 'DW English', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/dw.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/dw/master.m3u8' },
-            { id: 'ch_78', name: 'TV5MONDE Style', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tv5mondestyle.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tv5mondestyle/master.m3u8' },
-            { id: 'ch_79', name: 'TV5MONDE Info', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tv5mondeinfo.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tv5mondeinfo/master.m3u8' },
-            { id: 'ch_80', name: 'Australia Plus', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ausplus.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/abc/master.m3u8' },
-            { id: 'ch_81', name: 'TVE', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tve.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tve/master.m3u8' },
-            { id: 'ch_82', name: '24H TVE', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/24htve.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/24htve/master.m3u8' },
-            { id: 'ch_83', name: 'CGTN', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cgtn.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/cgtn/master.m3u8' },
-            { id: 'ch_84', name: 'TV5MONDE(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tv5monde.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tv5monde/master.m3u8' },
-        { id: 'ch_85', name: 'bein1(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/unnamed (2).png', url: 'https://app.ipplaybox.fun/atmflixlive/bein1/playlist.m3u8' },
-        { id: 'ch_86', name: 'bein1', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/unnamed (2).png', url: 'https://cdn1.googlecdnforstreaming.live/live/bein1/playlist.m3u8' },
-        { id: 'ch_87', name: 'bein1', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/unnamed (2).png', url: 'https://cdn1.amazaa.live/dbl/bein1/chunks.m3u8' },
-        { id: 'ch_88', name: 'bein2(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/unnamed (2).png', url: 'https://app.ipplaybox.fun/atmflixlive/bein2/playlist.m3u8' },
-        { id: 'ch_89', name: 'bein2', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/unnamed (2).png', url: 'https://cdn1.googlecdnforstreaming.live/live/bein2/playlist.m3u8' },
-        { id: 'ch_90', name: 'bein2', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/unnamed (2).png', url: 'https://cdn1.amazaa.live/dbl/bein2/chunks.m3u8' },
-        { id: 'ch_91', name: 'bein3(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/unnamed (2).png', url: 'https://app.ipplaybox.fun/atmflixlive/bein3/playlist.m3u8' },
-        { id: 'ch_92', name: 'bein3', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/unnamed (2).png', url: 'https://cdn1.googlecdnforstreaming.live/live/bein3/playlist.m3u8' },
-        { id: 'ch_93', name: 'bein3', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/unnamed (2).png', url: 'https://cdn1.amazaa.live/dbl/bein3/chunks.m3u8' },
-        { id: 'ch_94', name: 'SPOTV(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/7849b6cbc420.png', url: 'https://app.ipplaybox.fun/atmflixlive/spotv/playlist.m3u8' },
-        { id: 'ch_95', name: 'SPOTV', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/7849b6cbc420.png', url: 'https://cdn1.googlecdnforstreaming.live/live/spotv/playlist.m3u8' },
-        { id: 'ch_96', name: 'SPOTV', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/7849b6cbc420.png', url: 'https://cdn1.amazaa.live/dbl/spotv/chunks.m3u8' },
-        { id: 'ch_97', name: 'SPOTV', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/7849b6cbc420.png', url: 'https://sp-tr321.com/spo1/index.m3u8' },
-        { id: 'ch_98', name: 'SPOTV 2(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/88bbe037db6f.png', url: 'https://app.ipplaybox.fun/atmflixlive/spotv2/playlist.m3u8' },
-        { id: 'ch_99', name: 'SPOTV 2', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/88bbe037db6f.png', url: 'https://cdn1.googlecdnforstreaming.live/live/spotv2/playlist.m3u8' },
-        { id: 'ch_100', name: 'SPOTV 2', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/88bbe037db6f.png', url: 'https://cdn1.amazaa.live/dbl/spotv2/chunks.m3u8' },
-        { id: 'ch_101', name: 'AISPLAY1(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsportsfootball1/playlist.m3u8' },
-        { id: 'ch_102', name: 'AISPLAY1', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.amazaa.live/dbl/playsportsfootball1/playlist.m3u8' },
-        { id: 'ch_103', name: 'AISPLAY1', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.googlecdnforstreaming.live/live/playsportsfootball1/playlist.m3u8' },
-        { id: 'ch_104', name: 'AISPLAY2(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsportsfootball2/playlist.m3u8' },
-        { id: 'ch_105', name: 'AISPLAY2', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.googlecdnforstreaming.live/live/playsportsfootball2/playlist.m3u8' },
-        { id: 'ch_106', name: 'AISPLAY2', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.amazaa.live/dbl/playsportsfootball2/playlist.m3u8' },
-        { id: 'ch_107', name: 'AISPLAY3(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsportsfootball3/playlist.m3u8' },
-        { id: 'ch_108', name: 'AISPLAY3', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.googlecdnforstreaming.live/live/playsportsfootball3/playlist.m3u8' },
-        { id: 'ch_109', name: 'AISPLAY3', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.amazaa.live/dbl/playsportsfootball3/playlist.m3u8' },
-        { id: 'ch_110', name: 'AISPLAY4(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsportsfootball4/playlist.m3u8' },
-        { id: 'ch_111', name: 'AISPLAY4', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.googlecdnforstreaming.live/live/playsportsfootball4/playlist.m3u8' },
-        { id: 'ch_112', name: 'AISPLAY4', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.amazaa.live/dbl/playsportsfootball4/playlist.m3u8' },
-        { id: 'ch_113', name: 'AISPLAY6(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsportsfootball6/playlist.m3u8' },
-        { id: 'ch_114', name: 'AISPLAY6', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.googlecdnforstreaming.live/live/playsportsfootball6/playlist.m3u8' },
-        { id: 'ch_115', name: 'AISPLAY6', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.amazaa.live/dbl/playsportsfootball6/playlist.m3u8' },
-        { id: 'ch_116', name: 'AISPLAY7(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsportsfootball7/playlist.m3u8' },
-        { id: 'ch_117', name: 'AISPLAY7', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.googlecdnforstreaming.live/live/playsportsfootball7/playlist.m3u8' },
-        { id: 'ch_118', name: 'AISPLAY7', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.amazaa.live/dbl/playsportsfootball7/playlist.m3u8' },
-        { id: 'ch_119', name: 'AISPLAY8(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsportsfootball8/playlist.m3u8' },
-        { id: 'ch_120', name: 'AISPLAY8', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.googlecdnforstreaming.live/live/playsportsfootball8/playlist.m3u8' },
-        { id: 'ch_121', name: 'AISPLAY8', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.amazaa.live/dbl/playsportsfootball8/playlist.m3u8' },
-        { id: 'ch_122', name: 'AISPLAY9(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsportsfootball9/playlist.m3u8' },
-        { id: 'ch_123', name: 'AISPLAY9', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.googlecdnforstreaming.live/live/playsportsfootball9/playlist.m3u8' },
-        { id: 'ch_124', name: 'AISPLAY9', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://cdn1.amazaa.live/dbl/playsportsfootball9/playlist.m3u8' },
-        { id: 'ch_125', name: 'ราชดำเนิน41(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports41/playlist.m3u8' },
-        { id: 'ch_126', name: 'eSports46(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports46/playlist.m3u8' },
-        { id: 'ch_127', name: 'NFL51(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports51/playlist.m3u8' },
-        { id: 'ch_128', name: 'NFL52(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports52/playlist.m3u8' },
-        { id: 'ch_129', name: 'NFL53(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports53/playlist.m3u8' },
-        { id: 'ch_130', name: 'NBA55(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports55/playlist.m3u8' },
-        { id: 'ch_131', name: 'NBA56(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports56/playlist.m3u8' },
-        { id: 'ch_132', name: 'WNBA57(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports57/playlist.m3u8' },
-        { id: 'ch_133', name: 'PGA61(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports61/playlist.m3u8' },
-        { id: 'ch_134', name: 'LPGA66(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports66/playlist.m3u8' },
-        { id: 'ch_135', name: 'GOLF69(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports69/playlist.m3u8' },
-        { id: 'ch_136', name: 'ATP71(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports71/playlist.m3u8' },
-        { id: 'ch_137', name: 'ATP72(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports72/playlist.m3u8' },
-        { id: 'ch_138', name: 'ATP73(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports73/playlist.m3u8' },
-        { id: 'ch_139', name: 'ATP 4(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports74/playlist.m3u8' },
-        { id: 'ch_140', name: 'Bundes90(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports90/playlist.m3u8' },
-        { id: 'ch_141', name: 'Bundes91(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports91/playlist.m3u8' },
-        { id: 'ch_142', name: 'Bundes92(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports92/playlist.m3u8' },
-        { id: 'ch_143', name: 'Bundes93(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports93/playlist.m3u8' },
-        { id: 'ch_144', name: 'Bundes94(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png', url: 'https://app.ipplaybox.fun/atmflixlive/playsports94/playlist.m3u8' },
-        { id: 'ch_145', name: 'truesports1(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/22004e5c8ec9.png', url: 'https://app.ipplaybox.fun/atmflixlive/tsp1/playlist.m3u8' },
-        { id: 'ch_146', name: 'truesports1', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/22004e5c8ec9.png', url: 'https://cdn1.googlecdnforstreaming.live/live/tsp1/playlist.m3u8' },
-        { id: 'ch_147', name: 'truesports1', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/22004e5c8ec9.png', url: 'https://cdn1.amazaa.live/dbl/tsp1/chunks.m3u8' },
-        { id: 'ch_148', name: 'truesports1', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/22004e5c8ec9.png', url: 'https://sp-tr321.com/tsp1/index.m3u8' },
-        { id: 'ch_149', name: 'truesports2(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/c35cba36351d.png', url: 'https://app.ipplaybox.fun/atmflixlive/tsp2/playlist.m3u8' },
-        { id: 'ch_150', name: 'truesports2', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/c35cba36351d.png', url: 'https://cdn1.googlecdnforstreaming.live/live/tsp2/playlist.m3u8' },
-        { id: 'ch_151', name: 'truesports2', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/c35cba36351d.png', url: 'https://cdn1.amazaa.live/dbl/tsp2/chunks.m3u8' },
-        { id: 'ch_152', name: 'truesports2', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/c35cba36351d.png', url: 'https://sp-tr321.com/tsp2/index.m3u8' },
-        { id: 'ch_153', name: 'truesports3(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/c3769e7e6e16.png', url: 'https://app.ipplaybox.fun/atmflixlive/tsp3/playlist.m3u8' },
-        { id: 'ch_154', name: 'truesports3', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/c3769e7e6e16.png', url: 'https://cdn1.googlecdnforstreaming.live/live/tsp3/playlist.m3u8' },
-        { id: 'ch_155', name: 'truesports3', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/c3769e7e6e16.png', url: 'https://cdn1.amazaa.live/dbl/tsp3/chunks.m3u8' },
-        { id: 'ch_156', name: 'truesports3', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/c3769e7e6e16.png', url: 'https://sp-tr321.com/tsp3/index.m3u8' },
-        { id: 'ch_157', name: 'truesports5(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/fc13960c5f4f.png', url: 'https://app.ipplaybox.fun/atmflixlive/tsp5/playlist.m3u8' },
-        { id: 'ch_158', name: 'truesports7', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/e0975ca261c8.png', url: 'https://app.ipplaybox.fun/atmflixlive/tsp7/playlist.m3u8' },
-        { id: 'ch_159', name: 'truesports7', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/e0975ca261c8.png', url: 'https://cdn1.googlecdnforstreaming.live/live/tsp7/playlist.m3u8' },
-        { id: 'ch_160', name: 'truesports7', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/e0975ca261c8.png', url: 'https://cdn1.amazaa.live/dbl/tsp7/chunks.m3u8' },
-        { id: 'ch_161', name: 'truesports7', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/e0975ca261c8.png', url: 'https://sp-tr321.com/tsp7/index.m3u8' },
-        { id: 'ch_162', name: 'trueballthai1(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/9e09c5b77206.webp', url: 'https://app.ipplaybox.fun/atmflixlive/trueballthai1/playlist.m3u8' },
-        { id: 'ch_163', name: 'trueballthai2(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/006c49a23c6f.webp', url: 'https://app.ipplaybox.fun/atmflixlive/trueballthai2/playlist.m3u8' },
-        { id: 'ch_164', name: 'trueballthai3(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/befeb53ff614.webp', url: 'https://app.ipplaybox.fun/atmflixlive/trueballthai3/playlist.m3u8' },
-        { id: 'ch_165', name: 'trueballthai4(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/e462f75e6c47.webp', url: 'https://app.ipplaybox.fun/atmflixlive/trueballthai4/playlist.m3u8' },
-        { id: 'ch_166', name: 'trueballthai5(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/26740824e73a.webp', url: 'https://app.ipplaybox.fun/atmflixlive/trueballthai5/playlist.m3u8' },
-        { id: 'ch_167', name: 'trueballthai6(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/9caf0bf22d18.webp', url: 'https://app.ipplaybox.fun/atmflixlive/trueballthai6/playlist.m3u8' },
-        { id: 'ch_168', name: 'trueballthai7(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/c324f1ab9900.png', url: 'https://app.ipplaybox.fun/atmflixlive/trueballthai7/playlist.m3u8' },
-        { id: 'ch_169', name: 'trueballthai8(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/ddf34ba06e62.webp', url: 'https://app.ipplaybox.fun/atmflixlive/trueballthai8/playlist.m3u8' },
-        { id: 'ch_170', name: 'trueballthai9(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/345ee979c11e.webp', url: 'https://app.ipplaybox.fun/atmflixlive/trueballthai9/playlist.m3u8' },
-        { id: 'ch_171', name: 'truefootball3(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/d8a3d6fa78d5.webp', url: 'https://app.ipplaybox.fun/atmflixlive/tpf3/playlist.m3u8' },
-        { id: 'ch_172', name: 'truefootball3', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/d8a3d6fa78d5.webp', url: 'https://cdn1.googlecdnforstreaming.live/live/tpf3/playlist.m3u8' },
-        { id: 'ch_173', name: 'truefootball3', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/d8a3d6fa78d5.webp', url: 'https://cdn1.amazaa.live/dbl/tpf3/chunks.m3u8' },
-        { id: 'ch_174', name: 'truefootball3', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/d8a3d6fa78d5.webp', url: 'https://sp-tr321.com/truepremier3/index.m3u8' },
-        { id: 'ch_175', name: 'truefootball4(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/e79a4bb56fa4.webp', url: 'https://app.ipplaybox.fun/atmflixlive/tpf4/playlist.m3u8' },
-        { id: 'ch_176', name: 'truefootball4', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/e79a4bb56fa4.webp', url: 'https://cdn1.googlecdnforstreaming.live/live/tpf4/playlist.m3u8' },
-        { id: 'ch_177', name: 'truefootball4', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/e79a4bb56fa4.webp', url: 'https://cdn1.amazaa.live/dbl/tpf4/chunks.m3u8' },
-        { id: 'ch_178', name: 'truefootball4', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/e79a4bb56fa4.webp', url: 'https://sp-tr321.com/truepremier4/index.m3u8' },
-        { id: 'ch_179', name: 'truefootball5(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/306fd3f17471.webp', url: 'https://app.ipplaybox.fun/atmflixlive/tpf5/playlist.m3u8' },
-        { id: 'ch_180', name: 'truefootball5', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/306fd3f17471.webp', url: 'https://cdn1.googlecdnforstreaming.live/live/tpf5/playlist.m3u8' },
-        { id: 'ch_181', name: 'truefootball5', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/306fd3f17471.webp', url: 'https://cdn1.amazaa.live/dbl/tpf5/chunks.m3u8' },
-        { id: 'ch_182', name: 'truefootball5', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/306fd3f17471.webp', url: 'https://sp-tr321.com/truepremier5/index.m3u8' },
-        { id: 'ch_183', name: 'monomax1(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://app.ipplaybox.fun/atmflixlive/monomax-sports1/playlist.m3u8' },
-        { id: 'ch_184', name: 'max1', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.googlecdnforstreaming.live/live/monomax-sports1/playlist.m3u8' },
-        { id: 'ch_185', name: 'max1', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.amazaa.live/dbl/monomax-sports1/chunks.m3u8' },
-        { id: 'ch_186', name: 'monomax2(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://app.ipplaybox.fun/atmflixlive/monomax-sports2/playlist.m3u8' },
-        { id: 'ch_187', name: 'max2', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.googlecdnforstreaming.live/live/monomax-sports2/playlist.m3u8' },
-        { id: 'ch_188', name: 'max2', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.amazaa.live/dbl/monomax-sports2/chunks.m3u8' },
-        { id: 'ch_189', name: 'monomax3(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://app.ipplaybox.fun/atmflixlive/monomax-sports3/playlist.m3u8' },
-        { id: 'ch_190', name: 'max3', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.googlecdnforstreaming.live/live/monomax-sports3/playlist.m3u8' },
-        { id: 'ch_191', name: 'max3', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.amazaa.live/dbl/monomax-sports3/chunks.m3u8' },
-        { id: 'ch_192', name: 'monomax4(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://app.ipplaybox.fun/atmflixlive/monomax-sports4/playlist.m3u8' },
-        { id: 'ch_193', name: 'max4', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.amazaa.live/dbl/monomax-sports4/chunks.m3u8' },
-        { id: 'ch_194', name: 'max4', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.googlecdnforstreaming.live/live/monomax-sports4/playlist.m3u8' },
-        { id: 'ch_195', name: 'monomax5(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://app.ipplaybox.fun/atmflixlive/monomax-sports5/playlist.m3u8' },
-        { id: 'ch_196', name: 'max5', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.amazaa.live/dbl/monomax-sports5/chunks.m3u8' },
-        { id: 'ch_197', name: 'max5', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.googlecdnforstreaming.live/live/monomax-sports5/playlist.m3u8' },
-        { id: 'ch_198', name: 'monomax6(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://app.ipplaybox.fun/atmflixlive/monomax-sports6/playlist.m3u8' },
-        { id: 'ch_199', name: 'max6', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.amazaa.live/dbl/monomax-sports6/chunks.m3u8' },
-        { id: 'ch_200', name: 'max6', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.googlecdnforstreaming.live/live/monomax-sports6/playlist.m3u8' },
-        { id: 'ch_201', name: 'monomax7(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://app.ipplaybox.fun/atmflixlive/monomax-sports7/playlist.m3u8' },
-        { id: 'ch_202', name: 'max7', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.amazaa.live/dbl/monomax-sports7/chunks.m3u8' },
-        { id: 'ch_203', name: 'max7', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/maxsports.webp', url: 'https://cdn1.googlecdnforstreaming.live/live/monomax-sports7/playlist.m3u8' },
-        { id: 'ch_204', name: 'volleyball1(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/Volleyball1.webp', url: 'https://app.ipplaybox.fun/atmflixlive/volleyball1/playlist.m3u8' },
-        { id: 'ch_205', name: 'volleyball2(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/Volleyball2.webp', url: 'https://app.ipplaybox.fun/atmflixlive/volleyball2/playlist.m3u8' },
-        { id: 'ch_206', name: 'volleyball3(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/Volleyball3.webp', url: 'https://app.ipplaybox.fun/atmflixlive/volleyball3/playlist.m3u8' },
-        { id: 'ch_207', name: 'volleyball4(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/Volleyball4.webp', url: 'https://app.ipplaybox.fun/atmflixlive/volleyball4/playlist.m3u8' },
-        { id: 'ch_208', name: 'NBA Event1(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent1/playlist.m3u8' },
-        { id: 'ch_209', name: 'NBA Event2(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent2/playlist.m3u8' },
-        { id: 'ch_210', name: 'NBA Event3(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent3/playlist.m3u8' },
-        { id: 'ch_211', name: 'NBA Event4(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent4/playlist.m3u8' },
-        { id: 'ch_212', name: 'NBA Event5(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent5/playlist.m3u8' },
-        { id: 'ch_213', name: 'NBA Event6(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent6/playlist.m3u8' },
-        { id: 'ch_214', name: 'NBA Event7(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent7/playlist.m3u8' },
-        { id: 'ch_215', name: 'NBA Event8(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent8/playlist.m3u8' },
-        { id: 'ch_216', name: 'NBA Event9(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent9/playlist.m3u8' },
-        { id: 'ch_217', name: 'NBA Event10(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent10/playlist.m3u8' },
-        { id: 'ch_218', name: 'NBA Event11(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent11/playlist.m3u8' },
-        { id: 'ch_219', name: 'NBA Event12(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent12/playlist.m3u8' },
-        { id: 'ch_220', name: 'NBA Event13(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbaevent.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/nbalpevent13/playlist.m3u8' },
-        { id: 'ch_221', name: 'event1(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/livesportATMflick.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/event1/playlist.m3u8' },
-        { id: 'ch_222', name: 'event2(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/livesportATMflick.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/event2/playlist.m3u8' },
-        { id: 'ch_223', name: 'event3(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/livesportATMflick.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/event3/playlist.m3u8' },
-        { id: 'ch_224', name: 'event4(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/livesportATMflick.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/event4/playlist.m3u8' },
-        { id: 'ch_225', name: 'event5(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/livesportATMflick.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/event5/playlist.m3u8' },
-        { id: 'ch_226', name: 'event6(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/livesportATMflick.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/event6/playlist.m3u8' },
-        { id: 'ch_227', name: 'event7(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/livesportATMflick.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/event7/playlist.m3u8' },
-        { id: 'ch_228', name: 'event8(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/livesportATMflick.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/event8/playlist.m3u8' },
-        { id: 'ch_229', name: 'event9(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/livesportATMflick.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/event9/playlist.m3u8' },
-        { id: 'ch_230', name: 'event10(ATMflix)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/livesportATMflick.jpg', url: 'https://app.ipplaybox.fun/atmflixlive/event10/playlist.m3u8' },
-        { id: 'ch_231', name: 'event1', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/event.jpg', url: 'https://cdn1.amazaa.live/dbl/event1/chunks.m3u8' },
-        { id: 'ch_232', name: 'event2', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/event.jpg', url: 'https://cdn1.amazaa.live/dbl/event2/chunks.m3u8' },
-        { id: 'ch_233', name: 'event3', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/event.jpg', url: 'https://cdn1.amazaa.live/dbl/event3/chunks.m3u8' },
-        { id: 'ch_234', name: 'event4', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/event.jpg', url: 'https://cdn1.amazaa.live/dbl/event4/chunks.m3u8' },
-        { id: 'ch_235', name: 'event5', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/event.jpg', url: 'https://cdn1.amazaa.live/dbl/event5/chunks.m3u8' },
-        { id: 'ch_236', name: 'event6', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/event.jpg', url: 'https://cdn1.amazaa.live/dbl/event6/chunks.m3u8' },
-        { id: 'ch_237', name: 'event7', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/event.jpg', url: 'https://cdn1.amazaa.live/dbl/event7/chunks.m3u8' },
-        { id: 'ch_238', name: 'event8', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/event.jpg', url: 'https://cdn1.amazaa.live/dbl/event8/chunks.m3u8' },
-        { id: 'ch_239', name: 'event9', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/event.jpg', url: 'https://cdn1.amazaa.live/dbl/event9/chunks.m3u8' },
-        { id: 'ch_240', name: 'event10', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/event.jpg', url: 'https://cdn1.amazaa.live/dbl/event10/chunks.m3u8' },
-        { id: 'ch_241', name: 'FS1(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/49d84fa51a66.webp', url: 'https://app.ipplaybox.fun/atmflixlive/foxsports1usa/playlist.m3u8' },
-        { id: 'ch_242', name: 'FS2(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/96eb414a9a1c.webp', url: 'https://app.ipplaybox.fun/atmflixlive/foxsports2usa/playlist.m3u8' },
-        { id: 'ch_243', name: 'Eurosport1(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/e0eb3321e592.jfif', url: 'https://app.ipplaybox.fun/atmflixlive/eurosport1es/playlist.m3u8' },
-        { id: 'ch_244', name: 'Eurosport2(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/fdf7d886481e.jfif', url: 'https://app.ipplaybox.fun/atmflixlive/eurosport2es/playlist.m3u8' },
-        { id: 'ch_245', name: 'CTV1', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/Champions_TV_Logo.png', url: 'https://app.ipplaybox.fun/atmflixlive/ctv1/playlist.m3u8' },
-        { id: 'ch_246', name: 'CTV2', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/Champions_TV_Logo.png', url: 'https://app.ipplaybox.fun/atmflixlive/ctv2/playlist.m3u8' },
-        { id: 'ch_247', name: 'MU TV(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/36480ac3d156.png', url: 'https://app.ipplaybox.fun/atmflixlive/mutv/playlist.m3u8' },
-        { id: 'ch_248', name: 'NBA TV(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/8a705e6b2da4.webp', url: 'https://app.ipplaybox.fun/atmflixlive/nba/playlist.m3u8' },
-        { id: 'ch_249', name: 'cbssports(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/22de27e62c26.png', url: 'https://app.ipplaybox.fun/atmflixlive/cbssports/playlist.m3u8' },
-        { id: 'ch_250', name: 'sportdigital(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/2a16c12f6c36.png', url: 'https://app.ipplaybox.fun/atmflixlive/sportdigital/playlist.m3u8' },
-        { id: 'ch_251', name: 'tudn(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/04e6b364b3da.png', url: 'https://app.ipplaybox.fun/atmflixlive/tudnusa/playlist.m3u8' },
-        { id: 'ch_252', name: 'tyC Sports(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/22c434de482e.webp', url: 'https://app.ipplaybox.fun/atmflixlive/tycsports/playlist.m3u8' },
-        { id: 'ch_253', name: 'dazn1(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/a8540882957f.webp', url: 'https://app.ipplaybox.fun/atmflixlive/dazn1/playlist.m3u8' },
-        { id: 'ch_254', name: 'dazn2(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/a8540882957f.webp', url: 'https://app.ipplaybox.fun/atmflixlive/dazn2/playlist.m3u8' },
-        { id: 'ch_255', name: 'dazn1es(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/a8540882957f.webp', url: 'https://app.ipplaybox.fun/atmflixlive/dazn1es/playlist.m3u8' },
-        { id: 'ch_256', name: 'dazn2es(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/a8540882957f.webp', url: 'https://app.ipplaybox.fun/atmflixlive/dazn2es/playlist.m3u8' },
-        { id: 'ch_257', name: 'sporttv1(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/5e316d446c88.webp', url: 'https://app.ipplaybox.fun/atmflixlive/sporttv1/playlist.m3u8' },
-        { id: 'ch_258', name: 'arenasport2(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/316de74f568f.png', url: 'https://app.ipplaybox.fun/atmflixlive/arenasport2/playlist.m3u8' },
-        { id: 'ch_259', name: 'arenasport3(ATMflix)', category: 'กีฬา', logo: '', url: 'https://app.ipplaybox.fun/atmflixlive/arenasport3/playlist.m3u8' },
-        { id: 'ch_260', name: 'arenasport4(ATMflix)', category: 'กีฬา', logo: '', url: 'https://app.ipplaybox.fun/atmflixlive/arenasport4/playlist.m3u8' },
-        { id: 'ch_261', name: 'arenasport6(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/c40ff43f9e38.png', url: 'https://app.ipplaybox.fun/atmflixlive/arenasport6/playlist.m3u8' },
-        { id: 'ch_262', name: 'laliga-hypermotion-tv(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/6733cf1b4643.webp', url: 'https://app.ipplaybox.fun/atmflixlive/laliga-hypermotion-tv/playlist.m3u8' },
-        { id: 'ch_263', name: 'maxsport1hr(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/51cce54a838b.png', url: 'https://app.ipplaybox.fun/atmflixlive/maxsport1hr/playlist.m3u8' },
-        { id: 'ch_264', name: 'polsatsportpremium2(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/aca767a86d07.png', url: 'https://app.ipplaybox.fun/atmflixlive/polsatsportpremium2/playlist.m3u8' },
-        { id: 'ch_265', name: 'L1MAX(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/611dfbc346b6.webp', url: 'https://app.ipplaybox.fun/atmflixlive/l1max/playlist.m3u8' },
-        { id: 'ch_266', name: 'AppleTV1(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/0c617fdb89a0.png', url: 'https://app.ipplaybox.fun/atmflixlive/atvp1/playlist.m3u8' },
-        { id: 'ch_267', name: 'AppleTV2(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/0c617fdb89a0.png', url: 'https://app.ipplaybox.fun/atmflixlive/atvp2/playlist.m3u8' },
-        { id: 'ch_268', name: 'AppleTV3(ATMflix)', category: 'กีฬา', logo: 'https://cdn.imgchest.com/files/0c617fdb89a0.png', url: 'https://app.ipplaybox.fun/atmflixlive/atvp3/playlist.m3u8' }
-        ];
+    <!-- Right Column: Channel Guide & Filter -->
+    <section class="card" aria-label="รายการช่องทั้งหมด">
+      <div class="section-header">
+        <h2 class="section-title">รายการช่องทีวี</h2>
+      </div>
+      <div class="filter-bar">
+        <input type="text" id="search-input" placeholder="ค้นหาชื่อช่องรายการ..." aria-label="ค้นหาชื่อช่องรายการ">
+        <div class="category-tabs" id="category-tabs" role="tablist">
+          <button type="button" class="tab-btn active" data-cat="ทั้งหมด">ทั้งหมด</button>
+          <button type="button" class="tab-btn" data-cat="ทั่วไป">ทั่วไป</button>
+          <button type="button" class="tab-btn" data-cat="ข่าวสาร">ข่าวสาร</button>
+          <button type="button" class="tab-btn" data-cat="บันเทิง">บันเทิง</button>
+          <button type="button" class="tab-btn" data-cat="กีฬา">กีฬา</button>
+          <button type="button" class="tab-btn" data-cat="สารคดี">สารคดี</button>
+        </div>
+      </div>
+      <div id="channel-list" class="channel-list"></div>
+    </section>
+  </main>
 
-        let currentCategory = 'ทั้งหมด';
-        let searchQuery = '';
+  <script>
+    (function () {
+      // กำหนดรายการช่องทีวีและลิงก์สตรีมตรงนี้ (สำหรับผู้ดูแลแอป)
+      const channels = [
+        { id: 'ch_1', name: 'T-Sports7(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tsport7.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/T-Sports7/master.m3u8' },
+        { id: 'ch_2', name: 'T-Sports7-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tsport7.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/T-Sports7/master.m3u8' },
+        { id: 'ch_3', name: 'pptvhd(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/pptv36.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/pptvhd/master.m3u8' },
+        { id: 'ch_4', name: 'pptvhd-2(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/pptv36.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/pptvhd/master.m3u8' },
+        { id: 'ch_5', name: 'tnn16(ATMflix)', category: 'ข่าวสาร', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tnn16.webp', url: 'https://app.ipplaybox.fun/atmflixlive/tnn/playlist.m3u8' },
+        { id: 'ch_6', name: 'tnn16(m-fixer)', category: 'ข่าวสาร', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tnn16.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/tnn24/master.m3u8' },
+        { id: 'ch_7', name: 'tnn16(m-fixer)', category: 'ข่าวสาร', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tnn16.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tnn24/master.m3u8' },
+        { id: 'ch_8', name: 'CH8(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch8.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/ch8/master.m3u8' },
+        { id: 'ch_9', name: 'CH8(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch8.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/ch8/master.m3u8' },
+        { id: 'ch_10', name: 'Workpoint(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/workpoint.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/workpoint/master.m3u8' },
+        { id: 'ch_11', name: 'Workpoint(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/workpoint.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/workpoint/master.m3u8' },
+        { id: 'ch_12', name: 'CH7HD(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch7.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/ch7hd/master.m3u8' },
+        { id: 'ch_13', name: 'CH7HD(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch7.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/ch7hd/master.m3u8' },
+        { id: 'ch_14', name: 'ThaiRath TV(m-fixer)', category: 'ข่าวสาร', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thairath.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/thairathtvhd/master.m3u8' },
+        { id: 'ch_15', name: 'ThaiRath TV(m-fixer)', category: 'ข่าวสาร', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thairath.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/thairathtvhd/master.m3u8' },
+        { id: 'ch_16', name: 'mono29plus(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mono29plus.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/mono29plus/master.m3u8' },
+        { id: 'ch_17', name: 'mono29plus-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mono29plus.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/mono29plus/master.m3u8' },
+        { id: 'ch_18', name: 'HBO(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbo.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/hbo-hd/master.m3u8' },
+        { id: 'ch_19', name: 'HBO-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbo.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/hbo-hd/master.m3u8' },
+        { id: 'ch_20', name: 'HBOHits(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbohits.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/hbohits/master.m3u8' },
+        { id: 'ch_21', name: 'HBOHits-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbohits.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/hbohits/master.m3u8' },
+        { id: 'ch_22', name: 'HBOHits NoThai', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbohits.png', url: 'https://raw.githubusercontent.com/ALittleAnt4161/m3u8/refs/heads/main/HBOHits.m3u8' },
+        { id: 'ch_23', name: 'AXN NoThai', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/AXN.webp', url: 'https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AXN.m3u8' },
+        { id: 'ch_24', name: 'HBOSignature(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbosig.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/hbosignature/master.m3u8' },
+        { id: 'ch_25', name: 'HBOSignature-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbosig.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/hbosignature/master.m3u8' },
+        { id: 'ch_26', name: 'hbofamily(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbofam.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/hbofamily/master.m3u8' },
+        { id: 'ch_27', name: 'hbofamily-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbofam.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/hbofamily/master.m3u8' },
+        { id: 'ch_28', name: 'cinemax(ATMflix)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cinemax.png', url: 'https://app.ipplaybox.fun/atmflixlive/cinemax/playlist.m3u8' },
+        { id: 'ch_29', name: 'cinemax(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cinemax.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/cinemax/master.m3u8' },
+        { id: 'ch_30', name: 'cinemax-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cinemax.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/cinemax/master.m3u8' },
+        { id: 'ch_31', name: 'Warnertv(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/warnertv.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/warnertv/master.m3u8' },
+        { id: 'ch_32', name: 'Warnertv-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/warnertv.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/warnertv/master.m3u8' },
+        { id: 'ch_33', name: 'rock-entertainment(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rocken.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/rock-entertainment/master.m3u8' },
+        { id: 'ch_34', name: 'rock-entertainment-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rocken.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/rock-entertainment/master.m3u8' },
+        { id: 'ch_35', name: 'ROCKAction(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rockac.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/rockaction/master.m3u8' },
+        { id: 'ch_36', name: 'ROCKAction-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rockac.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/rockaction/master.m3u8' },
+        { id: 'ch_37', name: 'asianhits(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/asianhits.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/asianhits/master.m3u8' },
+        { id: 'ch_38', name: 'asianhits-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/asianhits.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/asianhits/master.m3u8' },
+        { id: 'ch_39', name: 'Khong Dee Thailand(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/khongdee.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/khongdeethailand/master.m3u8' },
+        { id: 'ch_40', name: 'Khong Dee Thailand-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/khongdee.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/khongdeethailand/master.m3u8' },
+        { id: 'ch_41', name: 'Thainess(ATMflix)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thainess.png', url: 'https://app.ipplaybox.fun/atmflixlive/thainess/playlist.m3u8' },
+        { id: 'ch_42', name: 'Thainess(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thainess.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/thainess/master.m3u8' },
+        { id: 'ch_43', name: 'Thainess-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thainess.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/thainess/master.m3u8' },
+        { id: 'ch_44', name: 'Samrujlok(ATMflix)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/samrojlok.png', url: 'https://app.ipplaybox.fun/atmflixlive/samrujlok/playlist.m3u8' },
+        { id: 'ch_45', name: 'Samrujlok(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/samrojlok.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/samrujlok/master.m3u8' },
+        { id: 'ch_46', name: 'Samrujlok-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/samrojlok.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/samrujlok/master.m3u8' },
+        { id: 'ch_47', name: 'MySci(ATMflix)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mysci.png', url: 'https://app.ipplaybox.fun/atmflixlive/mysci/playlist.m3u8' },
+        { id: 'ch_48', name: 'MySci(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mysci.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/mysci/master.m3u8' },
+        { id: 'ch_49', name: 'MySci-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mysci.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/mysci/master.m3u8' },
+        { id: 'ch_50', name: 'Animal Show(ATMflix)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/animalshow.png', url: 'https://app.ipplaybox.fun/atmflixlive/animalshow/playlist.m3u8' },
+        { id: 'ch_51', name: 'Animal Show(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/animalshow.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/animalshow/master.m3u8' },
+        { id: 'ch_52', name: 'Animal Show-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/animalshow.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/animalshow/master.m3u8' },
+        { id: 'ch_53', name: 'Discovery(ATMflix)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/diccovery.png', url: 'https://app.ipplaybox.fun/atmflixlive/discovery/playlist.m3u8' },
+        { id: 'ch_54', name: 'Discovery(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/diccovery.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/discovery/master.m3u8' },
+        { id: 'ch_55', name: 'Discovery-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/diccovery.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/discovery/master.m3u8' },
+        { id: 'ch_56', name: 'asianfoodnetwork(ATMflix)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/asianfood.png', url: 'https://app.ipplaybox.fun/atmflixlive/afn/playlist.m3u8' },
+        { id: 'ch_57', name: 'asianfoodnetwork(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/asianfood.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/asianfoodnetwork/master.m3u8' },
+        { id: 'ch_58', name: 'asianfoodnetwork-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/asianfood.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/asianfoodnetwork/master.m3u8' },
+        { id: 'ch_59', name: 'foodnetwork(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/foodnetwork.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/foodnetwork/master.m3u8' },
+        { id: 'ch_60', name: 'foodnetwork-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/foodnetwork.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/foodnetwork/master.m3u8' },
+        { id: 'ch_61', name: 'dmax(ATMflix)', category: 'สารคดี', logo: 'https://cdn.imgchest.com/files/5fbb6f96f05f.png', url: 'https://app.ipplaybox.fun/atmflixlive/dmax/playlist.m3u8' },
+        { id: 'ch_62', name: 'tlc(ATMflix)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tlc.webp', url: 'https://app.ipplaybox.fun/atmflixlive/tlc/playlist.m3u8' },
+        { id: 'ch_63', name: 'tlc(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tlc.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/tlc/master.m3u8' },
+        { id: 'ch_64', name: 'tlc-2(m-fixer)', category: 'สารคดี', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tlc.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tlc/master.m3u8' },
+        { id: 'ch_65', name: 'eurosport(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/eurosport.jfif', url: 'https://edge-1.m-fixer.net:8092/stream/ais/eurosport/master.m3u8' },
+        { id: 'ch_66', name: 'eurosport-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/eurosport.jfif', url: 'https://edge-2.m-fixer.net:8092/stream/ais/eurosport/master.m3u8' },
+        { id: 'ch_67', name: 'premiersport(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/premieasport.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/premiersport/master.m3u8' },
+        { id: 'ch_68', name: 'premiersport-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/premieasport.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/premiersport/master.m3u8' },
+        { id: 'ch_69', name: 'wsport(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/w-sport.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/wsport/master.m3u8' },
+        { id: 'ch_70', name: 'wsport-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/w-sport.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/wsport/master.m3u8' },
+        { id: 'ch_71', name: 'mutv(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mutv.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/mutv/master.m3u8' },
+        { id: 'ch_72', name: 'mutv-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mutv.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/mutv/master.m3u8' },
+        { id: 'ch_73', name: 'realmadridtv(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/realmaddridtv.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/realmadridtv/master.m3u8' },
+        { id: 'ch_74', name: 'realmadridtv-2(m-fixer)', category: 'กีฬา', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/realmaddridtv.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/realmadridtv/master.m3u8' },
+        { id: 'ch_75', name: 'nickjr(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nickjr.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/nickjr/master.m3u8' },
+        { id: 'ch_76', name: 'nickjr-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nickjr.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/nickjr/master.m3u8' },
+        { id: 'ch_77', name: 'nickelodeon(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nickelo.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/nickelodeon/master.m3u8' },
+        { id: 'ch_78', name: 'nickelodeon-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nickelo.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/nickelodeon/master.m3u8' },
+        { id: 'ch_79', name: 'cartoonito(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cartoonnito.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/cartoonito/master.m3u8' },
+        { id: 'ch_80', name: 'cartoonito-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cartoonnito.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/cartoonito/master.m3u8' },
+        { id: 'ch_81', name: 'cartoonnetwork(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cnnetwork.webp', url: 'https://edge-1.m-fixer.net:8092/stream/ais/cartoonnetwork/master.m3u8' },
+        { id: 'ch_82', name: 'cartoonnetwork-2(m-fixer)', category: 'บันเทิง', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/cnnetwork.webp', url: 'https://edge-2.m-fixer.net:8092/stream/ais/cartoonnetwork/master.m3u8' },
+        { id: 'ch_83', name: 'TV5MONDE(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tv5monde.png', url: 'https://edge-1.m-fixer.net:8092/stream/ais/tv5monde/master.m3u8' },
+        { id: 'ch_84', name: 'TV5MONDE(m-fixer)', category: 'ทั่วไป', logo: 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tv5monde.png', url: 'https://edge-2.m-fixer.net:8092/stream/ais/tv5monde/master.m3u8' }
+      ];
 
-        // UI Initialization functions
-        function renderChannels() {
-            const container = document.getElementById('channel-container');
-            container.innerHTML = '';
+      let activeChannelId = null;
+      let selectedCategory = 'ทั้งหมด';
+      let searchQuery = '';
+      let hlsInstance = null;
 
-            const filtered = channels.filter(ch => {
-                const matchesCategory = currentCategory === 'ทั้งหมด' || ch.category === currentCategory;
-                const matchesSearch = ch.name.toLowerCase().includes(searchQuery.toLowerCase());
-                return matchesCategory && matchesSearch;
-            });
+      const videoEl = document.getElementById('tv-video');
+      const placeholderEl = document.getElementById('player-placeholder');
+      const currentTitleEl = document.getElementById('current-title');
+      const currentCatEl = document.getElementById('current-cat');
+      const errorMsgEl = document.getElementById('error-msg');
 
-            filtered.forEach(ch => {
-                const item = document.createElement('div');
-                item.className = 'channel-item';
-                item.onclick = () => selectChannel(ch);
+      const searchInput = document.getElementById('search-input');
+      const categoryTabs = document.getElementById('category-tabs');
+      const channelListEl = document.getElementById('channel-list');
 
-                const logoSrc = ch.logo || 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png';
-                item.innerHTML = `
-                    <img src="${logoSrc}" class="channel-logo" alt="${ch.name}" onerror="this.src='https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/aisplay.png'">
-                    <div class="channel-info">
-                        <div class="channel-name">${ch.name}</div>
-                        <div class="channel-category">${ch.category}</div>
-                    </div>
-                `;
-                container.appendChild(item);
-            });
+      function showPlayerError(msg) {
+        if (msg) {
+          errorMsgEl.textContent = msg;
+          errorMsgEl.classList.add('visible');
+        } else {
+          errorMsgEl.textContent = '';
+          errorMsgEl.classList.remove('visible');
+        }
+      }
+
+      function playChannel(channel) {
+        if (!channel) return;
+        activeChannelId = channel.id;
+        showPlayerError('');
+        currentTitleEl.textContent = channel.name;
+        currentCatEl.textContent = 'หมวดหมู่: ' + channel.category;
+
+        placeholderEl.style.display = 'none';
+        videoEl.classList.add('active');
+
+        if (hlsInstance) {
+          hlsInstance.destroy();
+          hlsInstance = null;
         }
 
-        function filterCategory(category) {
-            currentCategory = category;
-            const buttons = document.querySelectorAll('.category-btn');
-            buttons.forEach(btn => {
-                if (btn.textContent === category) btn.classList.add('active');
-                else btn.classList.remove('active');
-            });
-            renderChannels();
+        const url = channel.url.trim();
+        const isHls = url.toLowerCase().includes('.m3u8');
+
+        if (isHls && window.Hls && window.Hls.isSupported()) {
+          hlsInstance = new window.Hls();
+          hlsInstance.loadSource(url);
+          hlsInstance.attachMedia(videoEl);
+          hlsInstance.on(window.Hls.Events.MANIFEST_PARSED, function () {
+            videoEl.play().catch(function () {});
+          });
+          hlsInstance.on(window.Hls.Events.ERROR, function (event, data) {
+            if (data && data.fatal) {
+              showPlayerError('ไม่สามารถโหลดสตรีมนี้ได้ กรุณาตรวจสอบลิงก์หรือการรองรับ CORS ของสตรีม');
+            }
+          });
+        } else {
+          videoEl.src = url;
+          videoEl.play().catch(function () {});
         }
 
-        document.getElementById('search-input').addEventListener('input', (e) => {
-            searchQuery = e.target.value;
-            renderChannels();
+        renderChannels();
+      }
+
+      videoEl.addEventListener('error', function () {
+        if (activeChannelId) {
+          showPlayerError('ไม่สามารถเล่นไฟล์สตรีมจากลิงก์นี้ได้');
+        }
+      });
+
+      function renderChannels() {
+        const filtered = channels.filter(function (ch) {
+          const matchCat = selectedCategory === 'ทั้งหมด' || ch.category === selectedCategory;
+          const matchSearch = ch.name.toLowerCase().includes(searchQuery.toLowerCase());
+          return matchCat && matchSearch;
         });
 
-        // Player selection logic using Hls.js library
-        function selectChannel(channel) {
-            document.getElementById('current-channel-header').textContent = `กำลังรับชม: ${channel.name}`;
-            document.getElementById('player-channel-name').textContent = channel.name;
-            document.getElementById('player-channel-desc').textContent = `หมวดหมู่: ${channel.category} | สตรีมลิงก์: ${channel.url}`;
+        channelListEl.innerHTML = '';
 
-            // Reset active state in DOM list
-            const items = document.querySelectorAll('.channel-item');
-            items.forEach(item => {
-                if (item.querySelector('.channel-name').textContent === channel.name) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
-
-            const video = document.getElementById('video-player');
-            if (Hls.isSupported()) {
-                if (window.hls) {
-                    window.hls.destroy();
-                }
-                const hls = new Hls({
-                    xhrSetup: function (xhr, url) {
-                        // User-Agent and Referrer are handled automatically inside Web browsers.
-                        // For fully customized headers in desktop/app players, configure external agents.
-                    }
-                });
-                hls.loadSource(channel.url);
-                hls.attachMedia(video);
-                window.hls = hls;
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = channel.url;
-            }
+        if (filtered.length === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'empty-state';
+          empty.textContent = channels.length === 0
+            ? 'ยังไม่มีช่องรายการในระบบ'
+            : 'ไม่พบช่องรายการที่ตรงกับการค้นหา';
+          channelListEl.appendChild(empty);
+          return;
         }
 
-        // Initialize lists on load
-        window.onload = () => {
-            renderChannels();
-        };
-    </script>
+        filtered.forEach(function (ch) {
+          const item = document.createElement('div');
+          item.className = 'channel-item' + (ch.id === activeChannelId ? ' active' : '');
+          item.setAttribute('role', 'button');
+          item.setAttribute('tabindex', '0');
+
+          if (ch.logo) {
+            const logoImg = document.createElement('img');
+            logoImg.className = 'channel-logo';
+            logoImg.src = ch.logo;
+            logoImg.alt = ch.name;
+            logoImg.loading = 'lazy';
+            logoImg.addEventListener('error', function () {
+              logoImg.style.display = 'none';
+            });
+            item.appendChild(logoImg);
+          }
+
+          const meta = document.createElement('div');
+          meta.className = 'channel-meta';
+
+          const name = document.createElement('div');
+          name.className = 'channel-name';
+          name.textContent = ch.name;
+
+          const cat = document.createElement('div');
+          cat.className = 'channel-cat';
+          cat.textContent = ch.category;
+
+          meta.appendChild(name);
+          meta.appendChild(cat);
+
+          item.appendChild(meta);
+
+          item.addEventListener('click', function () {
+            playChannel(ch);
+          });
+
+          item.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              playChannel(ch);
+            }
+          });
+
+          channelListEl.appendChild(item);
+        });
+      }
+
+      searchInput.addEventListener('input', function (e) {
+        searchQuery = e.target.value;
+        renderChannels();
+      });
+
+      categoryTabs.addEventListener('click', function (e) {
+        const btn = e.target.closest('.tab-btn');
+        if (!btn) return;
+        selectedCategory = btn.getAttribute('data-cat');
+        Array.from(categoryTabs.querySelectorAll('.tab-btn')).forEach(function (b) {
+          b.classList.toggle('active', b === btn);
+        });
+        renderChannels();
+      });
+
+      renderChannels();
+    })();
+  </script>
 </body>
 </html>
