@@ -4,28 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iPTVplus Player</title>
+    <!-- Tailwind CSS for Beautiful Styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Video.js and styles -->
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Sarabun', sans-serif; background-color: #0b0f19; color: #f3f4f6; }
-        .video-js { width: 100% !important; height: 100% !important; border-radius: 0.75rem; overflow: hidden; }
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+        }
+        /* Custom video-js styling to match premium player */
+        .video-js {
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
         .video-js .vjs-big-play-button {
-            background-color: rgba(59, 130, 246, 0.85) !important;
+            background-color: rgba(59, 130, 246, 0.8) !important;
             border-color: #3b82f6 !important;
             border-radius: 50% !important;
-            width: 2.5em !important; height: 2.5em !important; line-height: 2.5em !important;
-            margin-top: -1.25em !important; margin-left: -1.25em !important;
+            width: 2.5em !important;
+            height: 2.5em !important;
+            line-height: 2.5em !important;
+            margin-top: -1.25em !important;
+            margin-left: -1.25em !important;
         }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* Hide scrollbars but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden">
 
-    <!-- Header -->
+    <!-- Header / Navigation Bar -->
     <header class="bg-[#111827] border-b border-[#1f2937] px-6 py-4 flex items-center justify-between flex-shrink-0 z-10">
         <div class="flex items-center space-x-3">
             <div class="bg-blue-600 text-white p-2.5 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
@@ -33,81 +56,694 @@
             </div>
             <div>
                 <h1 class="text-xl font-bold tracking-wider text-white">iPTV<span class="text-blue-500">plus</span></h1>
-                <p class="text-xs text-gray-400">Premium Web Player</p>
+                <p class="text-xs text-gray-400">Premium Web Player v2.0</p>
             </div>
         </div>
-        <div class="flex items-center space-x-3">
+        
+        <!-- Search and Stats -->
+        <div class="flex items-center space-x-4">
             <div class="relative hidden sm:block">
                 <input type="text" id="searchInput" placeholder="ค้นหาช่องรายการ..." 
-                       class="bg-[#1f2937] text-white pl-10 pr-4 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 border border-[#374151]">
+                       class="bg-[#1f2937] text-white pl-10 pr-4 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 border border-[#374151] transition-all">
                 <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400 text-xs"></i>
             </div>
             <div class="bg-[#1f2937] px-4 py-2 rounded-xl text-xs text-gray-300 border border-[#374151]">
-                <i class="fa-solid fa-list-ol mr-1 text-blue-500"></i> ทั้งหมด <span id="channelCount" class="font-bold text-white">0</span> ช่อง
+                <i class="fa-solid fa-list-ol mr-1 text-blue-500"></i> ทั้งหมด <span id="channelCount" class="font-bold">0</span> ช่อง
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col md:flex-row overflow-hidden">
-        <!-- Sidebar -->
-        <section class="w-full md:w-96 bg-[#111827] border-r border-[#1f2937] flex flex-col flex-shrink-0 h-1/2 md:h-full order-2 md:order-1">
-            <div class="p-3 border-b border-[#1f2937] flex-shrink-0">
-                <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1" id="categoryContainer"></div>
+    <!-- Main Content Area -->
+    <main class="flex-1 flex overflow-hidden">
+        
+        <!-- Sidebar Channel List (Left Side) -->
+        <section class="w-full md:w-96 bg-[#111827] border-r border-[#1f2937] flex flex-col flex-shrink-0 h-full">
+            
+            <!-- Category Selector (Horizontal Scroll) -->
+            <div class="p-4 border-b border-[#1f2937] flex-shrink-0">
+                <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1" id="categoryContainer">
+                    <button class="category-btn active px-4 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white transition-all whitespace-nowrap" data-category="all">
+                        ทั้งหมด
+                    </button>
+                    <!-- Categories will be rendered dynamically -->
+                </div>
             </div>
-            <div class="p-3 border-b border-[#1f2937] sm:hidden flex-shrink-0">
+
+            <!-- Mobile Search Bar (Visible only on mobile) -->
+            <div class="p-3 border-b border-[#1f2937] md:hidden flex-shrink-0">
                 <div class="relative">
                     <input type="text" id="mobileSearchInput" placeholder="ค้นหาช่องรายการ..." 
                            class="bg-[#1f2937] text-white pl-10 pr-4 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full border border-[#374151]">
                     <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400 text-xs"></i>
                 </div>
             </div>
-            <div class="flex-1 overflow-y-auto p-3 space-y-2 no-scrollbar" id="channelListContainer"></div>
+
+            <!-- Channels List Scrollable -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-2 no-scrollbar" id="channelListContainer">
+                <!-- Channels will be injected here -->
+            </div>
         </section>
 
-        <!-- Player Area -->
-        <section class="flex-1 bg-[#090d16] p-4 md:p-6 flex flex-col h-1/2 md:h-full overflow-y-auto order-1 md:order-2">
+        <!-- Player Screen Area (Right Side) -->
+        <section class="flex-1 bg-[#090d16] p-4 md:p-6 flex flex-col h-full overflow-y-auto">
+            <!-- Player Container -->
             <div class="w-full aspect-video max-h-[70vh] bg-[#111827] rounded-2xl overflow-hidden relative shadow-2xl border border-[#1f2937] flex items-center justify-center">
+                <!-- Video.js Player -->
                 <div id="playerWrapper" class="w-full h-full hidden">
-                    <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto"></video>
+                    <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto">
+                        <p class="vjs-no-js">
+                            หากต้องการรับชมวิดีโอนี้ กรุณาเปิดใช้งาน JavaScript หรืออัพเดตเว็บบราวเซอร์เป็นรุ่นที่รองรับ HTML5 video
+                        </p>
+                    </video>
                 </div>
+
+                <!-- Empty State / Standby screen -->
                 <div id="standbyScreen" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-0">
                     <div class="w-20 h-20 bg-blue-600/10 rounded-full flex items-center justify-center mb-4 border border-blue-500/20">
                         <i class="fa-solid fa-circle-play text-4xl text-blue-500 animate-pulse"></i>
                     </div>
                     <h3 class="text-lg font-bold text-white mb-2">ยินดีต้อนรับสู่ iPTVplus Player</h3>
-                    <p class="text-sm text-gray-400 max-w-sm">เลือกช่องรายการจากเมนูเพื่อเริ่มรับชมสตรีมสด</p>
+                    <p class="text-sm text-gray-400 max-w-sm">กรุณาเลือกช่องรายการที่คุณต้องการรับชมจากเมนูด้านซ้ายเพื่อเริ่มสตรีมสัญญาณภาพ</p>
                 </div>
             </div>
 
-            <div class="mt-4 bg-[#111827] p-4 rounded-2xl border border-[#1f2937] flex items-center justify-between">
+            <!-- Now Playing Information -->
+            <div class="mt-6 bg-[#111827] p-5 rounded-2xl border border-[#1f2937] flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="flex items-center space-x-4 w-full">
-                    <img id="currentLogo" src="https://placehold.co/150x150/111827/ffffff?text=TV" alt="Logo" 
-                         class="w-14 h-14 object-contain bg-[#1f2937] p-2 rounded-xl border border-[#374151] flex-shrink-0" onerror="this.src='https://placehold.co/150x150/111827/ffffff?text=TV'">
-                    <div class="min-w-0 flex-1">
-                        <span id="currentCategory" class="px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full text-[10px] font-semibold">สแตนด์บาย</span>
-                        <h2 id="currentChannelName" class="text-base font-bold text-white mt-1 truncate">กรุณาเลือกช่องรายการ...</h2>
-                        <p id="currentUrlText" class="text-xs text-gray-400 mt-0.5 truncate">ไม่ได้เชื่อมต่อสตรีม</p>
+                    <img id="currentLogo" src="https://cdn.imgchest.com/files/93e778a0c482.webp" alt="Logo" 
+                         class="w-16 h-16 object-contain bg-[#1f2937] p-2.5 rounded-xl border border-[#374151] flex-shrink-0" onerror="this.src='https://placehold.co/150x150/111827/ffffff?text=TV'">
+                    <div>
+                        <span id="currentCategory" class="px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full text-[10px] font-semibold tracking-wider uppercase">
+                            สแตนด์บาย
+                        </span>
+                        <h2 id="currentChannelName" class="text-lg font-bold text-white mt-1">กรุณาเลือกช่องรายการ...</h2>
+                        <div class="flex items-center text-xs text-gray-400 mt-1 space-x-3">
+                            <span><i class="fa-solid fa-link text-blue-500 mr-1.5"></i> <span id="currentUrlText">ไม่ได้เชื่อมต่อสตรีม</span></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+
     </main>
 
-    <!-- Raw M3U Playlist Data -->
-    <script id="m3u-data" type="text/plain">
-============================ หนังและบันเทิง (ATMflix) ==============================
-#EXTINF:-1 tvg-logo="https://cdn.imgchest.com/files/93e778a0c482.webp" group-title="iPTVplus", MTV(ATMflix)
-https://app.ipplaybox.fun/atmflixlive/mtv/playlist.m3u8
-#EXTINF:-1 tvg-logo="https://cdn.imgchest.com/files/35348deb64cb.webp" group-title="iPTVplus", True film1(ATMflix)
-https://app.ipplaybox.fun/atmflixlive/truefilm1/playlist.m3u8
-#EXTINF:-1 tvg-logo="https://cdn.imgchest.com/files/40de2167af80.webp" group-title="iPTVplus", True film2(ATMflix)
-https://app.ipplaybox.fun/atmflixlive/truefilm2/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbo.png"group-title="iPTVplus", HBO(ATMflix)
-https://app.ipplaybox.fun/atmflixlive/hbo/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbohits.png"group-title="iPTVplus", HBOHits(ATMflix)
-https://app.ipplaybox.fun/atmflixlive/hbo-hits/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbosig.png" group-title="iPTVplus", HBOSignature(ATMflix)
-https://app.ipplaybox.fun/atmflixlive/hbo-signature/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rocken.webp" group-title="iPTVplus", rock-entertainment(ATMflix)
-htt
+    <!-- Playlist Data and Processing Logic -->
+    <script>
+        // 1. ALL YOUR 62 CHANNELS (Automatically Parsed and Formatted)
+        const channels = [
+        {
+                "id": "ch_1",
+                "name": "MTV(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://cdn.imgchest.com/files/93e778a0c482.webp",
+                "url": "https://app.ipplaybox.fun/atmflixlive/mtv/playlist.m3u8"
+        },
+        {
+                "id": "ch_2",
+                "name": "True film1(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://cdn.imgchest.com/files/35348deb64cb.webp",
+                "url": "https://app.ipplaybox.fun/atmflixlive/truefilm1/playlist.m3u8"
+        },
+        {
+                "id": "ch_3",
+                "name": "True film2(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://cdn.imgchest.com/files/40de2167af80.webp",
+                "url": "https://app.ipplaybox.fun/atmflixlive/truefilm2/playlist.m3u8"
+        },
+        {
+                "id": "ch_4",
+                "name": "HBO(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbo.png",
+                "url": "https://app.ipplaybox.fun/atmflixlive/hbo/playlist.m3u8"
+        },
+        {
+                "id": "ch_5",
+                "name": "HBOHits(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbohits.png",
+                "url": "https://app.ipplaybox.fun/atmflixlive/hbo-hits/playlist.m3u8"
+        },
+        {
+                "id": "ch_6",
+                "name": "HBOSignature(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbosig.png",
+                "url": "https://app.ipplaybox.fun/atmflixlive/hbo-signature/playlist.m3u8"
+        },
+        {
+                "id": "ch_7",
+                "name": "rock-entertainment(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rocken.webp",
+                "url": "https://app.ipplaybox.fun/atmflixlive/rock-entertainment/playlist.m3u8"
+        },
+        {
+                "id": "ch_8",
+                "name": "ROCKAction(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/rockac.png",
+                "url": "https://app.ipplaybox.fun/atmflixlive/rock-action/playlist.m3u8"
+        },
+        {
+                "id": "ch_9",
+                "name": "True Asian More(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://cdn.imgchest.com/files/15202ff45da6.png",
+                "url": "https://app.ipplaybox.fun/atmflixlive/trueasianmore/playlist.m3u8"
+        },
+        {
+                "id": "ch_10",
+                "name": "Aniplus(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://cdn.imgchest.com/files/247234af7e13.webp",
+                "url": "https://app.ipplaybox.fun/atmflixlive/anipluschannel/playlist.m3u8"
+        },
+        {
+                "id": "ch_11",
+                "name": "A'lure channel(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://cdn.imgchest.com/files/fb0e90e062f6.jfif",
+                "url": "https://app.ipplaybox.fun/atmflixlive/alure-channel/playlist.m3u8"
+        },
+        {
+                "id": "ch_12",
+                "name": "RUSH Stories(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://cdn.imgchest.com/files/4cdf45e6a841.jpg",
+                "url": "https://app.ipplaybox.fun/atmflixlive/rush-stories/playlist.m3u8"
+        },
+        {
+                "id": "ch_13",
+                "name": "MONO29(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mono29.webp",
+                "url": "https://app.ipplaybox.fun/atmflixlive/mono29/playlist.m3u8"
+        },
+        {
+                "id": "ch_14",
+                "name": "mono29plus(ATMflix)",
+                "category": "บันเทิง",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mono29plus.png",
+                "url": "https://app.ipplaybox.fun/atmflixlive/mono29plus/playlist.m3u8"
+        },
+        {
+                "id": "ch_15",
+                "name": "CH3-33(ATMflix)",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/zaxacaasada/logotv/refs/heads/main/hd-ch3.png",
+                "url": "https://app.ipplaybox.fun/atmflixlive/ch3hd/playlist.m3u8"
+        },
+        {
+                "id": "ch_16",
+                "name": "CH3-33",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/zaxacaasada/logotv/refs/heads/main/hd-ch3.png",
+                "url": "https://ch3-33-web.cdn.byteark.com/live/playlist.m3u8"
+        },
+        {
+                "id": "ch_17",
+                "name": "CH3-33",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/zaxacaasada/logotv/refs/heads/main/hd-ch3.png",
+                "url": "https://live-us1.thaimomo.com/live-as/ch3hd-3/playlist.m3u8"
+        },
+        {
+                "id": "ch_18",
+                "name": "CH5",
+                "category": "ทั่วไป",
+                "logo": "https://cdn.imgchest.com/files/c9a9a1b66280.webp",
+                "url": "http://45.144.166.242:1935/TV5/t3_tv5/playlist.m3u8"
+        },
+        {
+                "id": "ch_19",
+                "name": "CH7HD",
+                "category": "ทั่วไป",
+                "logo": "https://cdn.imgchest.com/files/7d23eb5e80b1.png",
+                "url": "https://udn-streamer1.cdn.3bbtv.com:8443/3bb/live/35/35.mpd"
+        },
+        {
+                "id": "ch_20",
+                "name": "CH7HD",
+                "category": "ทั่วไป",
+                "logo": "https://cdn.imgchest.com/files/7d23eb5e80b1.png",
+                "url": "https://live-cdn.ch7.com/out/v1/eafeb02c55b64a15b278b1e66c7fc776/playlist_9.m3u8"
+        },
+        {
+                "id": "ch_21",
+                "name": "CH7HD",
+                "category": "ทั่วไป",
+                "logo": "https://cdn.imgchest.com/files/7d23eb5e80b1.png",
+                "url": "https://tamfan46.github.io/MIA-IPTV/channels/ch7.html"
+        },
+        {
+                "id": "ch_22",
+                "name": "MCOT30 HD",
+                "category": "ทั่วไป",
+                "logo": "https://cdn.imgchest.com/files/4e89b8a4aab4.png",
+                "url": "http://45.144.166.242:1935/MCOT/t3_mcot/chunklist.m3u8"
+        },
+        {
+                "id": "ch_23",
+                "name": "MCOT30 HD",
+                "category": "ทั่วไป",
+                "logo": "https://cdn.imgchest.com/files/4e89b8a4aab4.png",
+                "url": "https://udn-streamer1.cdn.3bbtv.com:8443/3bb/live/30/30.mpd"
+        },
+        {
+                "id": "ch_24",
+                "name": "MCOT30 HD",
+                "category": "ทั่วไป",
+                "logo": "https://cdn.imgchest.com/files/4e89b8a4aab4.png",
+                "url": "https://mcothd-streaming-edge-cdn.mcot.net/tencentmcot/smil:tencentmcot.smil/playlist.m3u8"
+        },
+        {
+                "id": "ch_25",
+                "name": "NBT World",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/zaxacaasada/logotv/refs/heads/main/NBT_World.png",
+                "url": "https://cdn-edge.iiptvcdn.com/live_event/smil:d36f-93c1-9c58-fdcc-427f.smil/playlist.m3u8"
+        },
+        {
+                "id": "ch_26",
+                "name": "NBT2",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nbt2.png",
+                "url": "https://cdn-edge.iiptvcdn.com/live_event/smil:f180-054a-38d7-ce66-f7cf.smil/chunklist_w884800294_b3128000.m3u8"
+        },
+        {
+                "id": "ch_27",
+                "name": "NBT",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/NBT_Central.png",
+                "url": "https://cdn-edge.iiptvcdn.com/live_event/smil:6ee0-5126-0cee-7ba2-18b7.smil/playlist.m3u8"
+        },
+        {
+                "id": "ch_28",
+                "name": "NBT",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/NBT_North.png",
+                "url": "https://cdn-edge.iiptvcdn.com/live_event/smil:4f6e-aa34-2034-5492-c82d.smil/playlist.m3u8"
+        },
+        {
+                "id": "ch_29",
+                "name": "NBT",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/NBT_Northeast.png",
+                "url": "https://cdn-edge.iiptvcdn.com/live_event/smil:98ff-027d-46aa-1a6a-8480.smil/playlist.m3u8"
+        },
+        {
+                "id": "ch_30",
+                "name": "NBT",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/NBT_South.png",
+                "url": "https://cdn-edge.iiptvcdn.com/live_event/smil:a834-75a7-a662-db55-5fa3.smil/playlist.m3u8"
+        },
+        {
+                "id": "ch_31",
+                "name": "True4U",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/true24.webp",
+                "url": "https://iptv36.vercel.app/api/true.m3u8?channel=true4u"
+        },
+        {
+                "id": "ch_32",
+                "name": "True4U",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/true24.webp",
+                "url": "https://live-us1.thaimomo.com/live-as/chTrue4u-2/chunklist_w249050767.m3u8"
+        },
+        {
+                "id": "ch_33",
+                "name": "Vipa TV(brightcove)",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/zaxacaasada/logotv/refs/heads/main/vipa-logo.webp",
+                "url": "https://fastly.live.brightcove.com/1846248737588002042/ap-southeast-1/6075037809001/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0IjoibzRoaGc2LmVncmVzcy5zYjBmOGsiLCJhY2NvdW50X2lkIjoiNjA3NTAzNzgwOTAwMSIsImVobiI6ImZhc3RseS5saXZlLmJyaWdodGNvdmUuY29tIiwiaXNzIjoiYmxpdmUtcGxheWJhY2stc291cmNlLWFwaSIsInN1YiI6InBhdGhtYXB0b2tlbiIsImF1ZCI6WyI2MDc1MDM3ODA5MDAxIl0sImp0aSI6IjE4NDYyNDg3Mzc1ODgwMDIwNDIifQ.HbjGHxGv87ivAdsCtAdEDjj2SVCfRnCUMYWn2fCkVPY/playlist-hls.m3u8"
+        },
+        {
+                "id": "ch_34",
+                "name": "gmm25(brightcove)",
+                "category": "บันเทิง",
+                "logo": "https://upload.wikimedia.org/wikipedia/vi/5/52/GMM_25_Logo_dai_truyen_hinh.png",
+                "url": "https://fastly.live.brightcove.com/6392745120112/ap-southeast-1/6415628290001/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0IjoicWN6dGF6LmVncmVzcy5wcHRpOHciLCJhY2NvdW50X2lkIjoiNjQxNTYyODI5MDAwMSIsImVobiI6ImZhc3RseS5saXZlLmJyaWdodGNvdmUuY29tIiwiaXNzIjoiYmxpdmUtcGxheWJhY2stc291cmNlLWFwaSIsInN1YiI6InBhdGhtYXB0b2tlbiIsImF1ZCI6WyI2NDE1NjI4MjkwMDAxIl0sImp0aSI6IjYzOTI3NDUxMjAxMTIifQ.w9Q_oqsE_WFClGF5tLVDtHnz5zfHHgNpumxVYNx4yYw/playlist-hls.m3u8"
+        },
+        {
+                "id": "ch_35",
+                "name": "one31(brightcove)",
+                "category": "ทั่วไป",
+                "logo": "https://cdn.imgchest.com/files/a982a08144e3.png",
+                "url": "https://fastly.live.brightcove.com/6393158620112/ap-southeast-1/6415628290001/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0IjoicWN6dGF6LmVncmVzcy5wcHRpOHciLCJhY2NvdW50X2lkIjoiNjQxNTYyODI5MDAwMSIsImVobiI6ImZhc3RseS5saXZlLmJyaWdodGNvdmUuY29tIiwiaXNzIjoiYmxpdmUtcGxheWJhY2stc291cmNlLWFwaSIsInN1YiI6InBhdGhtYXB0b2tlbiIsImF1ZCI6WyI2NDE1NjI4MjkwMDAxIl0sImp0aSI6IjYzOTMxNTg2MjAxMTIifQ.Pv-kHDlJaV05HiJ2AQmS3PnV2ZQg7ovszKptAGg1EN0/playlist-hls.m3u8"
+        },
+        {
+                "id": "ch_36",
+                "name": "CH8",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch8.png",
+                "url": "https://udn-streamer1.cdn.3bbtv.com:8443/3bb/live/27/27.mpd"
+        },
+        {
+                "id": "ch_37",
+                "name": "CH8",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch8.png",
+                "url": "https://live-us1.thaimomo.com/live-as/cheight-3/chunklist_w808511203.m3u8"
+        },
+        {
+                "id": "ch_38",
+                "name": "CH8(m-fixer)",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/ch8.png",
+                "url": "https://edge-1.m-fixer.net:8092/stream/ais/ch8/master.m3u8"
+        },
+        {
+                "id": "ch_39",
+                "name": "Channel 8",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/channel8.png",
+                "url": "http://54c241893bf39.streamlock.net:1935/ch8/ch8/chunklist.m3u8"
+        },
+        {
+                "id": "ch_40",
+                "name": "Channel 8",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/channel8.png",
+                "url": "http://vip.login.in.th:1935/ch8/ch8/playlist.m3u8"
+        },
+        {
+                "id": "ch_41",
+                "name": "Thai PBS",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thipbs.webp",
+                "url": "http://thaipbs-live.cdn.byteark.com/live/playlist_1080p/index.m3u8"
+        },
+        {
+                "id": "ch_42",
+                "name": "Thai PBS",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thipbs.webp",
+                "url": "http://45.144.166.242:1935/ThaiPBS/t3_thaipbs/playlist.m3u8"
+        },
+        {
+                "id": "ch_43",
+                "name": "THAI PBS",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thipbs.webp",
+                "url": "https://thaipbs-ophctt.cdn.byteark.com/live/playlist.m3u8"
+        },
+        {
+                "id": "ch_44",
+                "name": "MONO29",
+                "category": "บันเทิง",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/mono29.webp",
+                "url": "https://udn-streamer1.cdn.3bbtv.com:8443/3bb/live/29/29.mpd"
+        },
+        {
+                "id": "ch_45",
+                "name": "PPTV V1",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/pptv36.webp",
+                "url": "https://www.pptvhd36.com/live"
+        },
+        {
+                "id": "ch_46",
+                "name": "PPTV V2",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/pptv36.webp",
+                "url": "https://tv.trueid.net/th-th/embed/pptv-hd?autoplay=yes&nopageview=yes"
+        },
+        {
+                "id": "ch_47",
+                "name": "PPTV",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/pptv36.webp",
+                "url": "https://raw.githubusercontent.com/IPTV59/IPTV2/refs/heads/main/36HD.m3u8"
+        },
+        {
+                "id": "ch_48",
+                "name": "AparinTV HD",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/amrinntv.png",
+                "url": "https://cri-streamer3.cdn.3bbtv.com:8443/3bb/live/34/34.mpd"
+        },
+        {
+                "id": "ch_49",
+                "name": "AparinTV HD",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/amrinntv.png",
+                "url": "https://live-us1.thaimomo.com/live-as/chamarin-3/playlist.m3u8"
+        },
+        {
+                "id": "ch_50",
+                "name": "AparinTV HD",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/amrinntv.png",
+                "url": "https://raw.githubusercontent.com/ALittleAnt4161/m3u8/refs/heads/main/amarintv.m3u8"
+        },
+        {
+                "id": "ch_51",
+                "name": "ThaiRath TV",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thairath.webp",
+                "url": "http://45.144.166.242:1935/ThairathTV/t3_thairathtv/playlist.m3u8"
+        },
+        {
+                "id": "ch_52",
+                "name": "Thairath TV",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thairath.webp",
+                "url": "https://udn-streamer1.cdn.3bbtv.com:8443/3bb/live/32/32.mpd"
+        },
+        {
+                "id": "ch_53",
+                "name": "Thairath TV",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/thairath.webp",
+                "url": "https://ssai-streaming.thairath.co.th/bamm-csai/playlist.m3u8"
+        },
+        {
+                "id": "ch_54",
+                "name": "Workpoint",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/workpoint.webp",
+                "url": "https://cri-streamer3.cdn.3bbtv.com:8443/3bb/live/23/23.mpd"
+        },
+        {
+                "id": "ch_55",
+                "name": "Workpoint V2",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/workpoint.webp",
+                "url": "https://udn-streamer1.cdn.3bbtv.com:8443/3bb/live/23/23.mpd"
+        },
+        {
+                "id": "ch_56",
+                "name": "Nation TV",
+                "category": "ทั่วไป",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/nationtv.png",
+                "url": "https://udn-streamer1.cdn.3bbtv.com:8443/3bb/live/22/22.mpd"
+        },
+        {
+                "id": "ch_57",
+                "name": "Thai Parliament TV",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/pa.webp",
+                "url": "https://tv-live.tpchannel.org/live/tv.m3u8"
+        },
+        {
+                "id": "ch_58",
+                "name": "TopNews FHD",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/topnews.png",
+                "url": "https://live.topnews.co.th/hls/topnews_a_FHD1080.m3u8"
+        },
+        {
+                "id": "ch_59",
+                "name": "TopNews FHD",
+                "category": "ข่าวสาร",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/topnews.png",
+                "url": "https://live.topnews.co.th/hls/topnews_a_720.m3u8"
+        },
+        {
+                "id": "ch_60",
+                "name": "T Sport 7",
+                "category": "กีฬา",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/tsport7.webp",
+                "url": "https://live-us1.thaimomo.com/live-as/chtsport-1/chunklist_w559439066.m3u8"
+        },
+        {
+                "id": "ch_61",
+                "name": "HBOHits NoThai",
+                "category": "บันเทิง",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/hbohits.png",
+                "url": "https://raw.githubusercontent.com/ALittleAnt4161/m3u8/refs/heads/main/HBOHits.m3u8"
+        },
+        {
+                "id": "ch_62",
+                "name": "AXN NoThai",
+                "category": "บันเทิง",
+                "logo": "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/AXN.webp",
+                "url": "https://raw.githubusercontent.com/AusawinNuang/AusawinChannel/refs/heads/main/AXN.m3u8"
+        }
+        ];
+
+        // 2. Initialization and UI Rendering Logic
+        let selectedCategory = 'all';
+        let searchQuery = '';
+        let activeChannelId = null;
+        let player = null;
+
+        // Elements
+        const channelListContainer = document.getElementById('channelListContainer');
+        const categoryContainer = document.getElementById('categoryContainer');
+        const searchInput = document.getElementById('searchInput');
+        const mobileSearchInput = document.getElementById('mobileSearchInput');
+        const channelCountEl = document.getElementById('channelCount');
+        
+        // Setup Video player
+        document.addEventListener('DOMContentLoaded', () => {
+            player = videojs('my-video', {
+                fluid: true,
+                liveui: true,
+                playbackRates: [0.5, 1, 1.5, 2]
+            });
+            
+            initApp();
+        });
+
+        function initApp() {
+            // Set count
+            channelCountEl.textContent = channels.length;
+            
+            // Build Categories
+            const categories = ['all', ...new Set(channels.map(ch => ch.category))];
+            categoryContainer.innerHTML = '';
+            
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = `category-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
+                    selectedCategory === cat ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/10' : 'bg-[#1f2937] text-gray-400 hover:text-white'
+                }`;
+                btn.textContent = cat === 'all' ? 'ทั้งหมด' : cat;
+                btn.addEventListener('click', () => selectCategory(cat));
+                categoryContainer.appendChild(btn);
+            });
+
+            // Search Handlers
+            const handleSearch = (e) => {
+                searchQuery = e.target.value.toLowerCase();
+                if (e.target === searchInput) mobileSearchInput.value = e.target.value;
+                else searchInput.value = e.target.value;
+                renderChannels();
+            };
+            searchInput.addEventListener('input', handleSearch);
+            mobileSearchInput.addEventListener('input', handleSearch);
+
+            renderChannels();
+        }
+
+        function selectCategory(category) {
+            selectedCategory = category;
+            
+            // Update active state in category buttons
+            const buttons = categoryContainer.querySelectorAll('.category-btn');
+            const categories = ['all', ...new Set(channels.map(ch => ch.category))];
+            buttons.forEach((btn, idx) => {
+                const cat = categories[idx];
+                if (selectedCategory === cat) {
+                    btn.className = "category-btn px-4 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white shadow-lg shadow-blue-500/10 transition-all whitespace-nowrap";
+                } else {
+                    btn.className = "category-btn px-4 py-2 rounded-xl text-xs font-semibold bg-[#1f2937] text-gray-400 hover:text-white transition-all whitespace-nowrap";
+                }
+            });
+
+            renderChannels();
+        }
+
+        function renderChannels() {
+            // Filter channels
+            const filtered = channels.filter(ch => {
+                const matchesCategory = selectedCategory === 'all' || ch.category === selectedCategory;
+                const matchesSearch = ch.name.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            // Clear and Render list
+            channelListContainer.innerHTML = '';
+            
+            if (filtered.length === 0) {
+                channelListContainer.innerHTML = `
+                    <div class="text-center py-8 text-gray-500 text-sm">
+                        <i class="fa-solid fa-triangle-exclamation text-xl mb-2 text-gray-600"></i>
+                        <p>ไม่พบช่องรายการที่ค้นหา</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(ch => {
+                const item = document.createElement('div');
+                const isActive = activeChannelId === ch.id;
+                
+                item.className = `flex items-center space-x-3.5 p-3.5 rounded-xl cursor-pointer transition-all border ${
+                    isActive 
+                    ? 'bg-blue-600/10 border-blue-500/40 text-white' 
+                    : 'bg-[#1c2333]/40 border-transparent hover:bg-[#1c2333]/80 text-gray-300'
+                }`;
+                
+                item.innerHTML = `
+                    <img src="${ch.logo}" alt="${ch.name}" class="w-11 h-11 object-contain bg-[#111827] rounded-lg p-1.5 border ${isActive ? 'border-blue-500/30' : 'border-[#374151]'}" onerror="this.src='https://placehold.co/100x100/111827/ffffff?text=TV'">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-sm font-semibold truncate ${isActive ? 'text-blue-400' : 'text-gray-100'}">${ch.name}</h4>
+                        <span class="text-[10px] text-gray-500 bg-black/20 px-2 py-0.5 rounded-md mt-1 inline-block">${ch.category}</span>
+                    </div>
+                    ${isActive ? '<span class="w-2.5 h-2.5 bg-blue-500 rounded-full shadow-lg shadow-blue-500/50"></span>' : ''}
+                `;
+                
+                item.addEventListener('click', () => playChannel(ch));
+                channelListContainer.appendChild(item);
+            });
+        }
+
+        function playChannel(channel) {
+            activeChannelId = channel.id;
+            renderChannels(); // Refresh sidebar UI highlights
+
+            // Show Player Elements
+            document.getElementById('standbyScreen').classList.add('hidden');
+            document.getElementById('playerWrapper').classList.remove('hidden');
+
+            // Set Video Stream Source (M3U8 / MP4)
+            let type = 'application/x-mpegURL'; // default HLS
+            if (channel.url.endsWith('.mpd')) {
+                type = 'application/dash+xml'; // MPEG-DASH
+            } else if (channel.url.endsWith('.mp4')) {
+                type = 'video/mp4';
+            }
+
+            // Load source and play
+            player.src({
+                src: channel.url,
+                type: type
+            });
+            player.ready(() => {
+                player.play().catch(err => {
+                    console.log("Auto-play was prevented. Waiting for user interaction.");
+                });
+            });
+
+            // Update bottom playing details info
+            document.getElementById('currentLogo').src = channel.logo;
+            document.getElementById('currentChannelName').textContent = channel.name;
+            document.getElementById('currentCategory').textContent = channel.category;
+            
+            // Clean URL preview
+            let cleanUrl = channel.url;
+            if (cleanUrl.length > 50) {
+                cleanUrl = cleanUrl.substring(0, 47) + '...';
+            }
+            document.getElementById('currentUrlText').textContent = cleanUrl;
+        }
+    </script>
+</body>
+</html>
