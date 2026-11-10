@@ -440,6 +440,68 @@
       width: 100%;
     }
 
+    .episode-bar {
+      display: none;
+      padding: var(--space-3) var(--space-4);
+      border-top: 1px solid var(--border);
+      background-color: #0b1120;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .episode-bar.visible {
+      display: flex;
+    }
+
+    .episode-bar-header {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .episode-list {
+      display: flex;
+      gap: var(--space-2);
+      overflow-x: auto;
+      padding-bottom: 4px;
+      flex-wrap: wrap;
+      max-height: 160px;
+      overflow-y: auto;
+    }
+
+    .ep-btn {
+      background: var(--surface);
+      color: var(--ink);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+       transition: all 0.15s ease;
+      text-align: left;
+    }
+
+    .ep-btn:hover {
+      background: var(--surface-hover);
+      border-color: var(--brand);
+    }
+
+    .ep-btn.active {
+      background: var(--brand);
+      color: var(--brand-ink);
+      border-color: var(--brand);
+    }
+
+    .ep-btn-sub {
+      display: block;
+      font-size: 0.68rem;
+      opacity: 0.8;
+    }
+
     .left-col {
       display: flex;
       flex-direction: column;
@@ -484,6 +546,12 @@
             <div class="status-msg" id="error-msg" role="alert"></div>
           </div>
         </div>
+        <div class="episode-bar" id="episode-bar">
+          <div class="episode-bar-header">
+            <span id="episode-bar-title">เลือกตอนรับชม</span>
+          </div>
+          <div class="episode-list" id="episode-list"></div>
+        </div>
       </section>
     </div>
 
@@ -504,6 +572,7 @@
           <button type="button" class="tab-btn" data-cat="สารคดี">สารคดี</button>
           <button type="button" class="tab-btn" data-cat="บันเทิง">บันเทิง</button>
           <button type="button" class="tab-btn" data-cat="เพลง">เพลง</button>
+          <button type="button" class="tab-btn" data-cat="ละคร/ซีรีส์">ละคร/ซีรีส์</button>
         </div>
       </div>
       <div id="channel-list" class="channel-list"></div>
@@ -900,6 +969,7 @@
 
 
       let activeChannelId = null;
+      let activeEpisodeIndex = 0;
       let selectedCategory = 'ทั้งหมด';
       let searchQuery = '';
       let hlsInstance = null;
@@ -909,10 +979,28 @@
       const currentTitleEl = document.getElementById('current-title');
       const currentCatEl = document.getElementById('current-cat');
       const errorMsgEl = document.getElementById('error-msg');
+      const episodeBarEl = document.getElementById('episode-bar');
+      const episodeBarTitleEl = document.getElementById('episode-bar-title');
+      const episodeListEl = document.getElementById('episode-list');
 
       const searchInput = document.getElementById('search-input');
       const categoryTabs = document.getElementById('category-tabs');
       const channelListEl = document.getElementById('channel-list');
+
+      // ฟังก์ชันแปลงข้อมูลให้รองรับทั้งช่องทีวีปกติ และรูปแบบซีรีส์ที่มี stations: [...]
+      function normalizeItem(item, index) {
+        const hasStations = Array.isArray(item.stations) && item.stations.length > 0;
+        return {
+          id: item.id || ('item_' + (index + 1)),
+          name: item.name || 'ไม่มีชื่อรายการ',
+          category: item.category || (hasStations ? 'ละคร/ซีรีส์' : 'ทั่วไป'),
+          logo: item.logo || item.image || (hasStations && item.stations[0].image) || '',
+          url: item.url || (hasStations ? (item.stations[0].url || '') : ''),
+          referer: item.referer || '',
+          subtitle: item.subtitle || '',
+          stations: hasStations ? item.stations : null
+        };
+      }
 
       function showPlayerError(msg) {
         if (msg) {
@@ -924,23 +1012,50 @@
         }
       }
 
-      function playChannel(channel) {
-        if (!channel) return;
-        activeChannelId = channel.id;
-        showPlayerError('');
-        currentTitleEl.textContent = channel.name;
-        currentCatEl.textContent = 'หมวดหมู่: ' + channel.category;
+      // แปลง SRT เป็น VTT อัตโนมัติสำหรับซับไตเติล
+      async function attachSubtitle(subUrl) {
+        Array.from(videoEl.querySelectorAll('track')).forEach(function (t) { t.remove(); });
+        if (!subUrl) return;
+        try {
+          const res = await fetch(subUrl);
+          if (!res.ok) throw new Error('Load subtitle failed');
+          let text = await res.text();
+          if (!text.trim().startsWith('WEBVTT')) {
+            text = 'WEBVTT\n\n' + text.replace(/(\d{2}:\d{2}:\d{2}),(\d{3})/g, '$1.$2');
+          }
+          const blob = new Blob([text], { type: 'text/vtt' });
+          const track = document.createElement('track');
+          track.kind = 'subtitles';
+          track.label = 'ไทย';
+          track.srclang = 'th';
+          track.src = URL.createObjectURL(blob);
+          track.default = true;
+          videoEl.appendChild(track);
+        } catch (e) {
+          const track = document.createElement('track');
+          track.kind = 'subtitles';
+          track.label = 'ไทย';
+          track.srclang = 'th';
+          track.src = subUrl;
+          track.default = true;
+          videoEl.appendChild(track);
+        }
+      }
 
-        placeholderEl.style.display = 'none';
-        videoEl.classList.add('active');
-
+      function loadStreamUrl(streamUrl, subtitleUrl) {
         if (hlsInstance) {
           hlsInstance.destroy();
           hlsInstance = null;
         }
 
-        const url = channel.url.trim();
+        const url = (streamUrl || '').trim();
+        if (!url) {
+          showPlayerError('ไม่พบลิงก์สตรีมสำหรับรายการนี้');
+          return;
+        }
+
         const isHls = url.toLowerCase().includes('.m3u8');
+        attachSubtitle(subtitleUrl);
 
         if (isHls && window.Hls && window.Hls.isSupported()) {
           hlsInstance = new window.Hls();
@@ -951,12 +1066,64 @@
           });
           hlsInstance.on(window.Hls.Events.ERROR, function (event, data) {
             if (data && data.fatal) {
-              showPlayerError('ไม่สามารถโหลดสตรีมนี้ได้ กรุณาตรวจสอบลิงก์หรือการรองรับ CORS ของสตรีม');
+              showPlayerError('ไม่สามารถโหลดสตรีมนี้ได้ กรุณาตรวจสอบลิงก์หรือการรองรับ CORS/Referer ของสตรีม');
             }
           });
         } else {
           videoEl.src = url;
           videoEl.play().catch(function () {});
+        }
+      }
+
+      function renderEpisodes(channel) {
+        if (!channel.stations || channel.stations.length === 0) {
+          episodeBarEl.classList.remove('visible');
+          episodeListEl.innerHTML = '';
+          return;
+        }
+
+        episodeBarEl.classList.add('visible');
+        episodeBarTitleEl.textContent = 'เลือกตอน (' + channel.stations.length + ' ตอน)';
+        episodeListEl.innerHTML = '';
+
+        channel.stations.forEach(function (st, idx) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'ep-btn' + (idx === activeEpisodeIndex ? ' active' : '');
+          const epName = st.name || ('ตอนที่ ' + (idx + 1));
+          btn.innerHTML = '<span>' + epName + '</span>' + (st.info ? '<span class="ep-btn-sub">' + st.info + '</span>' : '');
+          btn.addEventListener('click', function () {
+            activeEpisodeIndex = idx;
+            currentTitleEl.textContent = channel.name + ' - ' + epName;
+            currentCatEl.textContent = 'หมวดหมู่: ' + channel.category + (st.info ? ' (' + st.info + ')' : '');
+            loadStreamUrl(st.url, st.subtitle);
+            renderEpisodes(channel);
+          });
+          episodeListEl.appendChild(btn);
+        });
+      }
+
+      function playChannel(channel) {
+        if (!channel) return;
+        activeChannelId = channel.id;
+        activeEpisodeIndex = 0;
+        showPlayerError('');
+
+        placeholderEl.style.display = 'none';
+        videoEl.classList.add('active');
+
+        if (channel.stations && channel.stations.length > 0) {
+          const firstEp = channel.stations[0];
+          const epName = firstEp.name || 'ตอนที่ 1';
+          currentTitleEl.textContent = channel.name + ' - ' + epName;
+          currentCatEl.textContent = 'หมวดหมู่: ' + channel.category + (firstEp.info ? ' (' + firstEp.info + ')' : '');
+          renderEpisodes(channel);
+          loadStreamUrl(firstEp.url, firstEp.subtitle);
+        } else {
+          currentTitleEl.textContent = channel.name;
+          currentCatEl.textContent = 'หมวดหมู่: ' + channel.category;
+          renderEpisodes(channel);
+          loadStreamUrl(channel.url, channel.subtitle);
         }
 
         renderChannels();
@@ -969,7 +1136,8 @@
       });
 
       function renderChannels() {
-        const filtered = channels.filter(function (ch) {
+        const normalizedList = channels.map(normalizeItem);
+        const filtered = normalizedList.filter(function (ch) {
           const matchCat = selectedCategory === 'ทั้งหมด' || ch.category === selectedCategory;
           const matchSearch = ch.name.toLowerCase().includes(searchQuery.toLowerCase());
           return matchCat && matchSearch;
@@ -980,7 +1148,7 @@
         if (filtered.length === 0) {
           const empty = document.createElement('div');
           empty.className = 'empty-state';
-          empty.textContent = channels.length === 0
+          empty.textContent = normalizedList.length === 0
             ? 'ยังไม่มีช่องรายการในระบบ'
             : 'ไม่พบช่องรายการที่ตรงกับการค้นหา';
           channelListEl.appendChild(empty);
@@ -1014,7 +1182,7 @@
 
           const cat = document.createElement('div');
           cat.className = 'channel-cat';
-          cat.textContent = ch.category;
+          cat.textContent = ch.stations ? (ch.category + ' • ' + ch.stations.length + ' ตอน') : ch.category;
 
           meta.appendChild(name);
           meta.appendChild(cat);
@@ -1052,21 +1220,21 @@
       });
 
       // =========================================================================
-      // ลิงก์ไฟล์ channels.json บน GitHub ของคุณ (แก้ไขช่องที่ไฟล์นี้ แอปจะอัปเดตทันที!)
+      // ลิงก์ไฟล์ channels.json บน GitHub ของคุณ (แก้ไขช่องหรือเพิ่มละครที่ไฟล์นี้ แอปจะอัปเดตทันที!)
       // =========================================================================
       const REMOTE_CHANNELS_URL = 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/channels.json';
 
       async function loadLatestChannels() {
         try {
-          // เติม ?t=... เพื่อบังคับดึงไฟล์ใหม่ล่าสุด ไม่ติด Cache
           const res = await fetch(REMOTE_CHANNELS_URL + '?t=' + Date.now(), { cache: 'no-store' });
           if (res.ok) {
             const remoteData = await res.json();
-            if (Array.isArray(remoteData) && remoteData.length > 0) {
+            const items = Array.isArray(remoteData) ? remoteData : (Array.isArray(remoteData.groups) ? remoteData.groups : []);
+            if (items.length > 0) {
               channels.length = 0;
-              remoteData.forEach(function (item) { channels.push(item); });
+              items.forEach(function (item) { channels.push(item); });
               renderChannels();
-              console.log('อัปเดตรายการช่องจากเซิร์ฟเวอร์สำเร็จ:', channels.length, 'ช่อง');
+              console.log('อัปเดตรายการช่องและซีรีส์จากเซิร์ฟเวอร์สำเร็จ:', channels.length, 'รายการ');
             }
           }
         } catch (err) {
