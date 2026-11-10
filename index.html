@@ -1077,5 +1077,186 @@
       loadLatestChannels();
     })();
   </script>
+   <!-- ==================== ระบบรองรับรีโมทและหน้าจอ Android TV ==================== -->
+  <style>
+    /* 1. กรอบไฟสว่างเวลาใช้รีโมททีวีเลื่อน (Focus Ring) */
+    button:focus,
+    input:focus,
+    a:focus,
+    .channel-item:focus,
+    .tab-btn:focus,
+    .ep-btn:focus {
+      outline: 3px solid #38bdf8 !important;
+      outline-offset: 2px !important;
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.35), 0 8px 20px rgba(0, 0, 0, 0.6) !important;
+      transform: scale(1.04) !important;
+      z-index: 10;
+    }
+
+    .channel-item:focus {
+      background-color: #334155 !important;
+      border-color: #38bdf8 !important;
+    }
+
+    /* 2. ปรับเลย์เอาต์แบ่งซ้าย-ขวาอัตโนมัติสำหรับจอทีวีแนวนอน (ไม่ต้องเลื่อนหน้าเว็บขึ้น-ลง) */
+    @media (min-width: 960px) {
+      .main-container {
+        max-width: 1600px !important;
+        grid-template-columns: 1.15fr 1fr !important;
+        padding: 16px 24px !important;
+        gap: 20px !important;
+        align-items: start !important;
+      }
+
+      .left-col {
+        position: sticky !important;
+        top: 72px !important;
+      }
+
+      .channel-list {
+        max-height: calc(100vh - 220px) !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+      }
+    }
+  </style>
+
+  <script>
+    (function () {
+      const video = document.getElementById('tv-video');
+      const nowPlayingBar = document.querySelector('.now-playing-bar');
+
+      // เพิ่มปุ่ม "ขยายเต็มจอ (Fullscreen)" ขนาดใหญ่สำหรับกดด้วยรีโมททีวี
+      if (nowPlayingBar && video) {
+        const fsBtn = document.createElement('button');
+        fsBtn.type = 'button';
+        fsBtn.innerHTML = '🖥️ ขยายเต็มจอ';
+        fsBtn.style.cssText = 'background:#06b6d4; color:#ffffff; border:none; padding:8px 14px; border-radius:8px; font-size:0.85rem; font-weight:700; cursor:pointer; white-space:nowrap;';
+        fsBtn.onclick = toggleFullScreen;
+        nowPlayingBar.appendChild(fsBtn);
+      }
+
+      function toggleFullScreen() {
+        if (!video) return;
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+          if (video.requestFullscreen) {
+            video.requestFullscreen().catch(() => {});
+          } else if (video.webkitRequestFullscreen) {
+            video.webkitRequestFullscreen();
+          } else if (video.webkitEnterFullscreen) {
+            video.webkitEnterFullscreen();
+          }
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen().catch(() => {});
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          }
+        }
+      }
+
+      // ระบบควบคุมด้วยปุ่มลูกศรบนรีโมท Android TV (D-Pad Spatial Navigation)
+      function getVisibleFocusableElements() {
+        const lockScreen = document.getElementById('auth-lock-screen');
+        // ถ้าหน้าจอล็อกแสดงอยู่ ให้เลื่อนรีโมทได้เฉพาะในหน้าจอล็อก
+        if (lockScreen && window.getComputedStyle(lockScreen).display !== 'none') {
+          return Array.from(lockScreen.querySelectorAll('input, button')).filter(el => !el.disabled);
+        }
+        // ถ้ารับชมอยู่ ให้รวมปุ่มทั้งหมดที่มองเห็นบนหน้าจอ
+        const selectors = 'header button, .now-playing-bar button, .now-playing-bar a, .ep-btn, #search-input, .tab-btn, .channel-item';
+        return Array.from(document.querySelectorAll(selectors)).filter(el => {
+          const style = window.getComputedStyle(el);
+          return style.display !== 'none' && style.visibility !== 'hidden' && el.offsetParent !== null;
+        });
+      }
+
+      let lastClickedChannelEl = null;
+
+      document.addEventListener('keydown', function (e) {
+        const key = e.key;
+        const activeEl = document.activeElement;
+
+        // ถ้ากดปุ่ม OK (Enter) ซ้ำที่ช่องเดิมที่กำลังเล่นอยู่ ให้สลับขยายเต็มจอทันที
+        if ((key === 'Enter' || key === ' ') && activeEl && activeEl.classList && activeEl.classList.contains('channel-item')) {
+          if (activeEl.classList.contains('active') && lastClickedChannelEl === activeEl) {
+            e.preventDefault();
+            toggleFullScreen();
+            return;
+          }
+          lastClickedChannelEl = activeEl;
+        }
+
+        // ถ้ากำลังพิมพ์ในช่องค้นหาหรือช่องรหัสผ่าน ให้กดลูกศรซ้าย-ขวาเลื่อนตัวอักษรได้ตามปกติ
+        if (activeEl && activeEl.tagName === 'INPUT' && (key === 'ArrowLeft' || key === 'ArrowRight')) {
+          return;
+        }
+
+        if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key)) return;
+
+        const focusables = getVisibleFocusableElements();
+        if (focusables.length === 0) return;
+
+        // ถ้ายังไม่มีปุ่มไหนถูกเลือก ให้เลือกปุ่มแรกทันที
+        if (!focusables.includes(activeEl)) {
+          e.preventDefault();
+          const firstChannel = document.querySelector('.channel-item.active') || document.querySelector('.channel-item') || focusables[0];
+          firstChannel.focus();
+          firstChannel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          return;
+        }
+
+        e.preventDefault();
+        const currentRect = activeEl.getBoundingClientRect();
+        const curCenterX = currentRect.left + currentRect.width / 2;
+        const curCenterY = currentRect.top + currentRect.height / 2;
+
+        let bestCandidate = null;
+        let minDistance = Infinity;
+
+        focusables.forEach(candidate => {
+          if (candidate === activeEl) return;
+          const rect = candidate.getBoundingClientRect();
+          const candCenterX = rect.left + rect.width / 2;
+          const candCenterY = rect.top + rect.height / 2;
+
+          const dx = candCenterX - curCenterX;
+          const dy = candCenterY - curCenterY;
+
+          let isValidDirection = false;
+          if (key === 'ArrowRight' && dx > 5 && Math.abs(dy) < currentRect.height * 1.2) isValidDirection = true;
+          else if (key === 'ArrowLeft' && dx < -5 && Math.abs(dy) < currentRect.height * 1.2) isValidDirection = true;
+          else if (key === 'ArrowDown' && dy > 10) isValidDirection = true;
+          else if (key === 'ArrowUp' && dy < -10) isValidDirection = true;
+
+          if (isValidDirection) {
+            // คำนวณระยะทางโดยให้น้ำหนักตามแนวแกนที่กด
+            const dist = (key === 'ArrowLeft' || key === 'ArrowRight')
+              ? Math.abs(dx) + Math.abs(dy) * 3
+              : Math.abs(dy) * 2 + Math.abs(dx);
+            if (dist < minDistance) {
+              minDistance = dist;
+              bestCandidate = candidate;
+            }
+          }
+        });
+
+        // กรณีอยู่ริมสุดแล้วกดซ้าย/ขวา ให้เลื่อนตามลำดับรายการถัดไปแทน
+        if (!bestCandidate && (key === 'ArrowRight' || key === 'ArrowLeft')) {
+          const idx = focusables.indexOf(activeEl);
+          const nextIdx = key === 'ArrowRight' ? idx + 1 : idx - 1;
+          if (nextIdx >= 0 && nextIdx < focusables.length) {
+            bestCandidate = focusables[nextIdx];
+          }
+        }
+
+        if (bestCandidate) {
+          bestCandidate.focus();
+          bestCandidate.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    })();
+  </script>
+  <!-- ==================== สิ้นสุดระบบรองรับ Android TV ==================== -->
+ 
 </body>
 </html>
