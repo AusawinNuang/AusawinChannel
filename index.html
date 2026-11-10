@@ -1177,16 +1177,77 @@
         const activeEl = document.activeElement;
 
         // ถ้ากดปุ่ม OK (Enter) ซ้ำที่ช่องเดิมที่กำลังเล่นอยู่ ให้สลับขยายเต็มจอทันที
-        if ((key === 'Enter' || key === ' ') && activeEl && activeEl.classList && activeEl.classList.contains('channel-item')) {
-          if (activeEl.classList.contains('active') && lastClickedChannelEl === activeEl) {
-            e.preventDefault();
+  <script>
+    (function () {
+      const video = document.getElementById('tv-video');
+      const nowPlayingBar = document.querySelector('.now-playing-bar');
+
+      // เพิ่มปุ่ม "ขยายเต็มจอ (Fullscreen)" ขนาดใหญ่สำหรับกดด้วยรีโมททีวี
+      if (nowPlayingBar && video) {
+        const fsBtn = document.createElement('button');
+        fsBtn.type = 'button';
+        fsBtn.innerHTML = '🖥️ ขยายเต็มจอ';
+        fsBtn.style.cssText = 'background:#06b6d4; color:#ffffff; border:none; padding:8px 14px; border-radius:8px; font-size:0.85rem; font-weight:700; cursor:pointer; white-space:nowrap;';
+        fsBtn.onclick = toggleFullScreen;
+        nowPlayingBar.appendChild(fsBtn);
+      }
+
+      function toggleFullScreen() {
+        if (!video) return;
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+          if (video.requestFullscreen) {
+            video.requestFullscreen().catch(() => {});
+          } else if (video.webkitRequestFullscreen) {
+            video.webkitRequestFullscreen();
+          } else if (video.webkitEnterFullscreen) {
+            video.webkitEnterFullscreen();
+          }
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen().catch(() => {});
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          }
+        }
+      }
+
+      // ระบบควบคุมด้วยปุ่มลูกศรและปุ่ม OK บนรีโมท Android TV
+      function getVisibleFocusableElements() {
+        const lockScreen = document.getElementById('auth-lock-screen');
+        if (lockScreen && window.getComputedStyle(lockScreen).display !== 'none') {
+          return Array.from(lockScreen.querySelectorAll('input, button')).filter(el => !el.disabled);
+        }
+        const selectors = 'header button, .now-playing-bar button, .now-playing-bar a, .ep-btn, #search-input, .tab-btn, .channel-item';
+        return Array.from(document.querySelectorAll(selectors)).filter(el => {
+          const style = window.getComputedStyle(el);
+          return style.display !== 'none' && style.visibility !== 'hidden' && el.offsetParent !== null;
+        });
+      }
+
+      document.addEventListener('keydown', function (e) {
+        const key = e.key;
+        const activeEl = document.activeElement;
+
+        // 1. เมื่อกดปุ่ม OK (Enter) บนรีโมททีวีตรงช่องรายการ (.channel-item)
+        if ((key === 'Enter' || key === ' ' || e.keyCode === 13 || e.keyCode === 23) && activeEl && activeEl.classList && activeEl.classList.contains('channel-item')) {
+          e.preventDefault();
+          // ถ้ากดปุ่ม OK ซ้ำที่ช่องเดิมที่กำลังเล่นอยู่ ให้ขยายเต็มจอทันที!
+          if (activeEl.classList.contains('active')) {
             toggleFullScreen();
             return;
           }
-          lastClickedChannelEl = activeEl;
+          // ถ้ากดช่องใหม่ ให้สั่งคลิกเพื่อเล่นช่องนั้น แล้วดึงกรอบสีฟ้ากลับมาไว้ที่ช่องที่เพิ่งเลือก
+          activeEl.click();
+          setTimeout(() => {
+            const newActiveChannel = document.querySelector('.channel-item.active');
+            if (newActiveChannel) {
+              newActiveChannel.focus();
+            }
+          }, 60);
+          return;
         }
 
-        // ถ้ากำลังพิมพ์ในช่องค้นหาหรือช่องรหัสผ่าน ให้กดลูกศรซ้าย-ขวาเลื่อนตัวอักษรได้ตามปกติ
+        // 2. ถ้ากำลังพิมพ์ในช่องค้นหาหรือช่องรหัสผ่าน ให้กดลูกศรซ้าย-ขวาเลื่อนตัวอักษรได้ตามปกติ
         if (activeEl && activeEl.tagName === 'INPUT' && (key === 'ArrowLeft' || key === 'ArrowRight')) {
           return;
         }
@@ -1196,12 +1257,12 @@
         const focusables = getVisibleFocusableElements();
         if (focusables.length === 0) return;
 
-        // ถ้ายังไม่มีปุ่มไหนถูกเลือก ให้เลือกปุ่มแรกทันที
+        // 3. ถ้ายังไม่มีปุ่มไหนมีกรอบสีฟ้า ให้จับโฟกัสไปที่ช่องปัจจุบันหรือช่องแรกทันที
         if (!focusables.includes(activeEl)) {
           e.preventDefault();
-          const firstChannel = document.querySelector('.channel-item.active') || document.querySelector('.channel-item') || focusables[0];
-          firstChannel.focus();
-          firstChannel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          const firstTarget = document.querySelector('.channel-item.active') || document.querySelector('.channel-item') || focusables[0];
+          firstTarget.focus();
+          firstTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           return;
         }
 
@@ -1229,7 +1290,6 @@
           else if (key === 'ArrowUp' && dy < -10) isValidDirection = true;
 
           if (isValidDirection) {
-            // คำนวณระยะทางโดยให้น้ำหนักตามแนวแกนที่กด
             const dist = (key === 'ArrowLeft' || key === 'ArrowRight')
               ? Math.abs(dx) + Math.abs(dy) * 3
               : Math.abs(dy) * 2 + Math.abs(dx);
@@ -1240,7 +1300,6 @@
           }
         });
 
-        // กรณีอยู่ริมสุดแล้วกดซ้าย/ขวา ให้เลื่อนตามลำดับรายการถัดไปแทน
         if (!bestCandidate && (key === 'ArrowRight' || key === 'ArrowLeft')) {
           const idx = focusables.indexOf(activeEl);
           const nextIdx = key === 'ArrowRight' ? idx + 1 : idx - 1;
@@ -1256,6 +1315,7 @@
       });
     })();
   </script>
+
   <!-- ==================== สิ้นสุดระบบรองรับ Android TV ==================== -->
  
 </body>
