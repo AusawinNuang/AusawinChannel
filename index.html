@@ -659,6 +659,25 @@
       }
     }
   </style>
+
+  <script>
+    (async function () {
+      try {
+        const res = await fetch('https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/channels.json?t=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        const remoteMsg = data.notice || data.announcement || data.message;
+        const textEl = document.getElementById('announcement-text');
+        const barEl = document.querySelector('.announcement-bar');
+        if (remoteMsg !== undefined && textEl && barEl) {
+          if (remoteMsg.trim() === '') barEl.style.display = 'none';
+          else textEl.textContent = remoteMsg;
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  
   <!-- ==================== สิ้นสุดแถบข้อความประกาศตัววิ่ง ==================== -->
 
   
