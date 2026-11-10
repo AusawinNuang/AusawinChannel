@@ -589,6 +589,79 @@
     </div>
   </header>
 
+  <!-- ==================== แถบข้อความประกาศตัววิ่ง (Announcement Ticker) ==================== -->
+  <div class="announcement-bar" role="region" aria-label="ประกาศถึงผู้ใช้งาน">
+    <div class="announcement-badge">📢 ประกาศ</div>
+    <div class="announcement-track">
+      <div class="announcement-text" id="announcement-text">
+        💡 แจ้งเพื่อทราบ: บางช่องรายการอาจต้องเปิดใช้งาน DNS (เช่น 1.1.1.1 หรือ 8.8.8.8) จึงจะรับชมได้ และสำหรับช่องถ่ายทอดสดกีฬา บางช่องสัญญาณจะเปิดเมื่อถึงเวลาแข่งขันครับ
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .announcement-bar {
+      background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
+      border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      height: 38px;
+      font-size: 0.875rem;
+      position: relative;
+      z-index: 15;
+    }
+
+    .announcement-badge {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 0 14px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      flex-shrink: 0;
+      box-shadow: 4px 0 10px rgba(0, 0, 0, 0.35);
+      z-index: 2;
+    }
+
+    .announcement-track {
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .announcement-text {
+      display: inline-block;
+      padding-left: 100%;
+      color: #fde047;
+      font-weight: 500;
+      animation: ticker-scroll 24s linear infinite;
+    }
+
+    /* ถ้าเอาเมาส์ชี้ให้หยุดวิ่งชั่วคราวเพื่อให้อ่านง่าย */
+    .announcement-bar:hover .announcement-text {
+      animation-play-state: paused;
+    }
+
+    @keyframes ticker-scroll {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(-100%, 0, 0);
+      }
+    }
+  </style>
+  <!-- ==================== สิ้นสุดแถบข้อความประกาศตัววิ่ง ==================== -->
+
+  
   <main class="main-container">
     <div class="left-col">
       <section class="card" aria-label="เครื่องเล่นทีวีออนไลน์">
