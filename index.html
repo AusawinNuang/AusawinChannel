@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="th">
 <head>
@@ -1053,7 +1051,31 @@
         renderChannels();
       });
 
+      // =========================================================================
+      // ลิงก์ไฟล์ channels.json บน GitHub ของคุณ (แก้ไขช่องที่ไฟล์นี้ แอปจะอัปเดตทันที!)
+      // =========================================================================
+      const REMOTE_CHANNELS_URL = 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/channels.json';
+
+      async function loadLatestChannels() {
+        try {
+          // เติม ?t=... เพื่อบังคับดึงไฟล์ใหม่ล่าสุด ไม่ติด Cache
+          const res = await fetch(REMOTE_CHANNELS_URL + '?t=' + Date.now(), { cache: 'no-store' });
+          if (res.ok) {
+            const remoteData = await res.json();
+            if (Array.isArray(remoteData) && remoteData.length > 0) {
+              channels.length = 0;
+              remoteData.forEach(function (item) { channels.push(item); });
+              renderChannels();
+              console.log('อัปเดตรายการช่องจากเซิร์ฟเวอร์สำเร็จ:', channels.length, 'ช่อง');
+            }
+          }
+        } catch (err) {
+          console.log('ใช้รายการช่องสำรองในเครื่องเนื่องจากดึงข้อมูลออนไลน์ไม่สำเร็จ:', err);
+        }
+      }
+
       renderChannels();
+      loadLatestChannels();
     })();
   </script>
 </body>
