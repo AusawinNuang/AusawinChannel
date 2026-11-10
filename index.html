@@ -156,9 +156,10 @@
       justify-content: space-between;
       gap: var(--space-3);
       border-top: 1px solid var(--border);
+      flex-wrap: wrap;
     }
 
-    .now-playing-info { min-width: 0; }
+    .now-playing-info { min-width: 0; flex: 1; }
 
     .now-playing-label {
       font-size: 0.75rem;
@@ -177,8 +178,8 @@
     }
 
     .status-msg {
-      font-size: 0.8rem;
-      color: var(--danger);
+      font-size: 0.85rem;
+      color: #fbbf24;
       margin-top: var(--space-1);
       display: none;
     }
@@ -607,6 +608,7 @@
             <div class="now-playing-title" id="current-title">เลือกช่องเพื่อรับชม</div>
             <div class="status-msg" id="error-msg" role="alert"></div>
           </div>
+          <a id="external-open-btn" href="#" target="_blank" style="display:none; background:#3b82f6; color:#fff; text-decoration:none; padding:8px 14px; border-radius:8px; font-size:0.8rem; font-weight:600; white-space:nowrap;">📲 เปิดในแอปภายนอก</a>
         </div>
         <div class="episode-bar" id="episode-bar">
           <div class="episode-bar-header">
@@ -655,6 +657,7 @@
       const currentTitleEl = document.getElementById('current-title');
       const currentCatEl = document.getElementById('current-cat');
       const errorMsgEl = document.getElementById('error-msg');
+      const externalOpenBtn = document.getElementById('external-open-btn');
       const episodeBarEl = document.getElementById('episode-bar');
       const episodeBarTitleEl = document.getElementById('episode-bar-title');
       const episodeListEl = document.getElementById('episode-list');
@@ -663,26 +666,39 @@
       const categoryTabs = document.getElementById('category-tabs');
       const channelListEl = document.getElementById('channel-list');
 
-      // ฟังก์ชันดึงข้อมูลผ่าน CORS Proxy อัตโนมัติหากดึงตรงแล้วติดบล็อก
+      // ฟังก์ชันดึงข้อมูลแบบมี Timeout 5 วินาทีต่อจุด (ป้องกันอาการกดแล้วนิ่งค้าง)
+      async function fetchWithTimeout(url, timeoutMs = 5500) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+          const res = await fetch(url, { signal: controller.signal, cache: 'no-store' });
+          clearTimeout(timer);
+          return res;
+        } catch (err) {
+          clearTimeout(timer);
+          throw err;
+        }
+      }
+
       async function fetchTextWithFallback(targetUrl) {
-        const urlsToTry = [
+        const proxies = [
           targetUrl,
+          'https://corsproxy.io/?' + encodeURIComponent(targetUrl),
           'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl),
-          'https://corsproxy.io/?' + encodeURIComponent(targetUrl)
+          'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(targetUrl)
         ];
-        for (const u of urlsToTry) {
+        for (const u of proxies) {
           try {
-            const res = await fetch(u, { cache: 'no-store' });
-            if (res.ok) {
+            const res = await fetchWithTimeout(u, 5500);
+            if (res && res.ok) {
               const txt = await res.text();
-              if (txt && txt.trim().length > 0) return txt.trim();
+              if (txt && txt.trim().length > 10) return txt.trim();
             }
           } catch (e) {}
         }
-        throw new Error('ไม่สามารถโหลดข้อมูลจากลิงก์เพลย์ลิสต์นี้ได้');
+        throw new Error('เซิร์ฟเวอร์ปลายทางบล็อกการดึงข้อมูลจากหน้าเว็บ');
       }
 
-      // แปลง M3U (#EXTM3U) ให้เป็นรายการช่องย่อย
       function parseM3U(m3uText) {
         const lines = m3uText.split(/\r?\n/);
         const list = [];
@@ -715,7 +731,6 @@
         return list;
       }
 
-      // กวาดรายการช่องทั้งหมดจาก JSON / Wiseplay ไม่ว่าจะซ้อนกี่ชั้น
       function extractStationsFromJson(obj, parentName = '') {
         let results = [];
         if (!obj) return results;
@@ -785,8 +800,9 @@
 
       function normalizeItem(item, index) {
         const hasStations = Array.isArray(item.stations) && item.stations.length > 0;
+        if (!item._uid) item._uid = item.id || ('item_' + (index + 1));
         return {
-          id: item.id || ('item_' + (index + 1)),
+          id: item._uid,
           name: item.name || 'ไม่มีชื่อรายการ',
           category: item.category || (hasStations ? 'ละคร/ซีรีส์' : 'ทั่วไป'),
           logo: item.logo || item.image || (hasStations && item.stations[0].image) || '',
@@ -795,273 +811,13 @@
           subtitle: item.subtitle || '',
           import: item.import,
           stations: hasStations ? item.stations : null,
-          rawRef: item
+          rawIndex: index
         };
       }
 
-      function showPlayerError(msg) {
+      function showPlayerError(msg, externalUrl = '') {
         if (msg) {
           errorMsgEl.textContent = msg;
           errorMsgEl.classList.add('visible');
         } else {
-          errorMsgEl.textContent = '';
-          errorMsgEl.classList.remove('visible');
-        }
-      }
-
-      async function attachSubtitle(subUrl) {
-        Array.from(videoEl.querySelectorAll('track')).forEach(function (t) { t.remove(); });
-        if (!subUrl) return;
-        try {
-          const res = await fetch(subUrl);
-          if (!res.ok) throw new Error('Load subtitle failed');
-          let text = await res.text();
-          if (!text.trim().startsWith('WEBVTT')) {
-            text = 'WEBVTT\n\n' + text.replace(/(\d{2}:\d{2}:\d{2}),(\d{3})/g, '$1.$2');
-          }
-          const blob = new Blob([text], { type: 'text/vtt' });
-          const track = document.createElement('track');
-          track.kind = 'subtitles';
-          track.label = 'ไทย';
-          track.srclang = 'th';
-          track.src = URL.createObjectURL(blob);
-          track.default = true;
-          videoEl.appendChild(track);
-        } catch (e) {
-          const track = document.createElement('track');
-          track.kind = 'subtitles';
-          track.label = 'ไทย';
-          track.srclang = 'th';
-          track.src = subUrl;
-          track.default = true;
-          videoEl.appendChild(track);
-        }
-      }
-
-      function loadStreamUrl(streamUrl, subtitleUrl) {
-        if (hlsInstance) {
-          hlsInstance.destroy();
-          hlsInstance = null;
-        }
-
-        const url = (streamUrl || '').trim();
-        if (!url) {
-          showPlayerError('ไม่พบลิงก์สตรีมสำหรับรายการนี้');
-          return;
-        }
-
-        if (url.toLowerCase().includes('.mpd')) {
-          showPlayerError('ช่องนี้ใช้ระบบสตรีมแบบ MPD (DASH / DRM) ซึ่งต้องเปิดผ่านแอปเครื่องเล่นภายนอก');
-          return;
-        }
-
-        const isHls = url.toLowerCase().includes('.m3u8') || !url.toLowerCase().includes('.mp4');
-        attachSubtitle(subtitleUrl);
-
-        if (isHls && window.Hls && window.Hls.isSupported()) {
-          hlsInstance = new window.Hls();
-          hlsInstance.loadSource(url);
-          hlsInstance.attachMedia(videoEl);
-          hlsInstance.on(window.Hls.Events.MANIFEST_PARSED, function () {
-            videoEl.play().catch(function () {});
-          });
-          hlsInstance.on(window.Hls.Events.ERROR, function (event, data) {
-            if (data && data.fatal) {
-              showPlayerError('ไม่สามารถโหลดสตรีมนี้ได้ (ลิงก์อาจหมดอายุ หรือต้องใช้หัวอ่าน Referer/User-Agent เฉพาะของแอป)');
-            }
-          });
-        } else {
-          videoEl.src = url;
-          videoEl.play().catch(function () {});
-        }
-      }
-
-      function renderEpisodes(channel) {
-        if (!channel.stations || channel.stations.length === 0) {
-          episodeBarEl.classList.remove('visible');
-          episodeListEl.innerHTML = '';
-          return;
-        }
-
-        episodeBarEl.classList.add('visible');
-        episodeBarTitleEl.textContent = 'เลือกช่องย่อย / ตอน (' + channel.stations.length + ' รายการ)';
-        episodeListEl.innerHTML = '';
-
-        channel.stations.forEach(function (st, idx) {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'ep-btn' + (idx === activeEpisodeIndex ? ' active' : '');
-          const epName = st.name || ('รายการที่ ' + (idx + 1));
-          btn.innerHTML = '<span>' + epName + '</span>' + (st.info ? '<span class="ep-btn-sub">' + st.info + '</span>' : '');
-          btn.addEventListener('click', function () {
-            activeEpisodeIndex = idx;
-            currentTitleEl.textContent = channel.name + ' - ' + epName;
-            currentCatEl.textContent = 'หมวดหมู่: ' + channel.category + (st.info ? ' (' + st.info + ')' : '');
-            showPlayerError('');
-            loadStreamUrl(st.url, st.subtitle);
-            renderEpisodes(channel);
-          });
-          episodeListEl.appendChild(btn);
-        });
-      }
-
-      async function playChannel(channel) {
-        if (!channel) return;
-        activeChannelId = channel.id;
-        activeEpisodeIndex = 0;
-        showPlayerError('');
-
-        placeholderEl.style.display = 'none';
-        videoEl.classList.add('active');
-
-        // ถ้าเป็นลิงก์รวมช่อง (เช่น AIS @By Zank.T ที่มี import: false หรือลงท้ายด้วย /playlist) ให้ดึงช่องข้างในออกมาก่อน
-        if ((!channel.stations || channel.stations.length === 0) && isExternalPlaylistItem(channel)) {
-          currentTitleEl.textContent = 'กำลังดึงรายการช่องจาก ' + channel.name + '...';
-          currentCatEl.textContent = 'กรุณารอสักครู่...';
-          try {
-            const subStations = await fetchExternalPlaylist(channel.url);
-            if (subStations && subStations.length > 0) {
-              channel.stations = subStations;
-              if (channel.rawRef) channel.rawRef.stations = subStations;
-            } else {
-              showPlayerError('ดึงเพลย์ลิสต์สำเร็จ แต่ไม่พบลิงก์ช่องที่รองรับข้างใน');
-              return;
-            }
-          } catch (e) {
-            showPlayerError('ไม่สามารถดึงเพลย์ลิสต์ภายนอก (' + channel.name + ') ได้');
-            return;
-          }
-        }
-
-        if (channel.stations && channel.stations.length > 0) {
-          const firstEp = channel.stations[0];
-          const epName = firstEp.name || 'รายการที่ 1';
-          currentTitleEl.textContent = channel.name + ' - ' + epName;
-          currentCatEl.textContent = 'หมวดหมู่: ' + channel.category + (firstEp.info ? ' (' + firstEp.info + ')' : '');
-          renderEpisodes(channel);
-          loadStreamUrl(firstEp.url, firstEp.subtitle);
-        } else {
-          currentTitleEl.textContent = channel.name;
-          currentCatEl.textContent = 'หมวดหมู่: ' + channel.category;
-          renderEpisodes(channel);
-          loadStreamUrl(channel.url, channel.subtitle);
-        }
-
-        renderChannels();
-      }
-
-      videoEl.addEventListener('error', function () {
-        if (activeChannelId) {
-          showPlayerError('ไม่สามารถเล่นไฟล์สตรีมจากลิงก์นี้ได้');
-        }
-      });
-
-      function renderChannels() {
-        const normalizedList = channels.map(normalizeItem);
-        const filtered = normalizedList.filter(function (ch) {
-          const matchCat = selectedCategory === 'ทั้งหมด' || ch.category === selectedCategory;
-          const matchSearch = ch.name.toLowerCase().includes(searchQuery.toLowerCase());
-          return matchCat && matchSearch;
-        });
-
-        channelListEl.innerHTML = '';
-
-        if (filtered.length === 0) {
-          const empty = document.createElement('div');
-          empty.className = 'empty-state';
-          empty.textContent = normalizedList.length === 0
-            ? 'กำลังโหลดรายการช่องจากเซิร์ฟเวอร์...'
-            : 'ไม่พบช่องรายการที่ตรงกับการค้นหา';
-          channelListEl.appendChild(empty);
-          return;
-        }
-
-        filtered.forEach(function (ch) {
-          const item = document.createElement('div');
-          item.className = 'channel-item' + (ch.id === activeChannelId ? ' active' : '');
-          item.setAttribute('role', 'button');
-          item.setAttribute('tabindex', '0');
-
-          if (ch.logo) {
-            const logoImg = document.createElement('img');
-            logoImg.className = 'channel-logo';
-            logoImg.src = ch.logo;
-            logoImg.alt = ch.name;
-            logoImg.loading = 'lazy';
-            logoImg.addEventListener('error', function () {
-              logoImg.style.display = 'none';
-            });
-            item.appendChild(logoImg);
-          }
-
-          const meta = document.createElement('div');
-          meta.className = 'channel-meta';
-
-          const name = document.createElement('div');
-          name.className = 'channel-name';
-          name.textContent = ch.name;
-
-          const cat = document.createElement('div');
-          cat.className = 'channel-cat';
-          cat.textContent = ch.stations ? (ch.category + ' • ' + ch.stations.length + ' รายการ') : ch.category;
-
-          meta.appendChild(name);
-          meta.appendChild(cat);
-
-          item.appendChild(meta);
-
-          item.addEventListener('click', function () {
-            playChannel(ch);
-          });
-
-          item.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              playChannel(ch);
-            }
-          });
-
-          channelListEl.appendChild(item);
-        });
-      }
-
-      searchInput.addEventListener('input', function (e) {
-        searchQuery = e.target.value;
-        renderChannels();
-      });
-
-      categoryTabs.addEventListener('click', function (e) {
-        const btn = e.target.closest('.tab-btn');
-        if (!btn) return;
-        selectedCategory = btn.getAttribute('data-cat');
-        Array.from(categoryTabs.querySelectorAll('.tab-btn')).forEach(function (b) {
-          b.classList.toggle('active', b === btn);
-        });
-        renderChannels();
-      });
-
-      const REMOTE_CHANNELS_URL = 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/channels.json';
-
-      async function loadLatestChannels() {
-        try {
-          const res = await fetch(REMOTE_CHANNELS_URL + '?t=' + Date.now(), { cache: 'no-store' });
-          if (res.ok) {
-            const remoteData = await res.json();
-            const items = Array.isArray(remoteData) ? remoteData : (Array.isArray(remoteData.groups) ? remoteData.groups : []);
-            if (items.length > 0) {
-              channels.length = 0;
-              items.forEach(function (item) { channels.push(item); });
-              renderChannels();
-            }
-          }
-        } catch (err) {
-          channelListEl.innerHTML = '<div class="empty-state">ไม่สามารถดึงไฟล์ channels.json ได้ (กรุณาเช็คว่ารูปแบบ JSON บน GitHub ไม่มีลูกน้ำเกิน)</div>';
-        }
-      }
-
-      renderChannels();
-      loadLatestChannels();
-    })();
-  </script>
-</body>
-</html>
+          errorMsgEl.textConten
