@@ -922,7 +922,7 @@
         });
       }
 
-      async function playChannel(channel) {
+          async function playChannel(channel) {
         if (!channel) return;
         activeChannelId = channel.id;
         activeEpisodeIndex = 0;
@@ -933,6 +933,18 @@
         currentTitleEl.textContent = channel.name;
         currentCatEl.textContent = 'หมวดหมู่: ' + channel.category;
         renderChannels();
+
+        // ถ้าเป็นลิงก์เพลย์ลิสต์ภายนอกที่บล็อกเว็บ (เช่น aisfree...workers.dev) ให้แจ้งเตือนและแสดงปุ่มเปิดแอปทันทีโดยไม่ต้องรอค้าง
+        if (channel.url && channel.url.includes('workers.dev/playlist')) {
+          if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
+          videoEl.pause();
+          videoEl.removeAttribute('src');
+          episodeBarEl.classList.remove('visible');
+          currentCatEl.textContent = 'เพลย์ลิสต์ภายนอก (สำหรับแอป IPTV)';
+          showPlayerError('⚠️ ลิงก์นี้ล็อกให้เปิดเฉพาะในแอป IPTV (Wiseplay / OTT) กดปุ่มสีฟ้าด้านขวาเพื่อเปิด หรือคัดลอกลิงก์ไปใส่ในแอป IPTV', channel.url);
+          if (navigator.clipboard) navigator.clipboard.writeText(channel.url);
+          return;
+        }
 
         if ((!channel.stations || channel.stations.length === 0) && isExternalPlaylistItem(channel)) {
           showPlayerError('⏳ กำลังดึงรายชื่อช่องจากเพลย์ลิสต์ ' + channel.name + ' กรุณารอสักครู่...');
@@ -969,6 +981,7 @@
         }
         renderChannels();
       }
+
 
       videoEl.addEventListener('error', () => {
         if (activeChannelId) {
