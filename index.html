@@ -1077,7 +1077,7 @@
       loadLatestChannels();
     })();
   </script>
-   <!-- ==================== ระบบรองรับรีโมทและหน้าจอ Android TV ==================== -->
+  <!-- ==================== ระบบรองรับรีโมทและหน้าจอ Android TV ==================== -->
   <style>
     /* 1. กรอบไฟสว่างเวลาใช้รีโมททีวีเลื่อน (Focus Ring) */
     button:focus,
@@ -1121,62 +1121,6 @@
     }
   </style>
 
-  <script>
-    (function () {
-      const video = document.getElementById('tv-video');
-      const nowPlayingBar = document.querySelector('.now-playing-bar');
-
-      // เพิ่มปุ่ม "ขยายเต็มจอ (Fullscreen)" ขนาดใหญ่สำหรับกดด้วยรีโมททีวี
-      if (nowPlayingBar && video) {
-        const fsBtn = document.createElement('button');
-        fsBtn.type = 'button';
-        fsBtn.innerHTML = '🖥️ ขยายเต็มจอ';
-        fsBtn.style.cssText = 'background:#06b6d4; color:#ffffff; border:none; padding:8px 14px; border-radius:8px; font-size:0.85rem; font-weight:700; cursor:pointer; white-space:nowrap;';
-        fsBtn.onclick = toggleFullScreen;
-        nowPlayingBar.appendChild(fsBtn);
-      }
-
-      function toggleFullScreen() {
-        if (!video) return;
-        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-          if (video.requestFullscreen) {
-            video.requestFullscreen().catch(() => {});
-          } else if (video.webkitRequestFullscreen) {
-            video.webkitRequestFullscreen();
-          } else if (video.webkitEnterFullscreen) {
-            video.webkitEnterFullscreen();
-          }
-        } else {
-          if (document.exitFullscreen) {
-            document.exitFullscreen().catch(() => {});
-          } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-          }
-        }
-      }
-
-      // ระบบควบคุมด้วยปุ่มลูกศรบนรีโมท Android TV (D-Pad Spatial Navigation)
-      function getVisibleFocusableElements() {
-        const lockScreen = document.getElementById('auth-lock-screen');
-        // ถ้าหน้าจอล็อกแสดงอยู่ ให้เลื่อนรีโมทได้เฉพาะในหน้าจอล็อก
-        if (lockScreen && window.getComputedStyle(lockScreen).display !== 'none') {
-          return Array.from(lockScreen.querySelectorAll('input, button')).filter(el => !el.disabled);
-        }
-        // ถ้ารับชมอยู่ ให้รวมปุ่มทั้งหมดที่มองเห็นบนหน้าจอ
-        const selectors = 'header button, .now-playing-bar button, .now-playing-bar a, .ep-btn, #search-input, .tab-btn, .channel-item';
-        return Array.from(document.querySelectorAll(selectors)).filter(el => {
-          const style = window.getComputedStyle(el);
-          return style.display !== 'none' && style.visibility !== 'hidden' && el.offsetParent !== null;
-        });
-      }
-
-      let lastClickedChannelEl = null;
-
-      document.addEventListener('keydown', function (e) {
-        const key = e.key;
-        const activeEl = document.activeElement;
-
-        // ถ้ากดปุ่ม OK (Enter) ซ้ำที่ช่องเดิมที่กำลังเล่นอยู่ ให้สลับขยายเต็มจอทันที
   <script>
     (function () {
       const video = document.getElementById('tv-video');
@@ -1315,8 +1259,7 @@
       });
     })();
   </script>
-
   <!-- ==================== สิ้นสุดระบบรองรับ Android TV ==================== -->
- 
+
 </body>
 </html>
