@@ -28,11 +28,7 @@
       --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: var(--font);
@@ -111,7 +107,6 @@
       overflow: hidden;
     }
 
-    /* Player Section */
     .player-wrapper {
       position: relative;
       width: 100%;
@@ -129,9 +124,7 @@
       background-color: #000;
     }
 
-    video.active {
-      display: block;
-    }
+    video.active { display: block; }
 
     .player-placeholder {
       text-align: center;
@@ -154,9 +147,7 @@
       margin-bottom: var(--space-1);
     }
 
-    .player-placeholder p {
-      font-size: 0.875rem;
-    }
+    .player-placeholder p { font-size: 0.875rem; }
 
     .now-playing-bar {
       padding: var(--space-4);
@@ -167,9 +158,7 @@
       border-top: 1px solid var(--border);
     }
 
-    .now-playing-info {
-      min-width: 0;
-    }
+    .now-playing-info { min-width: 0; }
 
     .now-playing-label {
       font-size: 0.75rem;
@@ -194,11 +183,8 @@
       display: none;
     }
 
-    .status-msg.visible {
-      display: block;
-    }
+    .status-msg.visible { display: block; }
 
-    /* Controls & Form */
     .section-header {
       padding: var(--space-4);
       border-bottom: 1px solid var(--border);
@@ -208,14 +194,9 @@
       gap: var(--space-2);
     }
 
-    .section-title {
-      font-size: 1rem;
-      font-weight: 600;
-    }
+    .section-title { font-size: 1rem; font-weight: 600; }
 
-    input[type="text"],
-    input[type="url"],
-    select {
+    input[type="text"], input[type="url"], select {
       width: 100%;
       padding: 10px 12px;
       border-radius: 8px;
@@ -227,13 +208,11 @@
       transition: border-color 0.15s ease;
     }
 
-    input:focus,
-    select:focus {
+    input:focus, select:focus {
       outline: none;
       border-color: var(--brand);
     }
 
-    /* Channel List */
     .filter-bar {
       padding: var(--space-3) var(--space-4);
       border-bottom: 1px solid var(--border);
@@ -262,10 +241,7 @@
       transition: all 0.15s ease;
     }
 
-    .tab-btn:hover {
-      color: var(--ink);
-      border-color: var(--muted);
-    }
+    .tab-btn:hover { color: var(--ink); border-color: var(--muted); }
 
     .tab-btn.active {
       background: var(--brand);
@@ -323,10 +299,7 @@
       border: 2px solid var(--brand);
     }
 
-    .channel-meta {
-      width: 100%;
-      min-width: 0;
-    }
+    .channel-meta { width: 100%; min-width: 0; }
 
     .channel-logo {
       width: 56px;
@@ -374,9 +347,7 @@
       gap: var(--space-2);
     }
 
-    .episode-bar.visible {
-      display: flex;
-    }
+    .episode-bar.visible { display: flex; }
 
     .episode-bar-header {
       font-size: 0.8rem;
@@ -393,7 +364,7 @@
       overflow-x: auto;
       padding-bottom: 4px;
       flex-wrap: wrap;
-      max-height: 160px;
+      max-height: 220px;
       overflow-y: auto;
     }
 
@@ -465,7 +436,6 @@
   </div>
 
   <script>
-    // ลิงก์ไฟล์ keys.json บน GitHub ของคุณ (ที่เดียวกับ channels.json)
     const GITHUB_KEYS_URL = "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/keys.json";
 
     function getDeviceId() {
@@ -619,7 +589,6 @@
   </header>
 
   <main class="main-container">
-    <!-- Video Player -->
     <div class="left-col">
       <section class="card" aria-label="เครื่องเล่นทีวีออนไลน์">
         <div class="player-wrapper">
@@ -641,14 +610,13 @@
         </div>
         <div class="episode-bar" id="episode-bar">
           <div class="episode-bar-header">
-            <span id="episode-bar-title">เลือกตอนรับชม</span>
+            <span id="episode-bar-title">เลือกช่องย่อย / ตอนรับชม</span>
           </div>
           <div class="episode-list" id="episode-list"></div>
         </div>
       </section>
     </div>
 
-    <!-- Channel Guide & Filter -->
     <section class="card" aria-label="รายการช่องทั้งหมด">
       <div class="section-header">
         <h2 class="section-title">รายการช่องทีวี</h2>
@@ -674,7 +642,6 @@
 
   <script>
     (function () {
-      // ลบรายการช่องที่ฝังในโค้ดออกแล้ว เพื่อดึงจากไฟล์ channels.json บน GitHub โดยตรง
       const channels = [];
 
       let activeChannelId = null;
@@ -696,6 +663,126 @@
       const categoryTabs = document.getElementById('category-tabs');
       const channelListEl = document.getElementById('channel-list');
 
+      // ฟังก์ชันดึงข้อมูลผ่าน CORS Proxy อัตโนมัติหากดึงตรงแล้วติดบล็อก
+      async function fetchTextWithFallback(targetUrl) {
+        const urlsToTry = [
+          targetUrl,
+          'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl),
+          'https://corsproxy.io/?' + encodeURIComponent(targetUrl)
+        ];
+        for (const u of urlsToTry) {
+          try {
+            const res = await fetch(u, { cache: 'no-store' });
+            if (res.ok) {
+              const txt = await res.text();
+              if (txt && txt.trim().length > 0) return txt.trim();
+            }
+          } catch (e) {}
+        }
+        throw new Error('ไม่สามารถโหลดข้อมูลจากลิงก์เพลย์ลิสต์นี้ได้');
+      }
+
+      // แปลง M3U (#EXTM3U) ให้เป็นรายการช่องย่อย
+      function parseM3U(m3uText) {
+        const lines = m3uText.split(/\r?\n/);
+        const list = [];
+        let currentName = '';
+        let currentLogo = '';
+        let currentGroup = '';
+
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (!line) continue;
+          if (line.startsWith('#EXTINF:')) {
+            const nameParts = line.split(',');
+            currentName = (nameParts[nameParts.length - 1] || 'ช่องรายการ').trim();
+            const logoMatch = line.match(/tvg-logo="([^"]+)"/i);
+            currentLogo = logoMatch ? logoMatch[1] : '';
+            const groupMatch = line.match(/group-title="([^"]+)"/i);
+            currentGroup = groupMatch ? groupMatch[1] : '';
+          } else if (!line.startsWith('#') && (line.startsWith('http://') || line.startsWith('https://'))) {
+            list.push({
+              name: currentName || ('ช่องที่ ' + (list.length + 1)),
+              info: currentGroup || '',
+              image: currentLogo || '',
+              url: line
+            });
+            currentName = '';
+            currentLogo = '';
+            currentGroup = '';
+          }
+        }
+        return list;
+      }
+
+      // กวาดรายการช่องทั้งหมดจาก JSON / Wiseplay ไม่ว่าจะซ้อนกี่ชั้น
+      function extractStationsFromJson(obj, parentName = '') {
+        let results = [];
+        if (!obj) return results;
+
+        if (Array.isArray(obj)) {
+          obj.forEach(item => {
+            results = results.concat(extractStationsFromJson(item, parentName));
+          });
+          return results;
+        }
+
+        if (typeof obj === 'object') {
+          const currentGroupName = obj.name || parentName || '';
+          if (Array.isArray(obj.stations)) {
+            obj.stations.forEach(st => {
+              if (st && st.url) {
+                results.push({
+                  name: st.name || currentGroupName || 'ช่องรายการ',
+                  info: currentGroupName !== st.name ? currentGroupName : (st.info || ''),
+                  image: st.image || st.logo || obj.image || '',
+                  url: st.url,
+                  referer: st.referer || '',
+                  subtitle: st.subtitle || ''
+                });
+              }
+            });
+          }
+          if (Array.isArray(obj.groups)) {
+            obj.groups.forEach(g => {
+              results = results.concat(extractStationsFromJson(g, currentGroupName));
+            });
+          }
+          if (!obj.stations && !obj.groups && obj.url) {
+            results.push({
+              name: obj.name || 'ช่องรายการ',
+              info: parentName || obj.info || '',
+              image: obj.image || obj.logo || '',
+              url: obj.url,
+              referer: obj.referer || '',
+              subtitle: obj.subtitle || ''
+            });
+          }
+        }
+        return results;
+      }
+
+      async function fetchExternalPlaylist(playlistUrl) {
+        const text = await fetchTextWithFallback(playlistUrl);
+        if (text.startsWith('#EXTM3U') || text.includes('#EXTINF:')) {
+          return parseM3U(text);
+        }
+        try {
+          const json = JSON.parse(text);
+          return extractStationsFromJson(json);
+        } catch (e) {
+          return parseM3U(text);
+        }
+      }
+
+      function isExternalPlaylistItem(channel) {
+        if (!channel || !channel.url) return false;
+        if (channel.import === false) return true;
+        const lower = channel.url.toLowerCase();
+        if (lower.includes('.m3u8') || lower.includes('.mp4') || lower.includes('.ts')) return false;
+        return lower.includes('playlist') || lower.endsWith('.m3u') || lower.endsWith('.w3u') || lower.endsWith('.json');
+      }
+
       function normalizeItem(item, index) {
         const hasStations = Array.isArray(item.stations) && item.stations.length > 0;
         return {
@@ -706,7 +793,9 @@
           url: item.url || (hasStations ? (item.stations[0].url || '') : ''),
           referer: item.referer || '',
           subtitle: item.subtitle || '',
-          stations: hasStations ? item.stations : null
+          import: item.import,
+          stations: hasStations ? item.stations : null,
+          rawRef: item
         };
       }
 
@@ -761,7 +850,12 @@
           return;
         }
 
-        const isHls = url.toLowerCase().includes('.m3u8');
+        if (url.toLowerCase().includes('.mpd')) {
+          showPlayerError('ช่องนี้ใช้ระบบสตรีมแบบ MPD (DASH / DRM) ซึ่งต้องเปิดผ่านแอปเครื่องเล่นภายนอก');
+          return;
+        }
+
+        const isHls = url.toLowerCase().includes('.m3u8') || !url.toLowerCase().includes('.mp4');
         attachSubtitle(subtitleUrl);
 
         if (isHls && window.Hls && window.Hls.isSupported()) {
@@ -773,7 +867,7 @@
           });
           hlsInstance.on(window.Hls.Events.ERROR, function (event, data) {
             if (data && data.fatal) {
-              showPlayerError('ไม่สามารถโหลดสตรีมนี้ได้ กรุณาตรวจสอบลิงก์หรือการรองรับ CORS/Referer ของสตรีม');
+              showPlayerError('ไม่สามารถโหลดสตรีมนี้ได้ (ลิงก์อาจหมดอายุ หรือต้องใช้หัวอ่าน Referer/User-Agent เฉพาะของแอป)');
             }
           });
         } else {
@@ -790,19 +884,20 @@
         }
 
         episodeBarEl.classList.add('visible');
-        episodeBarTitleEl.textContent = 'เลือกตอน (' + channel.stations.length + ' ตอน)';
+        episodeBarTitleEl.textContent = 'เลือกช่องย่อย / ตอน (' + channel.stations.length + ' รายการ)';
         episodeListEl.innerHTML = '';
 
         channel.stations.forEach(function (st, idx) {
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'ep-btn' + (idx === activeEpisodeIndex ? ' active' : '');
-          const epName = st.name || ('ตอนที่ ' + (idx + 1));
+          const epName = st.name || ('รายการที่ ' + (idx + 1));
           btn.innerHTML = '<span>' + epName + '</span>' + (st.info ? '<span class="ep-btn-sub">' + st.info + '</span>' : '');
           btn.addEventListener('click', function () {
             activeEpisodeIndex = idx;
             currentTitleEl.textContent = channel.name + ' - ' + epName;
             currentCatEl.textContent = 'หมวดหมู่: ' + channel.category + (st.info ? ' (' + st.info + ')' : '');
+            showPlayerError('');
             loadStreamUrl(st.url, st.subtitle);
             renderEpisodes(channel);
           });
@@ -810,7 +905,7 @@
         });
       }
 
-      function playChannel(channel) {
+      async function playChannel(channel) {
         if (!channel) return;
         activeChannelId = channel.id;
         activeEpisodeIndex = 0;
@@ -819,9 +914,28 @@
         placeholderEl.style.display = 'none';
         videoEl.classList.add('active');
 
+        // ถ้าเป็นลิงก์รวมช่อง (เช่น AIS @By Zank.T ที่มี import: false หรือลงท้ายด้วย /playlist) ให้ดึงช่องข้างในออกมาก่อน
+        if ((!channel.stations || channel.stations.length === 0) && isExternalPlaylistItem(channel)) {
+          currentTitleEl.textContent = 'กำลังดึงรายการช่องจาก ' + channel.name + '...';
+          currentCatEl.textContent = 'กรุณารอสักครู่...';
+          try {
+            const subStations = await fetchExternalPlaylist(channel.url);
+            if (subStations && subStations.length > 0) {
+              channel.stations = subStations;
+              if (channel.rawRef) channel.rawRef.stations = subStations;
+            } else {
+              showPlayerError('ดึงเพลย์ลิสต์สำเร็จ แต่ไม่พบลิงก์ช่องที่รองรับข้างใน');
+              return;
+            }
+          } catch (e) {
+            showPlayerError('ไม่สามารถดึงเพลย์ลิสต์ภายนอก (' + channel.name + ') ได้');
+            return;
+          }
+        }
+
         if (channel.stations && channel.stations.length > 0) {
           const firstEp = channel.stations[0];
-          const epName = firstEp.name || 'ตอนที่ 1';
+          const epName = firstEp.name || 'รายการที่ 1';
           currentTitleEl.textContent = channel.name + ' - ' + epName;
           currentCatEl.textContent = 'หมวดหมู่: ' + channel.category + (firstEp.info ? ' (' + firstEp.info + ')' : '');
           renderEpisodes(channel);
@@ -889,7 +1003,7 @@
 
           const cat = document.createElement('div');
           cat.className = 'channel-cat';
-          cat.textContent = ch.stations ? (ch.category + ' • ' + ch.stations.length + ' ตอน') : ch.category;
+          cat.textContent = ch.stations ? (ch.category + ' • ' + ch.stations.length + ' รายการ') : ch.category;
 
           meta.appendChild(name);
           meta.appendChild(cat);
@@ -926,7 +1040,6 @@
         renderChannels();
       });
 
-      // ลิงก์ไฟล์ channels.json บน GitHub ของคุณ
       const REMOTE_CHANNELS_URL = 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/channels.json';
 
       async function loadLatestChannels() {
@@ -942,7 +1055,7 @@
             }
           }
         } catch (err) {
-          channelListEl.innerHTML = '<div class="empty-state">ไม่สามารถดึงรายการช่องจากเซิร์ฟเวอร์ได้ กรุณาตรวจสอบอินเทอร์เน็ต</div>';
+          channelListEl.innerHTML = '<div class="empty-state">ไม่สามารถดึงไฟล์ channels.json ได้ (กรุณาเช็คว่ารูปแบบ JSON บน GitHub ไม่มีลูกน้ำเกิน)</div>';
         }
       }
 
