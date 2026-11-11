@@ -17,6 +17,8 @@
       --brand-hover: #2563eb;
       --brand-ink: #ffffff;
       --accent: #06b6d4;
+      --success: #10b981;
+      --success-hover: #059669;
       --danger: #ef4444;
       --radius: 12px;
       --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
@@ -175,6 +177,13 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .now-playing-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .status-msg {
@@ -645,7 +654,6 @@
       animation: ticker-scroll 24s linear infinite;
     }
 
-    /* ถ้าเอาเมาส์ชี้ให้หยุดวิ่งชั่วคราวเพื่อให้อ่านง่าย */
     .announcement-bar:hover .announcement-text {
       animation-play-state: paused;
     }
@@ -676,11 +684,8 @@
       } catch (e) {}
     })();
   </script>
-
-  
   <!-- ==================== สิ้นสุดแถบข้อความประกาศตัววิ่ง ==================== -->
 
-  
   <main class="main-container">
     <div class="left-col">
       <section class="card" aria-label="เครื่องเล่นทีวีออนไลน์">
@@ -700,7 +705,10 @@
             <div class="now-playing-title" id="current-title">เลือกช่องเพื่อรับชม</div>
             <div class="status-msg" id="error-msg" role="alert"></div>
           </div>
-          <a id="external-open-btn" href="#" target="_blank" style="display:none; background:#3b82f6; color:#fff; text-decoration:none; padding:8px 14px; border-radius:8px; font-size:0.8rem; font-weight:600; white-space:nowrap;">📲 เปิดในแอปภายนอก</a>
+          <!-- ปุ่มเปิด Wiseplay และแอปภายนอก -->
+          <div class="now-playing-actions">
+            <a id="external-open-btn" href="#" style="display:none; background:var(--success); color:#fff; text-decoration:none; padding:8px 14px; border-radius:8px; font-size:0.85rem; font-weight:700; white-space:nowrap; transition:background 0.15s ease;">▶️ เปิดใน Wiseplay</a>
+          </div>
         </div>
         <div class="episode-bar" id="episode-bar">
           <div class="episode-bar-header">
@@ -758,7 +766,28 @@
       const categoryTabs = document.getElementById('category-tabs');
       const channelListEl = document.getElementById('channel-list');
 
-      // ฟังก์ชันดึงข้อมูลแบบมี Timeout 5 วินาทีต่อจุด (ป้องกันอาการกดแล้วนิ่งค้าง)
+      // ฟังก์ชันช่วยสร้าง Android Intent URL สำหรับเปิด Wiseplay โดยตรง
+      function getWiseplayIntentUrl(streamUrl) {
+        if (!streamUrl) return '#';
+        const cleanUrl = streamUrl.replace(/^https?:\/\//i, '');
+        const scheme = streamUrl.toLowerCase().startsWith('https') ? 'https' : 'http';
+        const fallbackStore = encodeURIComponent('https://play.google.com/store/apps/details?id=com.wiseplay');
+        return `intent://${cleanUrl}#Intent;scheme=${scheme};type=video/*;package=com.wiseplay;S.browser_fallback_url=${fallbackStore};end`;
+      }
+
+      function updateWiseplayButton(url, forceShow = false) {
+        if (!externalOpenBtn) return;
+        if (url) {
+          externalOpenBtn.href = getWiseplayIntentUrl(url);
+          if (forceShow) {
+            externalOpenBtn.style.display = 'inline-block';
+          }
+        } else {
+          externalOpenBtn.style.display = 'none';
+        }
+      }
+
+      // ฟังก์ชันดึงข้อมูลแบบมี Timeout 5.5 วินาทีต่อจุด
       async function fetchWithTimeout(url, timeoutMs = 5500) {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -907,7 +936,7 @@
         };
       }
 
-            function showPlayerError(msg, externalUrl = '') {
+      function showPlayerError(msg, externalUrl = '') {
         if (msg) {
           errorMsgEl.textContent = msg;
           errorMsgEl.classList.add('visible');
@@ -916,8 +945,7 @@
           errorMsgEl.classList.remove('visible');
         }
         if (externalUrl) {
-          externalOpenBtn.href = externalUrl;
-          externalOpenBtn.style.display = 'inline-block';
+          updateWiseplayButton(externalUrl, true);
         } else {
           externalOpenBtn.style.display = 'none';
         }
@@ -961,8 +989,12 @@
           showPlayerError('ไม่พบลิงก์สตรีมสำหรับรายการนี้');
           return;
         }
+
+        // อัปเดตลิงก์ Wiseplay ประจำช่องและแสดงปุ่มให้เลือกได้ทันที
+        updateWiseplayButton(url, true);
+
         if (url.toLowerCase().includes('.mpd')) {
-          showPlayerError('⚠️ ช่องนี้เข้ารหัส DRM (.mpd) กดปุ่มด้านขวาเพื่อเปิดในแอปภายนอก', url);
+          showPlayerError('⚠️ ช่องนี้เข้ารหัส DRM (.mpd) กดปุ่มสีเขียวเพื่อเปิดใน Wiseplay', url);
           return;
         }
         const isHls = url.toLowerCase().includes('.m3u8') || !url.toLowerCase().includes('.mp4');
@@ -977,7 +1009,7 @@
           });
           hlsInstance.on(window.Hls.Events.ERROR, (event, data) => {
             if (data && data.fatal) {
-              showPlayerError('⚠️ สตรีมนี้บล็อกการเล่นบนเว็บ กดปุ่มด้านขวาเพื่อเปิดผ่านแอปภายนอก', url);
+              showPlayerError('⚠️ สตรีมนี้บล็อกการเล่นบนเว็บ กดปุ่มสีเขียวเพื่อเปิดผ่าน Wiseplay', url);
             }
           });
         } else {
@@ -1014,7 +1046,7 @@
         });
       }
 
-          async function playChannel(channel) {
+      async function playChannel(channel) {
         if (!channel) return;
         activeChannelId = channel.id;
         activeEpisodeIndex = 0;
@@ -1026,14 +1058,13 @@
         currentCatEl.textContent = 'หมวดหมู่: ' + channel.category;
         renderChannels();
 
-        // ถ้าเป็นลิงก์เพลย์ลิสต์ภายนอกที่บล็อกเว็บ (เช่น aisfree...workers.dev) ให้แจ้งเตือนและแสดงปุ่มเปิดแอปทันทีโดยไม่ต้องรอค้าง
         if (channel.url && channel.url.includes('workers.dev/playlist')) {
           if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
           videoEl.pause();
           videoEl.removeAttribute('src');
           episodeBarEl.classList.remove('visible');
           currentCatEl.textContent = 'เพลย์ลิสต์ภายนอก (สำหรับแอป IPTV)';
-          showPlayerError('⚠️ ลิงก์นี้ล็อกให้เปิดเฉพาะในแอป IPTV (Wiseplay / OTT) กดปุ่มสีฟ้าด้านขวาเพื่อเปิด หรือคัดลอกลิงก์ไปใส่ในแอป IPTV', channel.url);
+          showPlayerError('⚠️ ลิงก์นี้ล็อกให้เปิดเฉพาะในแอป IPTV กดปุ่มสีเขียวด้านขวาเพื่อเปิดใน Wiseplay', channel.url);
           if (navigator.clipboard) navigator.clipboard.writeText(channel.url);
           return;
         }
@@ -1053,7 +1084,7 @@
               return;
             }
           } catch (e) {
-            showPlayerError('⚠️ เซิร์ฟเวอร์ของ ' + channel.name + ' บล็อกการดึงผ่านเว็บ กดปุ่มด้านขวาเพื่อเปิดโดยตรง', channel.url);
+            showPlayerError('⚠️ เซิร์ฟเวอร์ของ ' + channel.name + ' บล็อกการดึงผ่านเว็บ กดปุ่มสีเขียวเพื่อเปิดใน Wiseplay', channel.url);
             return;
           }
         } else {
@@ -1074,10 +1105,11 @@
         renderChannels();
       }
 
-
       videoEl.addEventListener('error', () => {
         if (activeChannelId) {
-          showPlayerError('⚠️ ไม่สามารถเล่นไฟล์สตรีมจากลิงก์นี้บนเว็บได้โดยตรง');
+          const curCh = channels.find(c => (c.id || c._uid) === activeChannelId);
+          const fallbackUrl = curCh ? (curCh.url || '') : '';
+          showPlayerError('⚠️ ไม่สามารถเล่นไฟล์สตรีมจากลิงก์นี้บนเว็บได้ กดปุ่มสีเขียวเพื่อเปิดใน Wiseplay', fallbackUrl);
         }
       });
 
@@ -1169,9 +1201,10 @@
       loadLatestChannels();
     })();
   </script>
+
   <!-- ==================== ระบบรองรับรีโมทและหน้าจอ Android TV ==================== -->
   <style>
-    /* 1. กรอบไฟสว่างเวลาใช้รีโมททีวีเลื่อน (Focus Ring) */
+    /* กรอบไฟสำหรับรีโมททีวี */
     button:focus,
     input:focus,
     a:focus,
@@ -1190,7 +1223,7 @@
       border-color: #38bdf8 !important;
     }
 
-    /* 2. ปรับเลย์เอาต์แบ่งซ้าย-ขวาอัตโนมัติสำหรับจอทีวีแนวนอน (ไม่ต้องเลื่อนหน้าเว็บขึ้น-ลง) */
+    /* เลย์เอาต์แบ่งซ้าย-ขวาสำหรับจอแนวนอน / Android TV */
     @media (min-width: 960px) {
       .main-container {
         max-width: 1600px !important;
@@ -1216,16 +1249,16 @@
   <script>
     (function () {
       const video = document.getElementById('tv-video');
-      const nowPlayingBar = document.querySelector('.now-playing-bar');
+      const actionGroup = document.querySelector('.now-playing-actions');
 
-      // เพิ่มปุ่ม "ขยายเต็มจอ (Fullscreen)" ขนาดใหญ่สำหรับกดด้วยรีโมททีวี
-      if (nowPlayingBar && video) {
+      // ปุ่มขยายเต็มจอสำหรับจอทีวี
+      if (actionGroup && video) {
         const fsBtn = document.createElement('button');
         fsBtn.type = 'button';
         fsBtn.innerHTML = '🖥️ ขยายเต็มจอ';
         fsBtn.style.cssText = 'background:#06b6d4; color:#ffffff; border:none; padding:8px 14px; border-radius:8px; font-size:0.85rem; font-weight:700; cursor:pointer; white-space:nowrap;';
         fsBtn.onclick = toggleFullScreen;
-        nowPlayingBar.appendChild(fsBtn);
+        actionGroup.appendChild(fsBtn);
       }
 
       function toggleFullScreen() {
@@ -1247,7 +1280,6 @@
         }
       }
 
-      // ระบบควบคุมด้วยปุ่มลูกศรและปุ่ม OK บนรีโมท Android TV
       function getVisibleFocusableElements() {
         const lockScreen = document.getElementById('auth-lock-screen');
         if (lockScreen && window.getComputedStyle(lockScreen).display !== 'none') {
@@ -1264,15 +1296,13 @@
         const key = e.key;
         const activeEl = document.activeElement;
 
-        // 1. เมื่อกดปุ่ม OK (Enter) บนรีโมททีวีตรงช่องรายการ (.channel-item)
+        // กดปุ่ม OK / Enter บนรีโมท
         if ((key === 'Enter' || key === ' ' || e.keyCode === 13 || e.keyCode === 23) && activeEl && activeEl.classList && activeEl.classList.contains('channel-item')) {
           e.preventDefault();
-          // ถ้ากดปุ่ม OK ซ้ำที่ช่องเดิมที่กำลังเล่นอยู่ ให้ขยายเต็มจอทันที!
           if (activeEl.classList.contains('active')) {
             toggleFullScreen();
             return;
           }
-          // ถ้ากดช่องใหม่ ให้สั่งคลิกเพื่อเล่นช่องนั้น แล้วดึงกรอบสีฟ้ากลับมาไว้ที่ช่องที่เพิ่งเลือก
           activeEl.click();
           setTimeout(() => {
             const newActiveChannel = document.querySelector('.channel-item.active');
@@ -1283,7 +1313,6 @@
           return;
         }
 
-        // 2. ถ้ากำลังพิมพ์ในช่องค้นหาหรือช่องรหัสผ่าน ให้กดลูกศรซ้าย-ขวาเลื่อนตัวอักษรได้ตามปกติ
         if (activeEl && activeEl.tagName === 'INPUT' && (key === 'ArrowLeft' || key === 'ArrowRight')) {
           return;
         }
@@ -1293,7 +1322,6 @@
         const focusables = getVisibleFocusableElements();
         if (focusables.length === 0) return;
 
-        // 3. ถ้ายังไม่มีปุ่มไหนมีกรอบสีฟ้า ให้จับโฟกัสไปที่ช่องปัจจุบันหรือช่องแรกทันที
         if (!focusables.includes(activeEl)) {
           e.preventDefault();
           const firstTarget = document.querySelector('.channel-item.active') || document.querySelector('.channel-item') || focusables[0];
