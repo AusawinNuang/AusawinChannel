@@ -31,14 +31,12 @@
       --space-6: 24px;
       --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
     }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
     }
-
     body {
       font-family: var(--font);
       background-color: var(--bg);
@@ -50,12 +48,10 @@
       user-select: none;
       -webkit-user-select: none;
     }
-
     input, code {
       user-select: text;
       -webkit-user-select: text;
     }
-
     header {
       background-color: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -64,7 +60,6 @@
       top: 0;
       z-index: 20;
     }
-
     .header-inner {
       max-width: 1120px;
       margin: 0 auto;
@@ -74,7 +69,6 @@
       gap: var(--space-3);
       flex-wrap: wrap;
     }
-
     .brand {
       display: flex;
       align-items: center;
@@ -83,7 +77,6 @@
       font-weight: 700;
       color: var(--ink);
     }
-
     .brand-icon {
       width: 32px;
       height: 32px;
@@ -94,14 +87,12 @@
       justify-content: center;
       color: var(--brand-ink);
     }
-
     .header-actions {
       display: flex;
       align-items: center;
       gap: var(--space-2);
       flex-wrap: wrap;
     }
-
     .btn-donate {
       background: linear-gradient(135deg, #ec4899, #f43f5e);
       color: #ffffff;
@@ -118,17 +109,14 @@
       transition: all 0.15s ease;
       white-space: nowrap;
     }
-
     .btn-donate:hover {
       background: linear-gradient(135deg, #db2777, #e11d48);
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(244, 63, 94, 0.45);
     }
-
     .btn-donate:active {
       transform: translateY(0);
     }
-
     .main-container {
       max-width: 1120px;
       width: 100%;
@@ -139,7 +127,6 @@
       gap: var(--space-4);
       flex: 1;
     }
-
     @media (min-width: 900px) {
       .main-container {
         grid-template-columns: 1fr;
@@ -148,7 +135,6 @@
         align-items: start;
       }
     }
-
     .card {
       background-color: var(--surface);
       border: 1px solid var(--border);
@@ -156,7 +142,6 @@
       box-shadow: var(--shadow);
       overflow: hidden;
     }
-
     .player-wrapper {
       position: relative;
       width: 100%;
@@ -166,23 +151,19 @@
       align-items: center;
       justify-content: center;
     }
-
     video {
       width: 100%;
       height: 100%;
       display: none;
       background-color: #000;
     }
-
     video.active { display: block; }
-
     .player-placeholder {
       text-align: center;
       padding: var(--space-6);
       color: var(--muted);
       max-width: 360px;
     }
-
     .player-placeholder svg {
       width: 48px;
       height: 48px;
@@ -190,15 +171,12 @@
       stroke: var(--muted);
       opacity: 0.7;
     }
-
     .player-placeholder h2 {
       font-size: 1.05rem;
       color: var(--ink);
       margin-bottom: var(--space-1);
     }
-
     .player-placeholder p { font-size: 0.875rem; }
-
     .now-playing-bar {
       padding: var(--space-4);
       display: flex;
@@ -208,9 +186,7 @@
       border-top: 1px solid var(--border);
       flex-wrap: wrap;
     }
-
     .now-playing-info { min-width: 0; flex: 1; }
-
     .now-playing-label {
       font-size: 0.75rem;
       text-transform: uppercase;
@@ -218,7 +194,6 @@
       color: var(--accent);
       font-weight: 600;
     }
-
     .now-playing-title {
       font-size: 1.1rem;
       font-weight: 600;
@@ -226,16 +201,13 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
     .status-msg {
       font-size: 0.85rem;
       color: #fbbf24;
       margin-top: var(--space-1);
       display: none;
     }
-
     .status-msg.visible { display: block; }
-
     .section-header {
       padding: var(--space-4);
       border-bottom: 1px solid var(--border);
@@ -244,9 +216,7 @@
       justify-content: space-between;
       gap: var(--space-2);
     }
-
     .section-title { font-size: 1rem; font-weight: 600; }
-
     input[type="text"], input[type="url"], select {
       width: 100%;
       padding: 10px 12px;
@@ -258,12 +228,10 @@
       font-size: 0.9rem;
       transition: border-color 0.15s ease;
     }
-
     input:focus, select:focus {
       outline: none;
       border-color: var(--brand);
     }
-
     .filter-bar {
       padding: var(--space-3) var(--space-4);
       border-bottom: 1px solid var(--border);
@@ -271,14 +239,12 @@
       flex-direction: column;
       gap: var(--space-2);
     }
-
     .category-tabs {
       display: flex;
       gap: var(--space-2);
       overflow-x: auto;
       padding-bottom: 2px;
     }
-
     .tab-btn {
       background: var(--bg);
       color: var(--muted);
@@ -291,15 +257,12 @@
       white-space: nowrap;
       transition: all 0.15s ease;
     }
-
     .tab-btn:hover { color: var(--ink); border-color: var(--muted); }
-
     .tab-btn.active {
       background: var(--brand);
       color: var(--brand-ink);
       border-color: var(--brand);
     }
-
     .channel-list {
       max-height: 520px;
       overflow-y: auto;
@@ -309,21 +272,18 @@
       gap: var(--space-2);
       padding: var(--space-3);
     }
-
     @media (min-width: 600px) {
       .channel-list {
         grid-template-columns: repeat(5, minmax(0, 1fr));
         padding: var(--space-4);
       }
     }
-
     @media (min-width: 960px) {
       .channel-list {
         grid-template-columns: repeat(9, minmax(0, 1fr));
         padding: var(--space-4);
       }
     }
-
     .channel-item {
       display: flex;
       flex-direction: column;
@@ -340,19 +300,15 @@
       min-width: 0;
       position: relative;
     }
-
     .channel-item:hover {
       background-color: var(--surface-hover);
       transform: translateY(-2px);
     }
-
     .channel-item.active {
       background-color: rgba(59, 130, 246, 0.15);
       border: 2px solid var(--brand);
     }
-
     .channel-meta { width: 100%; min-width: 0; }
-
     .channel-logo {
       width: 56px;
       height: 56px;
@@ -363,7 +319,6 @@
       padding: 4px;
       flex-shrink: 0;
     }
-
     .channel-name {
       font-weight: 600;
       font-size: 0.85rem;
@@ -372,7 +327,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
     .channel-cat {
       font-size: 0.75rem;
       color: var(--muted);
@@ -380,11 +334,9 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
     .addon-badge {
       display: none !important;
     }
-
     .empty-state {
       grid-column: 1 / -1;
       padding: var(--space-6) var(--space-4);
@@ -393,7 +345,6 @@
       font-size: 0.9rem;
       width: 100%;
     }
-
     .episode-bar {
       display: none;
       padding: var(--space-3) var(--space-4);
@@ -402,9 +353,7 @@
       flex-direction: column;
       gap: var(--space-2);
     }
-
     .episode-bar.visible { display: flex; }
-
     .episode-bar-header {
       font-size: 0.8rem;
       font-weight: 600;
@@ -415,7 +364,6 @@
       flex-wrap: wrap;
       gap: 8px;
     }
-
     .episode-list {
       display: flex;
       gap: var(--space-2);
@@ -425,7 +373,6 @@
       max-height: 220px;
       overflow-y: auto;
     }
-
     .ep-btn {
       background: var(--surface);
       color: var(--ink);
@@ -438,30 +385,25 @@
       transition: all 0.15s ease;
       text-align: left;
     }
-
     .ep-btn:hover {
       background: var(--surface-hover);
       border-color: var(--brand);
     }
-
     .ep-btn.active {
       background: var(--brand);
       color: var(--brand-ink);
       border-color: var(--brand);
     }
-
     .ep-btn-sub {
       display: block;
       font-size: 0.68rem;
       opacity: 0.8;
     }
-
     .left-col {
       display: flex;
       flex-direction: column;
       gap: var(--space-4);
     }
-
     /* ==================== สไตล์หน้าต่างโมดอล QR Code โดเนท ==================== */
     .modal-backdrop {
       position: fixed;
@@ -481,12 +423,10 @@
       visibility: hidden;
       transition: opacity 0.2s ease, visibility 0.2s ease;
     }
-
     .modal-backdrop.active {
       opacity: 1;
       visibility: visible;
     }
-
     .modal-card {
       background: #1e293b;
       border: 1px solid #334155;
@@ -500,11 +440,9 @@
       transform: scale(0.92);
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
     .modal-backdrop.active .modal-card {
       transform: scale(1);
     }
-
     .modal-header {
       padding: 16px 20px;
       border-bottom: 1px solid #334155;
@@ -513,7 +451,6 @@
       justify-content: space-between;
       background: #1e293b;
     }
-
     .modal-title {
       font-size: 1.05rem;
       font-weight: 700;
@@ -522,7 +459,6 @@
       gap: 8px;
       color: #f8fafc;
     }
-
     .modal-close-btn {
       background: transparent;
       border: none;
@@ -538,12 +474,10 @@
       line-height: 1;
       transition: all 0.15s ease;
     }
-
     .modal-close-btn:hover {
       background: #334155;
       color: #ffffff;
     }
-
     .modal-body {
       padding: 20px;
       display: flex;
@@ -551,14 +485,12 @@
       align-items: center;
       text-align: center;
     }
-
     .modal-desc {
       font-size: 0.875rem;
       color: #94a3b8;
       margin-bottom: 16px;
       line-height: 1.5;
     }
-
     .qr-card {
       background: #ffffff;
       border-radius: 16px;
@@ -571,7 +503,6 @@
       max-width: 360px;
       border: 3px solid #1e3a8a;
     }
-
     .promptpay-header {
       width: 100%;
       background: #002d62;
@@ -583,7 +514,6 @@
       align-items: center;
       color: #ffffff;
     }
-
     .promptpay-badge-title {
       font-size: 0.75rem;
       font-weight: 800;
@@ -591,13 +521,11 @@
       text-transform: uppercase;
       color: #ffffff;
     }
-
     .promptpay-badge-sub {
       font-size: 0.65rem;
       color: #93c5fd;
       font-weight: 500;
     }
-
     .qr-frame {
       width: 300px;
       max-width: 100%;
@@ -610,34 +538,29 @@
       border-radius: 8px;
       overflow: hidden;
     }
-
     .qr-frame img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
     }
-
     .qr-frame svg {
       width: 100%;
       height: 100%;
       display: block;
     }
-
     .qr-footer-hint {
       margin-top: 10px;
       font-size: 0.78rem;
       color: #334155;
       font-weight: 600;
     }
-
     .modal-note {
       font-size: 0.75rem;
       color: #64748b;
       margin-top: 14px;
       line-height: 1.4;
     }
-
     .modal-footer {
       padding: 14px 20px;
       border-top: 1px solid #334155;
@@ -645,7 +568,6 @@
       gap: 10px;
       background: #1e293b;
     }
-
     .btn-modal-dismiss {
       flex: 1;
       padding: 10px;
@@ -658,11 +580,9 @@
       cursor: pointer;
       transition: background 0.15s ease;
     }
-
     .btn-modal-dismiss:hover {
       background: #475569;
     }
-
     /* ==================== External Playlist Multi-Window Add-on Styles ==================== */
     .mw-overlay {
       position: fixed;
@@ -676,11 +596,9 @@
       justify-content: center;
       padding: 12px;
     }
-
     .mw-overlay.active {
       display: flex;
     }
-
     .mw-window {
       background: #0f172a;
       border: 1px solid #334155;
@@ -694,12 +612,10 @@
       overflow: hidden;
       animation: mwPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
     @keyframes mwPopIn {
       from { opacity: 0; transform: scale(0.95) translateY(8px); }
       to { opacity: 1; transform: scale(1) translateY(0); }
     }
-
     .mw-topbar {
       background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
       border-bottom: 1px solid #334155;
@@ -710,7 +626,6 @@
       gap: 12px;
       flex-wrap: wrap;
     }
-
     .mw-topbar-left {
       display: flex;
       align-items: center;
@@ -718,7 +633,6 @@
       min-width: 0;
       flex: 1;
     }
-
     .mw-nav-btn {
       background: #334155;
       color: #f8fafc;
@@ -734,23 +648,19 @@
       white-space: nowrap;
       transition: all 0.15s ease;
     }
-
     .mw-nav-btn:hover:not(:disabled) {
       background: #3b82f6;
       border-color: #3b82f6;
       color: #fff;
     }
-
     .mw-nav-btn:disabled {
       opacity: 0.4;
       cursor: not-allowed;
     }
-
     .mw-title-box {
       min-width: 0;
       flex: 1;
     }
-
     .mw-window-title {
       font-size: 1rem;
       font-weight: 700;
@@ -762,7 +672,6 @@
       align-items: center;
       gap: 8px;
     }
-
     .mw-window-badge {
       background: linear-gradient(135deg, #8b5cf6, #06b6d4);
       color: #fff;
@@ -773,7 +682,6 @@
       letter-spacing: 0.03em;
       flex-shrink: 0;
     }
-
     .mw-breadcrumbs {
       display: flex;
       align-items: center;
@@ -784,7 +692,6 @@
       white-space: nowrap;
       margin-top: 2px;
     }
-
     .mw-crumb {
       background: transparent;
       border: none;
@@ -795,37 +702,31 @@
       border-radius: 4px;
       font-family: inherit;
     }
-
     .mw-crumb:hover {
       background: rgba(56, 189, 248, 0.15);
       text-decoration: underline;
     }
-
     .mw-crumb.current {
       color: #cbd5e1;
       font-weight: 600;
       cursor: default;
       text-decoration: none;
     }
-
     .mw-topbar-right {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-
     .mw-search-wrap {
       position: relative;
       width: 220px;
     }
-
     @media (max-width: 640px) {
       .mw-search-wrap {
         width: 100%;
         order: 3;
       }
     }
-
     .mw-search-input {
       width: 100%;
       padding: 7px 12px;
@@ -835,7 +736,6 @@
       color: #f8fafc;
       font-size: 0.82rem;
     }
-
     .mw-close-btn {
       background: #ef4444;
       color: #ffffff;
@@ -851,11 +751,9 @@
       white-space: nowrap;
       transition: background 0.15s ease;
     }
-
     .mw-close-btn:hover {
       background: #dc2626;
     }
-
     .mw-toolbar {
       background: #131c31;
       border-bottom: 1px solid #1e293b;
@@ -868,14 +766,12 @@
       font-size: 0.8rem;
       color: #94a3b8;
     }
-
     .mw-toolbar-actions {
       display: flex;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
     }
-
     .mw-action-btn {
       background: #1e293b;
       color: #e2e8f0;
@@ -890,13 +786,11 @@
       gap: 5px;
       transition: all 0.15s ease;
     }
-
     .mw-action-btn:hover {
       background: #334155;
       border-color: #38bdf8;
       color: #ffffff;
     }
-
     .mw-content {
       padding: 16px;
       overflow-y: auto;
@@ -904,31 +798,26 @@
       min-height: 300px;
       max-height: calc(92vh - 130px);
     }
-
     .mw-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
     }
-
     @media (min-width: 560px) {
       .mw-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
-
     @media (min-width: 768px) {
       .mw-grid {
         grid-template-columns: repeat(4, minmax(0, 1fr));
       }
     }
-
     @media (min-width: 1024px) {
       .mw-grid {
         grid-template-columns: repeat(6, minmax(0, 1fr));
       }
     }
-
     .mw-card {
       background: #1e293b;
       border: 1px solid #334155;
@@ -944,19 +833,16 @@
       position: relative;
       min-width: 0;
     }
-
     .mw-card:hover {
       background: #334155;
       border-color: #38bdf8;
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     }
-
     .mw-card.active-playing {
       border: 2px solid #10b981;
       background: rgba(16, 185, 129, 0.12);
     }
-
     .mw-card-poster {
       width: 100%;
       aspect-ratio: 16 / 10;
@@ -970,19 +856,16 @@
       overflow: hidden;
       position: relative;
     }
-
     .mw-card-poster img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       background: #0b1120;
     }
-
     .mw-card-icon {
       font-size: 1.8rem;
       line-height: 1;
     }
-
     .mw-card-type-tag {
       position: absolute;
       top: 6px;
@@ -995,11 +878,9 @@
       padding: 2px 6px;
       border-radius: 6px;
     }
-
     .mw-card-type-tag.ep {
       color: #34d399;
     }
-
     .mw-card-title {
       font-size: 0.85rem;
       font-weight: 600;
@@ -1011,7 +892,6 @@
       overflow: hidden;
       line-height: 1.35;
     }
-
     .mw-card-sub {
       font-size: 0.72rem;
       color: #94a3b8;
@@ -1020,7 +900,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
     .mw-state-box {
       padding: 48px 20px;
       text-align: center;
@@ -1030,7 +909,6 @@
       align-items: center;
       gap: 12px;
     }
-
     .mw-spinner {
       width: 40px;
       height: 40px;
@@ -1039,15 +917,13 @@
       border-radius: 50%;
       animation: mwSpin 0.8s linear infinite;
     }
-
     @keyframes mwSpin {
       to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
-
-  <!-- ==================== ระบบล็อกสิทธิ์การใช้งานผ่าน GitHub (keys.json) ==================== -->
+  <!-- ==================== ระบบล็อกสิทธิ์การใช้งานผ่าน Cloudflare Worker (keys.json) ==================== -->
   <div id="auth-lock-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#0f172a; color:#f8fafc; z-index:999999; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:var(--font, sans-serif); padding:20px; box-sizing:border-box;">
     <div style="background:#1e293b; border:1px solid #334155; padding:32px 24px; border-radius:16px; width:100%; max-width:380px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.6);">
       <div style="width:52px; height:52px; border-radius:12px; background:linear-gradient(135deg, #3b82f6, #06b6d4); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; color:#fff;">
@@ -1058,13 +934,9 @@
       </div>
       <h2 style="margin:0 0 6px; font-size:1.25rem; font-weight:700;">ดูด้วยกัน(เงียบๆ)</h2>
       <p style="font-size:0.875rem; color:#94a3b8; margin-bottom:20px;">กรุณากรอกรหัสผู้ใช้งานเพื่อเข้าชมรายการ</p>
-
       <input type="text" id="license-input" placeholder="กรอกรหัส เช่น VIP001" style="width:100%; padding:12px 14px; margin-bottom:12px; border-radius:10px; border:1px solid #334155; background:#0f172a; color:#f8fafc; font-size:1rem; text-align:center; outline:none;" autocomplete="off" enterkeyhint="go">
-
       <button type="button" onclick="verifyAccess()" id="verify-btn" style="width:100%; padding:12px; background:#3b82f6; color:#ffffff; border:none; border-radius:10px; font-size:1rem; font-weight:600; cursor:pointer; transition:background 0.15s ease;">เข้าสู่ระบบ</button>
-
       <p id="auth-msg" style="color:#ef4444; font-size:0.85rem; margin-top:14px; min-height:20px;"></p>
-
       <div style="margin-top:18px; padding-top:14px; border-top:1px solid #334155; font-size:0.75rem; color:#64748b; display:flex; flex-direction:column; gap:6px;">
         <div>รหัสประจำเครื่องของคุณ (สำหรับแจ้งแอดมิน):</div>
         <div style="display:flex; align-items:center; justify-content:center; gap:8px;">
@@ -1079,8 +951,8 @@
     // รหัสลับประจำแอปสำหรับส่งให้ Cloudflare Worker ตรวจสอบ (ต้องตรงกับ SECRET_KEY ใน Worker)
     const APP_SECRET_KEY = "DooDuaiKan_Secret_2026_!@#";
 
-    // URL สำหรับดึง keys.json (หากเก็บไว้ที่อื่นสามารถเปลี่ยนลิงก์ตรงนี้ได้)
-    const GITHUB_KEYS_URL = "https://raw.githubusercontent.com/kruttha/dooduaikan/main/keys.json";
+    // URL สำหรับดึง keys.json จาก Cloudflare Worker
+    const GITHUB_KEYS_URL = "https://dooduaikan-api.kruttha.workers.dev/keys.json";
 
     // ป้องกันการกดค้างแล้วเมนูคลิกขวาของ WebView เด้งขึ้นมาบังหน้าจอทีวี
     document.addEventListener("contextmenu", function (e) {
@@ -1096,17 +968,14 @@
           const nativeId = String(window.Android.getDeviceId() || "").trim();
           if (nativeId) return nativeId.startsWith("DEV-") ? nativeId : ("DEV-" + nativeId.toUpperCase());
         }
-
         const nav = window.navigator || {};
         const scr = window.screen || {};
-
         let uaModel = (nav.userAgent || "")
           .replace(/Chrome\/[\d.]+/g, "")
           .replace(/Version\/[\d.]+/g, "")
           .replace(/Safari\/[\d.]+/g, "")
           .replace(/AppleWebKit\/[\d.]+/g, "")
           .replace(/wv\)/g, ")");
-
         let gpuInfo = "";
         try {
           const canvas = document.createElement("canvas");
@@ -1118,7 +987,6 @@
               : (gl.getParameter(gl.VENDOR) + "|" + gl.getParameter(gl.RENDERER));
           }
         } catch (e) {}
-
         const rawComponents = [
           nav.platform || "",
           uaModel,
@@ -1129,7 +997,6 @@
           scr.colorDepth || "",
           (Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : ""
         ].join("||");
-
         let h1 = 0x811c9dc5;
         let h2 = 0x1505;
         for (let i = 0; i < rawComponents.length; i++) {
@@ -1214,12 +1081,10 @@
     function getDeviceId() {
       const existingSavedId = (readPersistentValue("app_device_id") || "").trim();
       const hardwareId = generateStableDeviceFingerprint();
-
       if (existingSavedId && existingSavedId.startsWith("DEV-")) {
         savePersistentValue("app_device_id", existingSavedId);
         return existingSavedId;
       }
-
       savePersistentValue("app_device_id", hardwareId);
       return hardwareId;
     }
@@ -1330,14 +1195,18 @@
       }
 
       try {
-        const response = await fetch(`${GITHUB_KEYS_URL}?t=${Date.now()}`, { cache: "no-store" });
+        const response = await fetch(`${GITHUB_KEYS_URL}?t=${Date.now()}`, {
+          method: "GET",
+          cache: "no-store",
+          headers: {
+            "X-App-Secret": APP_SECRET_KEY
+          }
+        });
         if (!response.ok) {
-          throw new Error("ไม่พบไฟล์ keys.json บน GitHub");
+          throw new Error("ไม่พบไฟล์ keys.json บนเซิร์ฟเวอร์");
         }
-
         const data = await response.json();
         const keyList = Array.isArray(data) ? data : (Array.isArray(data.keys) ? data.keys : []);
-
         let isAllowed = false;
         let rejectReason = "รหัสไม่ถูกต้อง หรือยังไม่ได้รับอนุญาตจากแอดมิน";
 
@@ -1352,7 +1221,6 @@
             const itemKey = (item.key || "").toString().trim();
             const allowedDevices = parseAllowedDevices(item.deviceId || item.device_id || item.devices);
             const itemStatus = (item.status || "active").toString().trim().toLowerCase();
-
             const isDeviceMatched = allowedDevices.length === 0 || allowedDevices.some(dev => candidateDeviceIds.includes(dev));
             const keyMatched = itemKey && inputKey && (itemKey.toLowerCase() === inputKey.toLowerCase());
             const deviceDirectMatched = !itemKey && allowedDevices.length > 0 && isDeviceMatched;
@@ -1389,7 +1257,7 @@
       } catch (error) {
         if (msg) {
           msg.style.color = "#ef4444";
-          msg.innerText = "ไม่สามารถโหลดไฟล์ keys.json จาก GitHub ได้ กรุณาเช็คอินเทอร์เน็ตหรือตรวจสอบว่าสร้างไฟล์บน GitHub แล้ว";
+          msg.innerText = "ไม่สามารถโหลดข้อมูลสิทธิ์จากเซิร์ฟเวอร์ได้ กรุณาเช็คอินเทอร์เน็ตหรือตรวจสอบการตั้งค่า Cloudflare KV";
         }
       } finally {
         if (btn) {
@@ -1417,7 +1285,6 @@
     window.addEventListener("DOMContentLoaded", () => {
       const devIdEl = document.getElementById("display-device-id");
       if (devIdEl) devIdEl.innerText = getDeviceId();
-
       const savedKey = readPersistentValue("saved_license_key");
       if (savedKey) {
         const inp = document.getElementById("license-input");
@@ -1426,7 +1293,7 @@
       }
     });
   </script>
-  <!-- ==================== สิ้นสุดระบบล็อกสิทธิ์การใช้งานผ่าน GitHub ==================== -->
+  <!-- ==================== สิ้นสุดระบบล็อกสิทธิ์การใช้งาน ==================== -->
 
   <header>
     <div class="header-inner">
@@ -1462,19 +1329,16 @@
         </div>
         <button type="button" class="modal-close-btn" onclick="closeDonateModal()" aria-label="ปิดหน้าต่าง">✕</button>
       </div>
-
       <div class="modal-body">
         <p class="modal-desc">
           ร่วมสนับสนุนค่าน้ำ ค่าไฟ ค่าเซิร์ฟเวอร์ และเป็นกำลังใจในการพัฒนาปรับปรุงระบบต่อไป ขอบคุณทุกการสนับสนุนครับ 🙏
         </p>
-
         <!-- บัตร PromptPay / Thai QR Payment -->
         <div class="qr-card">
           <div class="promptpay-header">
             <span class="promptpay-badge-title">Thai QR Payment</span>
             <span class="promptpay-badge-sub">พร้อมเพย์ • สแกนจ่ายได้ทุกธนาคาร</span>
           </div>
-
           <div class="qr-frame">
             <!-- 1. ดึงภาพ QR จาก GitHub หรือในโฟลเดอร์ของผู้ใช้งานโดยอัตโนมัติ -->
             <img id="donate-qr-img" 
@@ -1533,11 +1397,9 @@
               </svg>
             </div>
           </div>
-
           <div class="qr-footer-hint">สแกนผ่านแอปธนาคารได้ทุกธนาคาร</div>
         </div>
       </div>
-
       <div class="modal-footer">
         <button type="button" class="btn-modal-dismiss" onclick="closeDonateModal()">ปิดหน้าต่าง</button>
       </div>
@@ -1569,14 +1431,12 @@
           </button>
         </div>
       </div>
-
       <div class="mw-toolbar">
         <div id="mw-status-info">พร้อมแสดงรายการ</div>
         <div class="mw-toolbar-actions">
           <button type="button" id="mw-reload-btn" class="mw-action-btn" style="display:none;">🔄 โหลดเพลย์ลิสต์ใหม่</button>
         </div>
       </div>
-
       <div id="mw-content" class="mw-content"></div>
     </div>
   </div>
@@ -1585,10 +1445,7 @@
     // ==================== สคริปต์ควบคุมหน้าต่างโมดอล Donate ====================
     let qrAttemptCount = 0;
     let qrLoadedSuccessfully = false;
-    const GITHUB_REPO_BASE = (typeof GITHUB_KEYS_URL === "string" && GITHUB_KEYS_URL.includes("keys.json"))
-      ? GITHUB_KEYS_URL.replace(/keys\.json.*$/i, "")
-      : "";
-
+    const GITHUB_REPO_BASE = "https://raw.githubusercontent.com/kruttha/dooduaikan/main/";
     const QR_FALLBACK_URLS = [
       GITHUB_REPO_BASE ? (GITHUB_REPO_BASE + "qr.png") : "",
       "qr.png",
@@ -1675,7 +1532,6 @@
       </div>
     </div>
   </div>
-
   <style>
     .announcement-bar {
       background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
@@ -1688,7 +1544,6 @@
       position: relative;
       z-index: 15;
     }
-
     .announcement-badge {
       background: linear-gradient(135deg, #f59e0b, #ea580c);
       color: #ffffff;
@@ -1703,7 +1558,6 @@
       box-shadow: 4px 0 10px rgba(0, 0, 0, 0.35);
       z-index: 2;
     }
-
     .announcement-track {
       flex: 1;
       overflow: hidden;
@@ -1713,7 +1567,6 @@
       display: flex;
       align-items: center;
     }
-
     .announcement-text {
       display: inline-block;
       padding-left: 100%;
@@ -1721,11 +1574,9 @@
       font-weight: 500;
       animation: ticker-scroll 24s linear infinite;
     }
-
     .announcement-bar:hover .announcement-text {
       animation-play-state: paused;
     }
-
     @keyframes ticker-scroll {
       0% {
         transform: translate3d(0, 0, 0);
@@ -1735,7 +1586,6 @@
       }
     }
   </style>
-
   <script>
     (async function () {
       const channelsUrl = 'https://dooduaikan-api.kruttha.workers.dev/channels.json';
@@ -1761,7 +1611,6 @@
           if (String(remoteMsg).trim() === '') barEl.style.display = 'none';
           else textEl.textContent = String(remoteMsg);
         }
-
         const customQrUrl = data.donate_qr || data.donate_image || data.qr;
         if (customQrUrl && typeof customQrUrl === 'string' && customQrUrl.trim()) {
           const qrImg = document.getElementById('donate-qr-img');
@@ -1848,19 +1697,16 @@
       if (!rawUrl) return false;
       const lower = rawUrl.toLowerCase();
       const strippedLower = lower.replace(/^wiseplay:\/\//i, '');
-
       // หากลิงก์ข้างในเป็นสตรีมวิดีโอโดยตรง (.m3u8, .mp4, master.txt, /hls/) ให้ลองเล่นบนเว็บผ่าน player ปกติก่อนเสมอ
       if (isDirectMediaStreamUrl(strippedLower) && /^https?:\/\//i.test(strippedLower)) {
         return false;
       }
-
       if (typeof itemOrUrl === 'object') {
         const playerProp = String(itemOrUrl.player || itemOrUrl.app || '').toLowerCase();
         if ((playerProp === 'wiseplay' || itemOrUrl.wiseplay === true) && !isDirectMediaStreamUrl(strippedLower)) {
           return true;
         }
       }
-
       if (
         (lower.startsWith('wiseplay://') && !isDirectMediaStreamUrl(strippedLower)) ||
         (lower.startsWith('intent://') && lower.includes('com.wiseplay')) ||
@@ -1870,7 +1716,6 @@
       ) {
         return true;
       }
-
       return false;
     }
 
@@ -1909,11 +1754,9 @@
     function buildWiseplayLaunchUrls(targetUrl) {
       const raw = String(targetUrl || '').trim();
       if (!raw) return { intentUrl: '', schemeUrl: '', rawUrl: '' };
-
       if (raw.toLowerCase().startsWith('intent://')) {
         return { intentUrl: raw, schemeUrl: raw, rawUrl: raw };
       }
-
       if (raw.toLowerCase().startsWith('wiseplay://')) {
         const stripped = raw.replace(/^wiseplay:\/\//i, '');
         const hasHttp = /^https?:\/\//i.test(stripped);
@@ -1925,7 +1768,6 @@
           : ('intent://' + stripped + '#Intent;scheme=wiseplay;package=com.wiseplay;action=android.intent.action.VIEW;end');
         return { intentUrl: intentUrl, schemeUrl: raw, rawUrl: hasHttp ? stripped : raw };
       }
-
       const schemeMatch = raw.match(/^(https?):\/\/(.*)$/i);
       if (schemeMatch) {
         const scheme = schemeMatch[1].toLowerCase();
@@ -1935,7 +1777,6 @@
         const schemeUrl = 'wiseplay://' + raw;
         return { intentUrl: intentUrl, schemeUrl: schemeUrl, rawUrl: raw };
       }
-
       return {
         intentUrl: 'intent://' + raw + '#Intent;scheme=wiseplay;package=com.wiseplay;action=android.intent.action.VIEW;end',
         schemeUrl: 'wiseplay://' + raw,
@@ -1964,9 +1805,7 @@
     function launchWiseplayApp(targetUrl) {
       const cleanUrl = String(targetUrl || '').trim();
       if (!cleanUrl || cleanUrl === '#' || cleanUrl.startsWith('about:')) return false;
-
       const { intentUrl, schemeUrl, rawUrl } = buildWiseplayLaunchUrls(cleanUrl);
-
       try {
         if (window.Android) {
           if (typeof window.Android.openWiseplay === 'function') {
@@ -1983,7 +1822,6 @@
           }
         }
       } catch (e) {}
-
       try {
         const isAndroid = /Android/i.test(navigator.userAgent || '');
         if (isAndroid && intentUrl) {
@@ -1998,12 +1836,10 @@
           return true;
         }
       } catch (e) {}
-
       if (schemeUrl) {
         triggerExternalSchemeSilently(schemeUrl);
         return true;
       }
-
       return false;
     }
     // ==================== สิ้นสุดระบบเปิดแอป Wiseplay หลังบ้านอัตโนมัติ ====================
@@ -2022,7 +1858,6 @@
       ];
 
       const channels = [...DEFAULT_CHANNELS];
-
       let activeChannelId = null;
       let activeEpisodeIndex = 0;
       let activePlayingStreamUrl = '';
@@ -2046,7 +1881,6 @@
       const episodeBarTitleEl = document.getElementById('episode-bar-title');
       const episodeBarExpandBtn = document.getElementById('episode-bar-expand-btn');
       const episodeListEl = document.getElementById('episode-list');
-
       const searchInput = document.getElementById('search-input');
       const categoryTabs = document.getElementById('category-tabs');
       const channelListEl = document.getElementById('channel-list');
@@ -2061,7 +1895,6 @@
       const mwStatusInfo = document.getElementById('mw-status-info');
       const mwReloadBtn = document.getElementById('mw-reload-btn');
       const mwContent = document.getElementById('mw-content');
-
       let mwWindowStack = [];
       let mwSearchQuery = '';
       const playlistCache = new Map();
@@ -2148,32 +1981,25 @@
         } catch (e) {}
         videoEl.classList.remove('active');
         if (placeholderEl) placeholderEl.style.display = '';
-
         closeMultiWindowOverlay();
         mwWindowStack = [];
-
         if (episodeBarEl) episodeBarEl.classList.remove('visible');
         if (episodeListEl) episodeListEl.innerHTML = '';
         if (reopenAddonBtn) reopenAddonBtn.style.display = 'none';
         if (episodeBarExpandBtn) episodeBarExpandBtn.style.display = 'none';
-
         activeChannelId = null;
         activeEpisodeIndex = 0;
         activePlayingStreamUrl = '';
-
         if (currentCatEl) currentCatEl.textContent = 'พร้อมใช้งาน';
         if (currentTitleEl) currentTitleEl.textContent = 'เลือกช่องเพื่อรับชม';
         showPlayerError('');
-
         if (document.fullscreenElement && document.exitFullscreen) {
           document.exitFullscreen().catch(() => {});
         } else if (document.webkitFullscreenElement && document.webkitExitFullscreen) {
           document.webkitExitFullscreen();
         }
-
         renderChannels();
         window.scrollTo({ top: 0, behavior: 'smooth' });
-
         setTimeout(() => {
           const firstChannel = document.querySelector('.channel-item');
           if (firstChannel) firstChannel.focus();
@@ -2188,18 +2014,15 @@
           videoEl.pause();
           videoEl.removeAttribute('src');
         } catch (e) {}
-
         if (!cleanUrl || cleanUrl === '#' || cleanUrl.startsWith('about:')) {
           returnToMainHome();
           return;
         }
-
         const launched = launchWiseplayApp(cleanUrl);
         if (!launched) {
           returnToMainHome();
           return;
         }
-
         // รอให้ระบบส่ง Intent ไปยังแอป Wiseplay หลังบ้านแล้วรีเซ็ตหน้าหลักกลับสู่สถานะปกติทันที
         clearFallbackTimer();
         fallbackTimerId = setTimeout(() => {
@@ -2243,7 +2066,6 @@
           'https://api.allorigins.win/raw?url=' + encodeURIComponent(cleanHttpUrl),
           'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(cleanHttpUrl)
         ];
-
         for (const candidate of candidateUrls) {
           try {
             const res = await fetchWithTimeout(candidate, 8000);
@@ -2291,7 +2113,6 @@
               const rMatch = headerPart.match(/referer=([^&|]+)/i);
               if (rMatch) currentReferer = decodeURIComponent(rMatch[1].trim());
             }
-
             list.push({
               name: currentName || ('ตอนที่ ' + (list.length + 1)),
               info: currentGroup || '',
@@ -2321,13 +2142,11 @@
             };
           });
         }
-
         return list;
       }
 
       function parseHierarchicalNodesFromJson(obj, fallbackImage = '', inheritedReferer = '') {
         if (!obj) return [];
-
         if (Array.isArray(obj)) {
           let arrNodes = [];
           obj.forEach(item => {
@@ -2335,7 +2154,6 @@
           });
           return arrNodes;
         }
-
         if (typeof obj === 'object') {
           const nodeImage = obj.image || obj.logo || fallbackImage || '';
           const nodeReferer = obj.referer || obj.referrer || (obj.headers && (obj.headers.referer || obj.headers.Referer)) || inheritedReferer || '';
@@ -2349,7 +2167,6 @@
               const hasSubGroups = Array.isArray(g.groups) && g.groups.length > 0;
               const hasSubStations = Array.isArray(g.stations) && g.stations.length > 0;
               const gUrl = String(g.url || g.stream || g.link || g.file || g.src || '').trim();
-
               if (hasSubGroups || hasSubStations) {
                 const subItems = parseHierarchicalNodesFromJson(g, gImg, gRef);
                 childNodes.push({
@@ -2386,7 +2203,6 @@
               const stImg = st.image || st.logo || nodeImage || '';
               const stRef = st.referer || st.referrer || (st.headers && (st.headers.referer || st.headers.Referer)) || nodeReferer || '';
               const hasNested = (Array.isArray(st.stations) && st.stations.length > 0) || (Array.isArray(st.groups) && st.groups.length > 0);
-
               if (hasNested) {
                 const nestedChildren = parseHierarchicalNodesFromJson(st, stImg, stRef);
                 childNodes.push({
@@ -2436,21 +2252,18 @@
             }];
           }
         }
-
         return [];
       }
 
       function extractStationsFromJson(obj, parentName = '', inheritedReferer = '') {
         let results = [];
         if (!obj) return results;
-
         if (Array.isArray(obj)) {
           obj.forEach(item => {
             results = results.concat(extractStationsFromJson(item, parentName, inheritedReferer));
           });
           return results;
         }
-
         if (typeof obj === 'object') {
           const currentGroupName = obj.name || parentName || '';
           const currentRef = obj.referer || obj.referrer || inheritedReferer || '';
@@ -2637,16 +2450,13 @@
       function renderCurrentMultiWindowView() {
         if (mwWindowStack.length === 0) return;
         const currentView = mwWindowStack[mwWindowStack.length - 1];
-
         if (mwTitleText) {
           mwTitleText.textContent = currentView.title || 'รายการซีรีส์';
         }
-
         if (mwBackBtn) {
           mwBackBtn.onclick = () => popMultiWindowView();
           mwBackBtn.innerHTML = mwWindowStack.length > 1 ? '<span>⬅️ ย้อนกลับ</span>' : '<span>⬅️ ปิดหน้าต่าง</span>';
         }
-
         if (mwBreadcrumbs) {
           mwBreadcrumbs.innerHTML = '';
           mwWindowStack.forEach((win, idx) => {
@@ -2667,7 +2477,6 @@
             mwBreadcrumbs.appendChild(crumbBtn);
           });
         }
-
         if (mwReloadBtn) {
           if (currentView.sourceUrl) {
             mwReloadBtn.style.display = 'inline-flex';
@@ -2676,7 +2485,6 @@
             mwReloadBtn.style.display = 'none';
           }
         }
-
         if (currentView.loading) {
           if (mwStatusInfo) mwStatusInfo.textContent = '⏳ กำลังดึงข้อมูลเพลย์ลิสต์ภายนอก...';
           renderMultiWindowState(
@@ -2688,7 +2496,6 @@
           );
           return;
         }
-
         // หากดึงโครงสร้างเพลย์ลิสต์ไม่ได้ ให้สลับไปทำงานหลังบ้านอัตโนมัติโดยไม่มีปุ่มให้กด
         if (currentView.error) {
           if (currentView.sourceUrl) {
@@ -2713,7 +2520,6 @@
           const q = mwSearchQuery.toLowerCase();
           return String(it.name || '').toLowerCase().includes(q) || String(it.info || '').toLowerCase().includes(q);
         });
-
         const groupCount = filteredItems.filter(it => it.isGroup || it.isExternalPlaylist).length;
         const epCount = filteredItems.length - groupCount;
 
@@ -2736,11 +2542,9 @@
 
         const grid = document.createElement('div');
         grid.className = 'mw-grid';
-
         filteredItems.forEach((item, idx) => {
           const isFolder = Boolean(item.isGroup || item.isExternalPlaylist);
           const isPlayingThis = !isFolder && item.url && item.url === activePlayingStreamUrl;
-
           const card = document.createElement('div');
           card.className = 'mw-card' + (isPlayingThis ? ' active-playing' : '');
           card.setAttribute('role', 'button');
@@ -2748,7 +2552,6 @@
 
           const poster = document.createElement('div');
           poster.className = 'mw-card-poster';
-
           const badge = document.createElement('span');
           badge.className = 'mw-card-type-tag' + (isFolder ? '' : ' ep');
           badge.textContent = isFolder ? (item.isExternalPlaylist ? '🌐 เพลย์ลิสต์' : '📁 หมวด/เรื่อง') : ('▶ ตอนที่ ' + (idx + 1));
@@ -2791,11 +2594,9 @@
           card.appendChild(poster);
           card.appendChild(titleEl);
           card.appendChild(subEl);
-
           card.addEventListener('click', () => handleMultiWindowItemClick(item, currentView, allItems));
           grid.appendChild(card);
         });
-
         mwContent.innerHTML = '';
         mwContent.appendChild(grid);
       }
@@ -2808,7 +2609,6 @@
         viewObj.loading = true;
         viewObj.error = false;
         renderCurrentMultiWindowView();
-
         try {
           const nodes = await fetchHierarchicalPlaylistNodes(viewObj.sourceUrl, viewObj.fallbackImage || '', forceReload);
           if (nodes && nodes.length > 0) {
@@ -2821,11 +2621,9 @@
               }, viewObj, []);
               return;
             }
-
             viewObj.items = nodes;
             viewObj.loading = false;
             viewObj.error = false;
-
             if (viewObj.parentChannel) {
               const flat = flattenStationsFromNodes(nodes);
               if (flat.length > 0) {
@@ -2856,7 +2654,6 @@
           name: (currentView && currentView.title) || 'ละคร/ซีรีส์',
           category: 'ละคร/ซีรีส์'
         };
-
         const playableSiblings = (siblingItems || []).filter(it => !it.isGroup && !it.isExternalPlaylist && it.url);
         if (playableSiblings.length > 0) {
           parentCh.stations = playableSiblings;
@@ -2864,19 +2661,15 @@
           activeEpisodeIndex = epIdx >= 0 ? epIdx : 0;
           renderEpisodes(parentCh);
         }
-
         activePlayingStreamUrl = item.url;
         placeholderEl.style.display = 'none';
         videoEl.classList.add('active');
-
         const seriesTitle = (currentView && currentView.title) || parentCh.name || 'ละคร/ซีรีส์';
         const epTitle = item.name || 'ตอนรับชม';
         currentTitleEl.textContent = seriesTitle === epTitle ? epTitle : (seriesTitle + ' - ' + epTitle);
         currentCatEl.textContent = 'หมวดหมู่: ' + (parentCh.category || 'ละคร/ซีรีส์') + (item.info ? ' (' + item.info + ')' : '');
-
         if (reopenAddonBtn) reopenAddonBtn.style.display = 'inline-block';
         if (episodeBarExpandBtn) episodeBarExpandBtn.style.display = 'inline-block';
-
         showPlayerError('');
         closeMultiWindowOverlay();
         loadStreamUrl(item.url, item.subtitle, item);
@@ -2885,7 +2678,6 @@
 
       function handleMultiWindowItemClick(item, currentView, siblingItems) {
         if (!item) return;
-
         if (item.isGroup && Array.isArray(item.children) && item.children.length > 0) {
           pushMultiWindowView({
             title: item.name || 'หมวดย่อย',
@@ -2896,7 +2688,6 @@
           });
           return;
         }
-
         if ((item.isExternalPlaylist || (!isDirectMediaStreamUrl(item.url) && isPlaylistUrl(item.url))) && item.url) {
           const newView = {
             title: item.name || 'เพลย์ลิสต์ย่อย',
@@ -2910,7 +2701,6 @@
           loadExternalUrlIntoWindow(newView, false);
           return;
         }
-
         if (item.url) {
           startPlaybackFromAddonItem(item, currentView, siblingItems);
         }
@@ -2921,12 +2711,9 @@
         activeChannelId = channel.id;
         lastMultiWindowChannel = channel;
         renderChannels();
-
         if (reopenAddonBtn) reopenAddonBtn.style.display = 'inline-block';
         if (episodeBarExpandBtn) episodeBarExpandBtn.style.display = 'inline-block';
-
         mwWindowStack = [];
-
         const rawSource = channel.rawObj || channel;
         const preloadedNodes = parseHierarchicalNodesFromJson(rawSource, channel.logo, channel.referer || '');
         const hasMultipleOrNested =
@@ -2981,7 +2768,6 @@
       if (mwCloseBtn) {
         mwCloseBtn.addEventListener('click', closeMultiWindowOverlay);
       }
-
       if (mwOverlay) {
         mwOverlay.addEventListener('click', function (e) {
           if (e.target === mwOverlay) {
@@ -2989,7 +2775,6 @@
           }
         });
       }
-
       if (mwSearchInput) {
         mwSearchInput.addEventListener('input', function (e) {
           mwSearchQuery = e.target.value || '';
@@ -3038,9 +2823,7 @@
           returnToMainHome();
           return;
         }
-
         let targetStreamUrl = cleanOrigUrl;
-
         if (attemptStage === 1) {
           const currentPolicy = videoEl.getAttribute('referrerpolicy') || 'no-referrer';
           videoEl.setAttribute('referrerpolicy', currentPolicy === 'no-referrer' ? 'origin' : 'no-referrer');
@@ -3051,13 +2834,12 @@
             return tryHlsOrNativeFallback(cleanOrigUrl, isExplicitHls, stationObj, 3, sessionToken);
           }
         } else if (attemptStage === 3) {
-          targetStreamUrl = 'https://corsproxy.io/?' + encodeURomponent(cleanOrigUrl);
+          targetStreamUrl = 'https://corsproxy.io/?' + encodeURIComponent(cleanOrigUrl);
         }
 
         if (window.Hls && window.Hls.isSupported()) {
           destroyActivePlayers();
           let manifestLoaded = false;
-
           hlsInstance = new window.Hls({
             enableWorker: true,
             lowLatencyMode: false,
@@ -3065,17 +2847,14 @@
               xhr.withCredentials = false;
             }
           });
-
           hlsInstance.loadSource(targetStreamUrl);
           hlsInstance.attachMedia(videoEl);
-
           hlsInstance.on(window.Hls.Events.MANIFEST_PARSED, () => {
             if (sessionToken !== playbackSessionId) return;
             manifestLoaded = true;
             showPlayerError('');
             videoEl.play().catch(() => {});
           });
-
           hlsInstance.on(window.Hls.Events.ERROR, (event, data) => {
             if (sessionToken !== playbackSessionId) return;
             if (data && data.fatal) {
@@ -3127,13 +2906,11 @@
         playbackSessionId++;
         const currentSession = playbackSessionId;
         destroyActivePlayers();
-
         let url = (streamUrl || '').trim();
         if (!url || url.startsWith('about:')) {
           returnToMainHome();
           return;
         }
-
         let extractedInlineReferer = '';
         if (url.includes('|')) {
           const parts = url.split('|');
@@ -3142,11 +2919,9 @@
           const rMatch = headerStr.match(/referer=([^&|]+)/i);
           if (rMatch) extractedInlineReferer = decodeURIComponent(rMatch[1].trim());
         }
-
         if (/^wiseplay:\/\/https?:\/\//i.test(url)) {
           url = url.replace(/^wiseplay:\/\//i, '');
         }
-
         activePlayingStreamUrl = url;
 
         // กรณีลิงก์บังคับใช้ Wiseplay หรือเข้ารหัส DRM (.mpd) ให้เปิด Wiseplay หลังบ้านอัตโนมัติและเด้งกลับหน้าหลัก
@@ -3156,7 +2931,6 @@
         }
 
         attachSubtitle(subtitleUrl);
-
         const itemReferer = extractedInlineReferer || (stationOrChannelObj && typeof stationOrChannelObj === 'object' ? (stationOrChannelObj.referer || stationOrChannelObj.referrer || '') : '');
         if (stationOrChannelObj && typeof stationOrChannelObj === 'object' && extractedInlineReferer && !stationOrChannelObj.referer) {
           stationOrChannelObj.referer = extractedInlineReferer;
@@ -3223,7 +2997,6 @@
         episodeBarEl.classList.add('visible');
         episodeBarTitleEl.textContent = 'เลือกช่องย่อย / ตอน (' + channel.stations.length + ' รายการ)';
         episodeListEl.innerHTML = '';
-
         channel.stations.forEach((st, idx) => {
           const btn = document.createElement('button');
           btn.type = 'button';
@@ -3252,16 +3025,13 @@
 
       async function playChannel(channel) {
         if (!channel) return;
-
         if (isSeriesMultiWindowChannel(channel)) {
           openChannelInMultiWindowAddon(channel);
           return;
         }
-
         activeChannelId = channel.id;
         activeEpisodeIndex = 0;
         window.scrollTo({ top: 0, behavior: 'smooth' });
-
         placeholderEl.style.display = 'none';
         videoEl.classList.add('active');
         currentTitleEl.textContent = channel.name;
@@ -3327,7 +3097,6 @@
           const matchSearch = ch.name.toLowerCase().includes(searchQuery.toLowerCase());
           return matchCat && matchSearch;
         });
-
         channelListEl.innerHTML = '';
         if (filtered.length === 0) {
           const empty = document.createElement('div');
@@ -3336,13 +3105,11 @@
           channelListEl.appendChild(empty);
           return;
         }
-
         filtered.forEach(ch => {
           const item = document.createElement('div');
           item.className = 'channel-item' + (ch.id === activeChannelId ? ' active' : '');
           item.setAttribute('role', 'button');
           item.setAttribute('tabindex', '0');
-
           if (ch.logo) {
             const logoImg = document.createElement('img');
             logoImg.className = 'channel-logo';
@@ -3352,7 +3119,6 @@
             logoImg.addEventListener('error', () => { logoImg.style.display = 'none'; });
             item.appendChild(logoImg);
           }
-
           const meta = document.createElement('div');
           meta.className = 'channel-meta';
           const name = document.createElement('div');
@@ -3361,7 +3127,6 @@
           const cat = document.createElement('div');
           cat.className = 'channel-cat';
           cat.textContent = ch.stations ? (ch.category + ' • ' + ch.stations.length + ' รายการ') : ch.category;
-
           meta.appendChild(name);
           meta.appendChild(cat);
           item.appendChild(meta);
@@ -3444,13 +3209,11 @@
       transform: scale(1.04) !important;
       z-index: 10;
     }
-
     .channel-item:focus,
     .mw-card:focus {
       background-color: #334155 !important;
       border-color: #38bdf8 !important;
     }
-
     /* 2. ปรับเลย์เอาต์แบ่งซ้าย-ขวาอัตโนมัติสำหรับจอทีวีแนวนอน */
     @media (min-width: 960px) {
       .main-container {
@@ -3460,12 +3223,10 @@
         gap: 20px !important;
         align-items: start !important;
       }
-
       .left-col {
         position: sticky !important;
         top: 72px !important;
       }
-
       .channel-list {
         max-height: calc(100vh - 220px) !important;
         grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
@@ -3473,12 +3234,10 @@
       }
     }
   </style>
-
   <script>
     (function () {
       const video = document.getElementById('tv-video');
       const nowPlayingBar = document.querySelector('.now-playing-bar');
-
       if (nowPlayingBar && video) {
         const fsBtn = document.createElement('button');
         fsBtn.type = 'button';
@@ -3539,7 +3298,6 @@
         if (lockScreen && window.getComputedStyle(lockScreen).display !== 'none') {
           return Array.from(lockScreen.querySelectorAll('input, button')).filter(el => !el.disabled);
         }
-
         if (isDonateModalVisible()) {
           const modal = document.getElementById('donate-modal');
           return Array.from(modal.querySelectorAll('button')).filter(el => {
@@ -3547,7 +3305,6 @@
             return style.display !== 'none' && style.visibility !== 'hidden' && !el.disabled;
           });
         }
-
         if (isMultiWindowVisible()) {
           const mw = document.getElementById('mw-addon-overlay');
           return Array.from(mw.querySelectorAll('button, input, .mw-card')).filter(el => {
@@ -3555,7 +3312,6 @@
             return style.display !== 'none' && style.visibility !== 'hidden' && !el.disabled && el.offsetParent !== null;
           });
         }
-
         const selectors = 'header button, .now-playing-bar button, .now-playing-bar a, #episode-bar-expand-btn, .ep-btn, #search-input, .tab-btn, .channel-item';
         return Array.from(document.querySelectorAll(selectors)).filter(el => {
           const style = window.getComputedStyle(el);
@@ -3575,21 +3331,18 @@
           closeDonateModal();
           return;
         }
-
         if (isBackKey && isMultiWindowVisible()) {
           e.preventDefault();
           const backBtn = document.getElementById('mw-back-btn');
           if (backBtn) backBtn.click();
           return;
         }
-
         if (isBackKey && isCurrentlyFullscreen()) {
           e.preventDefault();
           if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
           else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
           return;
         }
-
         if (isLockVisible() && !(activeEl && activeEl.closest && activeEl.closest('#auth-lock-screen'))) {
           const lockFirst = document.getElementById('license-input');
           if (lockFirst && (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key) || isOkKey)) {
@@ -3598,13 +3351,11 @@
           }
           return;
         }
-
         if ((code === 23 || code === 66) && activeEl && (activeEl.tagName === 'BUTTON' || activeEl.tagName === 'A')) {
           e.preventDefault();
           activeEl.click();
           return;
         }
-
         if (isOkKey && activeEl && activeEl.classList && activeEl.classList.contains('mw-card')) {
           e.preventDefault();
           activeEl.click();
@@ -3616,7 +3367,6 @@
           }, 80);
           return;
         }
-
         if (isOkKey && activeEl && activeEl.classList && activeEl.classList.contains('channel-item')) {
           e.preventDefault();
           if (activeEl.classList.contains('active') && !isMultiWindowVisible()) {
@@ -3637,11 +3387,9 @@
           }, 80);
           return;
         }
-
         if (activeEl && activeEl.tagName === 'INPUT' && (key === 'ArrowLeft' || key === 'ArrowRight')) {
           return;
         }
-
         if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key)) return;
 
         const focusables = getVisibleFocusableElements();
@@ -3668,7 +3416,6 @@
         const currentRect = activeEl.getBoundingClientRect();
         const curCenterX = currentRect.left + currentRect.width / 2;
         const curCenterY = currentRect.top + currentRect.height / 2;
-
         let bestCandidate = null;
         let minDistance = Infinity;
 
@@ -3677,10 +3424,8 @@
           const rect = candidate.getBoundingClientRect();
           const candCenterX = rect.left + rect.width / 2;
           const candCenterY = rect.top + rect.height / 2;
-
           const dx = candCenterX - curCenterX;
           const dy = candCenterY - curCenterY;
-
           let isValidDirection = false;
           if (key === 'ArrowRight' && dx > 5 && Math.abs(dy) < currentRect.height * 1.2) isValidDirection = true;
           else if (key === 'ArrowLeft' && dx < -5 && Math.abs(dy) < currentRect.height * 1.2) isValidDirection = true;
@@ -3714,6 +3459,5 @@
     })();
   </script>
   <!-- ==================== สิ้นสุดระบบรองรับ Android TV ==================== -->
-
 </body>
 </html>
