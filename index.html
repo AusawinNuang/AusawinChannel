@@ -1340,14 +1340,15 @@
             <span class="promptpay-badge-sub">พร้อมเพย์ • สแกนจ่ายได้ทุกธนาคาร</span>
           </div>
           <div class="qr-frame">
-            <!-- 1. ดึงภาพ QR จาก GitHub หรือในโฟลเดอร์ของผู้ใช้งานโดยอัตโนมัติ -->
+            <!-- 1. ดึงภาพ QR จาก Cloudflare / โฟลเดอร์แอป / GitHub อัตโนมัติ (ซ่อนไว้จนกว่าจะโหลดรูปจริงสำเร็จ) -->
             <img id="donate-qr-img" 
                  alt="QR Code สำหรับโดเนท" 
+                 style="display:none;"
                  onload="handleQrImageLoad(this)"
                  onerror="handleQrImageError(this)">
             
-            <!-- 2. Fallback แสดง SVG QR Code พร้อมเพย์มาตรฐาน หากยังไม่ได้อัปโหลดภาพ qr.png ขึ้น GitHub -->
-            <div id="fallback-qr-svg" style="display:none; width:100%; height:100%;">
+            <!-- 2. แสดง SVG QR Code มาตรฐานรอไว้เสมอ ป้องกันกรอบว่าง -->
+            <div id="fallback-qr-svg" style="display:block; width:100%; height:100%;">
               <svg viewBox="0 0 160 160" width="100%" height="100%" style="background:#fff;">
                 <!-- Finder Pattern Top-Left -->
                 <rect x="10" y="10" width="40" height="40" fill="#000" rx="3"/>
@@ -1442,23 +1443,39 @@
   </div>
 
   <script>
-    // ==================== สคริปต์ควบคุมหน้าต่างโมดอล Donate ====================
+    // ==================== สคริปต์ควบคุมหน้าต่างโมดอล Donate (แก้ไขปัญหา QR ไม่ขึ้น) ====================
+    // 💡 คุณสามารถวางลิงก์รูป QR Code หรือ Base64 (data:image/png;base64,...) ไว้ในตัวแปรด้านล่างนี้โดยตรงได้เลยครับ
+    const DIRECT_DONATE_QR_URL = "";
+
     let qrAttemptCount = 0;
     let qrLoadedSuccessfully = false;
+    let qrCandidateQueue = [];
     const GITHUB_REPO_BASE = "https://raw.githubusercontent.com/kruttha/dooduaikan/main/";
-    const QR_FALLBACK_URLS = [
-      GITHUB_REPO_BASE ? (GITHUB_REPO_BASE + "qr.png") : "",
-      "qr.png",
-      "./qr.png",
-      GITHUB_REPO_BASE ? (GITHUB_REPO_BASE + "QR.png") : "",
-      "QR.png",
-      GITHUB_REPO_BASE ? (GITHUB_REPO_BASE + "qr.jpg") : "",
-      "qr.jpg",
-      GITHUB_REPO_BASE ? (GITHUB_REPO_BASE + "donate.png") : "",
-      "donate.png",
-      GITHUB_REPO_BASE ? (GITHUB_REPO_BASE + "promptpay.png") : "",
-      "promptpay.png"
-    ].filter(Boolean);
+
+    function buildQrCandidateList(customRemoteUrl = "") {
+      const rawList = [
+        customRemoteUrl ? String(customRemoteUrl).trim() : "",
+        DIRECT_DONATE_QR_URL ? String(DIRECT_DONATE_QR_URL).trim() : "",
+        "qr.png",
+        "./qr.png",
+        "QR.png",
+        "qr.jpg",
+        "donate.png",
+        "promptpay.png",
+        GITHUB_REPO_BASE + "qr.png",
+        GITHUB_REPO_BASE + "QR.png",
+        GITHUB_REPO_BASE + "qr.jpg",
+        GITHUB_REPO_BASE + "donate.png",
+        GITHUB_REPO_BASE + "promptpay.png"
+      ].filter(Boolean);
+      return Array.from(new Set(rawList));
+    }
+
+    function appendCacheBuster(urlStr) {
+      const clean = String(urlStr || "").trim();
+      if (!clean || clean.startsWith("data:") || clean.startsWith("blob:")) return clean;
+      return clean + (clean.includes("?") ? "&" : "?") + "t=" + Date.now();
+    }
 
     function handleQrImageLoad(img) {
       qrLoadedSuccessfully = true;
@@ -1469,30 +1486,40 @@
 
     function handleQrImageError(img) {
       qrAttemptCount++;
-      if (qrAttemptCount < QR_FALLBACK_URLS.length) {
-        const nextUrl = QR_FALLBACK_URLS[qrAttemptCount];
-        img.src = nextUrl + (nextUrl.includes("?") ? "&" : "?") + "t=" + Date.now();
+      if (qrAttemptCount < qrCandidateQueue.length) {
+        const nextUrl = qrCandidateQueue[qrAttemptCount];
+        img.src = appendCacheBuster(nextUrl);
       } else {
-        img.style.display = "none";
+        // หากลองทุกลิงก์แล้วยังไม่เจอรูป ให้ซ่อน <img> ที่พัง และแสดง SVG QR มาตรฐานแทนทันที
+        if (img) img.style.display = "none";
         const svgBox = document.getElementById("fallback-qr-svg");
         if (svgBox) svgBox.style.display = "block";
       }
     }
 
-    function startQrImageLoading() {
+    function startQrImageLoading(customRemoteUrl = "") {
       const img = document.getElementById("donate-qr-img");
-      if (!img || QR_FALLBACK_URLS.length === 0) return;
+      const svgBox = document.getElementById("fallback-qr-svg");
+      if (!img) return;
+
+      // แสดง SVG รอไว้ก่อนเสมอ เพื่อให้เปิดโมดอลมาแล้วมีภาพ QR ทันที
+      if (!qrLoadedSuccessfully) {
+        img.style.display = "none";
+        if (svgBox) svgBox.style.display = "block";
+      }
+
+      qrCandidateQueue = buildQrCandidateList(customRemoteUrl);
+      if (qrCandidateQueue.length === 0) return;
+
       qrAttemptCount = 0;
       qrLoadedSuccessfully = false;
-      img.style.display = "block";
-      const firstUrl = QR_FALLBACK_URLS[0];
-      img.src = firstUrl + (firstUrl.includes("?") ? "&" : "?") + "t=" + Date.now();
+      img.src = appendCacheBuster(qrCandidateQueue[0]);
     }
 
     function openDonateModal() {
       const modal = document.getElementById("donate-modal");
       if (!qrLoadedSuccessfully) {
-        startQrImageLoading();
+        startQrImageLoading(window.__customDonateQrUrl || "");
       }
       if (modal) {
         modal.classList.add("active");
@@ -1503,8 +1530,6 @@
         }, 80);
       }
     }
-
-    window.addEventListener("DOMContentLoaded", startQrImageLoading);
 
     function closeDonateModal() {
       const modal = document.getElementById("donate-modal");
@@ -1589,7 +1614,10 @@
   <script>
     (async function () {
       const channelsUrl = 'https://dooduaikan-api.kruttha.workers.dev/channels.json';
-      if (!channelsUrl || channelsUrl.startsWith('about:')) return;
+      if (!channelsUrl || channelsUrl.startsWith('about:')) {
+        startQrImageLoading();
+        return;
+      }
       try {
         if (!window.__channelsDataPromise) {
           window.__channelsDataPromise = fetch(channelsUrl + '?t=' + Date.now(), {
@@ -1603,26 +1631,22 @@
             .catch(() => null);
         }
         const data = await window.__channelsDataPromise;
-        if (!data) return;
-        const remoteMsg = data.notice || data.announcement || data.message;
-        const textEl = document.getElementById('announcement-text');
-        const barEl = document.querySelector('.announcement-bar');
-        if (remoteMsg !== undefined && textEl && barEl) {
-          if (String(remoteMsg).trim() === '') barEl.style.display = 'none';
-          else textEl.textContent = String(remoteMsg);
-        }
-        const customQrUrl = data.donate_qr || data.donate_image || data.qr;
-        if (customQrUrl && typeof customQrUrl === 'string' && customQrUrl.trim()) {
-          const qrImg = document.getElementById('donate-qr-img');
-          if (qrImg) {
-            qrLoadedSuccessfully = true;
-            qrImg.style.display = 'block';
-            qrImg.src = customQrUrl.trim();
-            const svgBox = document.getElementById('fallback-qr-svg');
-            if (svgBox) svgBox.style.display = 'none';
+        if (data) {
+          const remoteMsg = data.notice || data.announcement || data.message;
+          const textEl = document.getElementById('announcement-text');
+          const barEl = document.querySelector('.announcement-bar');
+          if (remoteMsg !== undefined && textEl && barEl) {
+            if (String(remoteMsg).trim() === '') barEl.style.display = 'none';
+            else textEl.textContent = String(remoteMsg);
+          }
+          const customQrUrl = data.donate_qr || data.donate_image || data.qr;
+          if (customQrUrl && typeof customQrUrl === 'string' && customQrUrl.trim()) {
+            window.__customDonateQrUrl = customQrUrl.trim();
           }
         }
       } catch (e) {}
+      // เริ่มโหลดภาพ QR หลังจากเช็กค่าจาก Cloudflare เสร็จแล้ว (ไม่ชนกัน)
+      startQrImageLoading(window.__customDonateQrUrl || "");
     })();
   </script>
   <!-- ==================== สิ้นสุดแถบข้อความประกาศตัววิ่ง ==================== -->
