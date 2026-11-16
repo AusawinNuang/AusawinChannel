@@ -2,9 +2,12 @@
 <html lang="th">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>ดูด้วยกัน(เงียบๆ)</title>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
+  <!-- โหลด hls.js พร้อมระบบสำรองอัตโนมัติ (Fallback CDN) กรณีเน็ตบางค่ายบล็อก jsdelivr -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js" onerror="var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js';document.head.appendChild(s);"></script>
+  <!-- โหลด mpegts.js สำหรับเล่นสตรีมสดประเภท HTTP MPEG-TS -->
+  <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.js" onerror="var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/mpegts.js/1.7.3/mpegts.min.js';document.head.appendChild(s);"></script>
   <style>
     :root {
       --bg: #0f172a;
@@ -18,6 +21,7 @@
       --brand-ink: #ffffff;
       --accent: #06b6d4;
       --danger: #ef4444;
+      --success: #10b981;
       --radius: 12px;
       --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
       --space-1: 4px;
@@ -28,7 +32,12 @@
       --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
     body {
       font-family: var(--font);
@@ -38,6 +47,13 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    input, code {
+      user-select: text;
+      -webkit-user-select: text;
     }
 
     header {
@@ -77,6 +93,40 @@
       align-items: center;
       justify-content: center;
       color: var(--brand-ink);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .btn-donate {
+      background: linear-gradient(135deg, #ec4899, #f43f5e);
+      color: #ffffff;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(244, 63, 94, 0.35);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-donate:hover {
+      background: linear-gradient(135deg, #db2777, #e11d48);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(244, 63, 94, 0.45);
+    }
+
+    .btn-donate:active {
+      transform: translateY(0);
     }
 
     .main-container {
@@ -288,6 +338,7 @@
       cursor: pointer;
       transition: all 0.15s ease;
       min-width: 0;
+      position: relative;
     }
 
     .channel-item:hover {
@@ -330,6 +381,10 @@
       text-overflow: ellipsis;
     }
 
+    .addon-badge {
+      display: none !important;
+    }
+
     .empty-state {
       grid-column: 1 / -1;
       padding: var(--space-6) var(--space-4);
@@ -357,6 +412,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .episode-list {
@@ -404,6 +461,588 @@
       flex-direction: column;
       gap: var(--space-4);
     }
+
+    /* ==================== สไตล์หน้าต่างโมดอล QR Code โดเนท ==================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.92);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-backdrop.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #1e293b;
+    }
+
+    .modal-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #f8fafc;
+    }
+
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.25rem;
+      line-height: 1;
+      transition: all 0.15s ease;
+    }
+
+    .modal-close-btn:hover {
+      background: #334155;
+      color: #ffffff;
+    }
+
+    .modal-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .modal-desc {
+      font-size: 0.875rem;
+      color: #94a3b8;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .qr-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 360px;
+      border: 3px solid #1e3a8a;
+    }
+
+    .promptpay-header {
+      width: 100%;
+      background: #002d62;
+      border-radius: 8px 8px 4px 4px;
+      padding: 6px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #ffffff;
+    }
+
+    .promptpay-badge-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    .promptpay-badge-sub {
+      font-size: 0.65rem;
+      color: #93c5fd;
+      font-weight: 500;
+    }
+
+    .qr-frame {
+      width: 300px;
+      max-width: 100%;
+      aspect-ratio: 1 / 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .qr-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .qr-frame svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .qr-footer-hint {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: #334155;
+      font-weight: 600;
+    }
+
+    .modal-note {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 14px;
+      line-height: 1.4;
+    }
+
+    .modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid #334155;
+      display: flex;
+      gap: 10px;
+      background: #1e293b;
+    }
+
+    .btn-modal-dismiss {
+      flex: 1;
+      padding: 10px;
+      background: #334155;
+      color: #f8fafc;
+      border: 1px solid #475569;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .btn-modal-dismiss:hover {
+      background: #475569;
+    }
+
+    /* ==================== External Playlist Multi-Window Add-on Styles ==================== */
+    .mw-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 99990;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .mw-overlay.active {
+      display: flex;
+    }
+
+    .mw-window {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 1180px;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+      overflow: hidden;
+      animation: mwPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes mwPopIn {
+      from { opacity: 0; transform: scale(0.95) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .mw-topbar {
+      background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
+      border-bottom: 1px solid #334155;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .mw-topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .mw-nav-btn {
+      background: #334155;
+      color: #f8fafc;
+      border: 1px solid #475569;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .mw-nav-btn:hover:not(:disabled) {
+      background: #3b82f6;
+      border-color: #3b82f6;
+      color: #fff;
+    }
+
+    .mw-nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .mw-title-box {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .mw-window-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #f8fafc;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mw-window-badge {
+      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+      color: #fff;
+      font-size: 0.68rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      flex-shrink: 0;
+    }
+
+    .mw-breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.76rem;
+      color: #94a3b8;
+      overflow-x: auto;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .mw-crumb {
+      background: transparent;
+      border: none;
+      color: #38bdf8;
+      cursor: pointer;
+      font-size: 0.76rem;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .mw-crumb:hover {
+      background: rgba(56, 189, 248, 0.15);
+      text-decoration: underline;
+    }
+
+    .mw-crumb.current {
+      color: #cbd5e1;
+      font-weight: 600;
+      cursor: default;
+      text-decoration: none;
+    }
+
+    .mw-topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mw-search-wrap {
+      position: relative;
+      width: 220px;
+    }
+
+    @media (max-width: 640px) {
+      .mw-search-wrap {
+        width: 100%;
+        order: 3;
+      }
+    }
+
+    .mw-search-input {
+      width: 100%;
+      padding: 7px 12px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #f8fafc;
+      font-size: 0.82rem;
+    }
+
+    .mw-close-btn {
+      background: #ef4444;
+      color: #ffffff;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: background 0.15s ease;
+    }
+
+    .mw-close-btn:hover {
+      background: #dc2626;
+    }
+
+    .mw-toolbar {
+      background: #131c31;
+      border-bottom: 1px solid #1e293b;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
+    .mw-toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mw-action-btn {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+
+    .mw-action-btn:hover {
+      background: #334155;
+      border-color: #38bdf8;
+      color: #ffffff;
+    }
+
+    .mw-content {
+      padding: 16px;
+      overflow-y: auto;
+      flex: 1;
+      min-height: 300px;
+      max-height: calc(92vh - 130px);
+    }
+
+    .mw-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    @media (min-width: 560px) {
+      .mw-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .mw-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .mw-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+    }
+
+    .mw-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+      min-width: 0;
+    }
+
+    .mw-card:hover {
+      background: #334155;
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .mw-card.active-playing {
+      border: 2px solid #10b981;
+      background: rgba(16, 185, 129, 0.12);
+    }
+
+    .mw-card-poster {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #0f172a;
+      border: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .mw-card-poster img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #0b1120;
+    }
+
+    .mw-card-icon {
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+
+    .mw-card-type-tag {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #38bdf8;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    .mw-card-type-tag.ep {
+      color: #34d399;
+    }
+
+    .mw-card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #f8fafc;
+      width: 100%;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.35;
+    }
+
+    .mw-card-sub {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mw-state-box {
+      padding: 48px 20px;
+      text-align: center;
+      color: #94a3b8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mw-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #334155;
+      border-top-color: #38bdf8;
+      border-radius: 50%;
+      animation: mwSpin 0.8s linear infinite;
+    }
+
+    @keyframes mwSpin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -420,7 +1059,7 @@
       <h2 style="margin:0 0 6px; font-size:1.25rem; font-weight:700;">ดูด้วยกัน(เงียบๆ)</h2>
       <p style="font-size:0.875rem; color:#94a3b8; margin-bottom:20px;">กรุณากรอกรหัสผู้ใช้งานเพื่อเข้าชมรายการ</p>
 
-      <input type="text" id="license-input" placeholder="กรอกรหัส เช่น VIP001" style="width:100%; padding:12px 14px; margin-bottom:12px; border-radius:10px; border:1px solid #334155; background:#0f172a; color:#f8fafc; font-size:1rem; text-align:center; outline:none;" onkeypress="if(event.key==='Enter') verifyAccess()">
+      <input type="text" id="license-input" placeholder="กรอกรหัส เช่น VIP001" style="width:100%; padding:12px 14px; margin-bottom:12px; border-radius:10px; border:1px solid #334155; background:#0f172a; color:#f8fafc; font-size:1rem; text-align:center; outline:none;" autocomplete="off" enterkeyhint="go">
 
       <button type="button" onclick="verifyAccess()" id="verify-btn" style="width:100%; padding:12px; background:#3b82f6; color:#ffffff; border:none; border-radius:10px; font-size:1rem; font-weight:600; cursor:pointer; transition:background 0.15s ease;">เข้าสู่ระบบ</button>
 
@@ -430,41 +1069,229 @@
         <div>รหัสประจำเครื่องของคุณ (สำหรับแจ้งแอดมิน):</div>
         <div style="display:flex; align-items:center; justify-content:center; gap:8px;">
           <code id="display-device-id" style="background:#0f172a; padding:4px 10px; border-radius:6px; color:#38bdf8; font-weight:600; font-size:0.8rem; border:1px solid #334155;">กำลังโหลด...</code>
-          <button type="button" onclick="copyDeviceId()" style="background:#334155; color:#f8fafc; border:none; padding:4px 8px; border-radius:6px; font-size:0.75rem; cursor:pointer;">คัดลอก</button>
+          <button type="button" onclick="copyDeviceId()" id="copy-dev-btn" style="background:#334155; color:#f8fafc; border:none; padding:4px 8px; border-radius:6px; font-size:0.75rem; cursor:pointer;">คัดลอก</button>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    const GITHUB_KEYS_URL = "https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/keys.json";
+    // รหัสลับประจำแอปสำหรับส่งให้ Cloudflare Worker ตรวจสอบ (ต้องตรงกับ SECRET_KEY ใน Worker)
+    const APP_SECRET_KEY = "DooDuaiKan_Secret_2026_!@#";
+
+    // URL สำหรับดึง keys.json (หากเก็บไว้ที่อื่นสามารถเปลี่ยนลิงก์ตรงนี้ได้)
+    const GITHUB_KEYS_URL = "https://raw.githubusercontent.com/kruttha/dooduaikan/main/keys.json";
+
+    // ป้องกันการกดค้างแล้วเมนูคลิกขวาของ WebView เด้งขึ้นมาบังหน้าจอทีวี
+    document.addEventListener("contextmenu", function (e) {
+      if (e.target && e.target.tagName !== "INPUT") {
+        e.preventDefault();
+      }
+    });
+
+    // ==================== ระบบสร้างและจำรหัสประจำเครื่องแบบคงที่ ====================
+    function generateStableDeviceFingerprint() {
+      try {
+        if (window.Android && typeof window.Android.getDeviceId === "function") {
+          const nativeId = String(window.Android.getDeviceId() || "").trim();
+          if (nativeId) return nativeId.startsWith("DEV-") ? nativeId : ("DEV-" + nativeId.toUpperCase());
+        }
+
+        const nav = window.navigator || {};
+        const scr = window.screen || {};
+
+        let uaModel = (nav.userAgent || "")
+          .replace(/Chrome\/[\d.]+/g, "")
+          .replace(/Version\/[\d.]+/g, "")
+          .replace(/Safari\/[\d.]+/g, "")
+          .replace(/AppleWebKit\/[\d.]+/g, "")
+          .replace(/wv\)/g, ")");
+
+        let gpuInfo = "";
+        try {
+          const canvas = document.createElement("canvas");
+          const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+          if (gl) {
+            const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+            gpuInfo = debugInfo
+              ? (gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) + "|" + gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL))
+              : (gl.getParameter(gl.VENDOR) + "|" + gl.getParameter(gl.RENDERER));
+          }
+        } catch (e) {}
+
+        const rawComponents = [
+          nav.platform || "",
+          uaModel,
+          gpuInfo,
+          nav.hardwareConcurrency || "",
+          nav.deviceMemory || "",
+          Math.max(scr.width || 0, scr.height || 0) + "x" + Math.min(scr.width || 0, scr.height || 0),
+          scr.colorDepth || "",
+          (Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : ""
+        ].join("||");
+
+        let h1 = 0x811c9dc5;
+        let h2 = 0x1505;
+        for (let i = 0; i < rawComponents.length; i++) {
+          const ch = rawComponents.charCodeAt(i);
+          h1 ^= ch;
+          h1 = Math.imul(h1, 0x01000193);
+          h2 = Math.imul(h2 ^ ch, 33);
+        }
+        const part1 = (h1 >>> 0).toString(36).toUpperCase().padStart(6, "0").slice(0, 6);
+        const part2 = (h2 >>> 0).toString(36).toUpperCase().padStart(4, "0").slice(-4);
+        return "DEV-" + part1 + "-" + part2;
+      } catch (err) {
+        return "DEV-TVBOX0-0001";
+      }
+    }
+
+    function readCookieValue(name) {
+      try {
+        const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+        return match ? decodeURIComponent(match[2]) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function readWindowNameStore() {
+      try {
+        if (window.name && window.name.startsWith("TV_STORE:")) {
+          return JSON.parse(window.name.slice(9));
+        }
+      } catch (e) {}
+      return {};
+    }
+
+    function writeWindowNameStore(obj) {
+      try {
+        window.name = "TV_STORE:" + JSON.stringify(obj || {});
+      } catch (e) {}
+    }
+
+    function savePersistentValue(key, value) {
+      try { localStorage.setItem(key, value); } catch (e) {}
+      try { sessionStorage.setItem(key, value); } catch (e) {}
+      try {
+        const expires = new Date(Date.now() + 3650 * 864e5).toUTCString();
+        document.cookie = key + "=" + encodeURIComponent(value) + "; expires=" + expires + "; path=/; SameSite=Lax";
+      } catch (e) {}
+      try {
+        const store = readWindowNameStore();
+        store[key] = value;
+        writeWindowNameStore(store);
+      } catch (e) {}
+    }
+
+    function readPersistentValue(key) {
+      let val = null;
+      try { val = localStorage.getItem(key); } catch (e) {}
+      if (!val) {
+        try { val = sessionStorage.getItem(key); } catch (e) {}
+      }
+      if (!val) val = readCookieValue(key);
+      if (!val) {
+        const store = readWindowNameStore();
+        val = store[key] || null;
+      }
+      return val;
+    }
+
+    function removePersistentValue(key) {
+      try { localStorage.removeItem(key); } catch (e) {}
+      try { sessionStorage.removeItem(key); } catch (e) {}
+      try {
+        document.cookie = key + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+      } catch (e) {}
+      try {
+        const store = readWindowNameStore();
+        delete store[key];
+        writeWindowNameStore(store);
+      } catch (e) {}
+    }
 
     function getDeviceId() {
-      let id = localStorage.getItem("app_device_id");
-      if (!id) {
-        id = "DEV-" + Math.random().toString(36).substring(2, 8).toUpperCase() + "-" + Date.now().toString(36).slice(-4).toUpperCase();
-        localStorage.setItem("app_device_id", id);
+      const existingSavedId = (readPersistentValue("app_device_id") || "").trim();
+      const hardwareId = generateStableDeviceFingerprint();
+
+      if (existingSavedId && existingSavedId.startsWith("DEV-")) {
+        savePersistentValue("app_device_id", existingSavedId);
+        return existingSavedId;
       }
-      return id;
+
+      savePersistentValue("app_device_id", hardwareId);
+      return hardwareId;
+    }
+
+    function getAllCandidateDeviceIds() {
+      const candidates = new Set();
+      const primaryId = getDeviceId();
+      const hardwareId = generateStableDeviceFingerprint();
+      if (primaryId) candidates.add(primaryId.toUpperCase());
+      if (hardwareId) candidates.add(hardwareId.toUpperCase());
+      return Array.from(candidates);
+    }
+
+    function parseAllowedDevices(rawDeviceField) {
+      if (!rawDeviceField) return [];
+      if (Array.isArray(rawDeviceField)) {
+        return rawDeviceField
+          .map(d => String(d || "").trim().toUpperCase())
+          .filter(Boolean);
+      }
+      return String(rawDeviceField)
+        .split(/[,;|]+/)
+        .map(d => d.trim().toUpperCase())
+        .filter(Boolean);
+    }
+
+    function copyTextSafe(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).catch(() => fallbackCopyText(text));
+      } else {
+        fallbackCopyText(text);
+      }
+    }
+
+    function fallbackCopyText(text) {
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      } catch (e) {}
     }
 
     function copyDeviceId() {
       const id = getDeviceId();
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(id);
-      }
+      copyTextSafe(id);
       const msg = document.getElementById("auth-msg");
-      msg.style.color = "#38bdf8";
-      msg.innerText = "คัดลอกรหัสประจำเครื่องแล้ว: " + id;
+      if (msg) {
+        msg.style.color = "#38bdf8";
+        msg.innerText = "คัดลอกรหัสประจำเครื่องแล้ว: " + id;
+      }
     }
 
     function logoutLicense() {
-      localStorage.removeItem("saved_license_key");
-      document.getElementById("license-input").value = "";
-      document.getElementById("auth-msg").innerText = "";
-      document.getElementById("auth-lock-screen").style.display = "flex";
+      removePersistentValue("saved_license_key");
+      const inp = document.getElementById("license-input");
+      if (inp) inp.value = "";
+      const msg = document.getElementById("auth-msg");
+      if (msg) msg.innerText = "";
+      const lock = document.getElementById("auth-lock-screen");
+      if (lock) lock.style.display = "flex";
       const v = document.getElementById("tv-video");
       if (v && !v.paused) v.pause();
+      setTimeout(() => {
+        if (inp) inp.focus();
+      }, 150);
     }
 
     function unlockScreen() {
@@ -488,14 +1315,19 @@
       const keyInput = document.getElementById("license-input");
       const msg = document.getElementById("auth-msg");
       const btn = document.getElementById("verify-btn");
-      const inputKey = (savedKey || keyInput.value || "").trim();
+      const inputKey = (savedKey || (keyInput ? keyInput.value : "") || "").trim();
       const currentDeviceId = getDeviceId();
+      const candidateDeviceIds = getAllCandidateDeviceIds();
       const checkValue = inputKey || currentDeviceId;
 
-      btn.disabled = true;
-      btn.innerText = "กำลังตรวจสอบสิทธิ์...";
-      msg.style.color = "#fbbf24";
-      msg.innerText = "กำลังดึงข้อมูลสิทธิ์จากเซิร์ฟเวอร์...";
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = "กำลังตรวจสอบสิทธิ์...";
+      }
+      if (msg) {
+        msg.style.color = "#fbbf24";
+        msg.innerText = "กำลังดึงข้อมูลสิทธิ์จากเซิร์ฟเวอร์...";
+      }
 
       try {
         const response = await fetch(`${GITHUB_KEYS_URL}?t=${Date.now()}`, { cache: "no-store" });
@@ -511,17 +1343,19 @@
 
         for (const item of keyList) {
           if (typeof item === "string") {
-            if (item.trim().toLowerCase() === inputKey.toLowerCase() || item.trim() === currentDeviceId) {
+            const cleanItem = item.trim().toUpperCase();
+            if (cleanItem.toLowerCase() === inputKey.toLowerCase() || candidateDeviceIds.includes(cleanItem)) {
               isAllowed = true;
               break;
             }
           } else if (item && typeof item === "object") {
             const itemKey = (item.key || "").toString().trim();
-            const itemDevice = (item.deviceId || item.device_id || "").toString().trim();
+            const allowedDevices = parseAllowedDevices(item.deviceId || item.device_id || item.devices);
             const itemStatus = (item.status || "active").toString().trim().toLowerCase();
 
+            const isDeviceMatched = allowedDevices.length === 0 || allowedDevices.some(dev => candidateDeviceIds.includes(dev));
             const keyMatched = itemKey && inputKey && (itemKey.toLowerCase() === inputKey.toLowerCase());
-            const deviceDirectMatched = !itemKey && itemDevice && (itemDevice === currentDeviceId);
+            const deviceDirectMatched = !itemKey && allowedDevices.length > 0 && isDeviceMatched;
 
             if (keyMatched || deviceDirectMatched) {
               if (itemStatus !== "active") {
@@ -529,14 +1363,14 @@
                 break;
               }
               if (item.expires) {
-                const expDate = new Date(item.expires);
+                const expDate = new Date(item.expires + "T23:59:59");
                 if (!isNaN(expDate) && new Date() > expDate) {
                   rejectReason = "รหัสผู้ใช้งานนี้หมดอายุแล้ว";
                   break;
                 }
               }
-              if (itemDevice && itemDevice !== currentDeviceId) {
-                rejectReason = "รหัสนี้ถูกล็อกไว้กับอุปกรณ์เครื่องอื่นแล้ว!";
+              if (allowedDevices.length > 0 && !isDeviceMatched) {
+                rejectReason = "รหัสนี้ถูกล็อกไว้กับอุปกรณ์เครื่องอื่นแล้ว! (แจ้งรหัส " + currentDeviceId + " ให้แอดมินเพิ่มได้)";
                 break;
               }
               isAllowed = true;
@@ -546,28 +1380,48 @@
         }
 
         if (isAllowed) {
-          localStorage.setItem("saved_license_key", checkValue);
+          savePersistentValue("saved_license_key", checkValue);
           unlockScreen();
         } else {
-          localStorage.removeItem("saved_license_key");
+          removePersistentValue("saved_license_key");
           lockScreenWithError(rejectReason);
         }
       } catch (error) {
-        msg.style.color = "#ef4444";
-        msg.innerText = "ไม่สามารถโหลดไฟล์ keys.json จาก GitHub ได้ กรุณาเช็คอินเทอร์เน็ตหรือตรวจสอบว่าสร้างไฟล์บน GitHub แล้ว";
+        if (msg) {
+          msg.style.color = "#ef4444";
+          msg.innerText = "ไม่สามารถโหลดไฟล์ keys.json จาก GitHub ได้ กรุณาเช็คอินเทอร์เน็ตหรือตรวจสอบว่าสร้างไฟล์บน GitHub แล้ว";
+        }
       } finally {
-        btn.disabled = false;
-        btn.innerText = "เข้าสู่ระบบ";
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = "เข้าสู่ระบบ";
+        }
       }
     }
+
+    document.getElementById("license-input").addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.keyCode === 13 || e.keyCode === 23 || e.keyCode === 66) {
+        e.preventDefault();
+        verifyAccess();
+      }
+    });
+
+    setTimeout(() => {
+      const ls = document.getElementById("auth-lock-screen");
+      if (ls && ls.style.display !== "none") {
+        const inp = document.getElementById("license-input");
+        if (inp) inp.focus();
+      }
+    }, 300);
 
     window.addEventListener("DOMContentLoaded", () => {
       const devIdEl = document.getElementById("display-device-id");
       if (devIdEl) devIdEl.innerText = getDeviceId();
 
-      const savedKey = localStorage.getItem("saved_license_key");
+      const savedKey = readPersistentValue("saved_license_key");
       if (savedKey) {
-        document.getElementById("license-input").value = savedKey;
+        const inp = document.getElementById("license-input");
+        if (inp) inp.value = savedKey;
         verifyAccess(savedKey);
       }
     });
@@ -585,9 +1439,232 @@
         </div>
         <span>ดูด้วยกัน(เงียบๆ)</span>
       </div>
-      <button type="button" onclick="logoutLicense()" style="background:#334155; color:#cbd5e1; border:1px solid #475569; padding:6px 12px; border-radius:8px; font-size:0.78rem; cursor:pointer;">🔑 สลับรหัส / ล็อกเอาต์</button>
+      <div class="header-actions">
+        <!-- ปุ่ม Donate / สนับสนุน -->
+        <button type="button" id="header-donate-btn" class="btn-donate" onclick="openDonateModal()" aria-label="สนับสนุนการพัฒนา (Donate)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span>สนับสนุน (Donate)</span>
+        </button>
+        <button type="button" onclick="logoutLicense()" style="background:#334155; color:#cbd5e1; border:1px solid #475569; padding:6px 12px; border-radius:8px; font-size:0.78rem; cursor:pointer;">🔑 สลับรหัส / ล็อกเอาต์</button>
+      </div>
     </div>
   </header>
+
+  <!-- ==================== โมดอลแสดง QR Code สำหรับโดเนท ==================== -->
+  <div id="donate-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title-text" onclick="handleModalBackdropClick(event)">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title-text">
+          <span style="color:#f43f5e; font-size:1.15rem;">💖</span>
+          <span>สนับสนุนการพัฒนา (Donate)</span>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="closeDonateModal()" aria-label="ปิดหน้าต่าง">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-desc">
+          ร่วมสนับสนุนค่าน้ำ ค่าไฟ ค่าเซิร์ฟเวอร์ และเป็นกำลังใจในการพัฒนาปรับปรุงระบบต่อไป ขอบคุณทุกการสนับสนุนครับ 🙏
+        </p>
+
+        <!-- บัตร PromptPay / Thai QR Payment -->
+        <div class="qr-card">
+          <div class="promptpay-header">
+            <span class="promptpay-badge-title">Thai QR Payment</span>
+            <span class="promptpay-badge-sub">พร้อมเพย์ • สแกนจ่ายได้ทุกธนาคาร</span>
+          </div>
+
+          <div class="qr-frame">
+            <!-- 1. ดึงภาพ QR จาก GitHub หรือในโฟลเดอร์ของผู้ใช้งานโดยอัตโนมัติ -->
+            <img id="donate-qr-img" 
+                 alt="QR Code สำหรับโดเนท" 
+                 onload="handleQrImageLoad(this)"
+                 onerror="handleQrImageError(this)">
+            
+            <!-- 2. Fallback แสดง SVG QR Code พร้อมเพย์มาตรฐาน หากยังไม่ได้อัปโหลดภาพ qr.png ขึ้น GitHub -->
+            <div id="fallback-qr-svg" style="display:none; width:100%; height:100%;">
+              <svg viewBox="0 0 160 160" width="100%" height="100%" style="background:#fff;">
+                <!-- Finder Pattern Top-Left -->
+                <rect x="10" y="10" width="40" height="40" fill="#000" rx="3"/>
+                <rect x="16" y="16" width="28" height="28" fill="#fff" rx="2"/>
+                <rect x="22" y="22" width="16" height="16" fill="#000" rx="2"/>
+                <!-- Finder Pattern Top-Right -->
+                <rect x="110" y="10" width="40" height="40" fill="#000" rx="3"/>
+                <rect x="116" y="16" width="28" height="28" fill="#fff" rx="2"/>
+                <rect x="122" y="22" width="16" height="16" fill="#000" rx="2"/>
+                <!-- Finder Pattern Bottom-Left -->
+                <rect x="10" y="110" width="40" height="40" fill="#000" rx="3"/>
+                <rect x="16" y="116" width="28" height="28" fill="#fff" rx="2"/>
+                <rect x="22" y="122" width="16" height="16" fill="#000" rx="2"/>
+                <!-- Alignment Pattern Bottom-Right -->
+                <rect x="114" y="114" width="24" height="24" fill="#000" rx="2"/>
+                <rect x="120" y="120" width="12" height="12" fill="#fff"/>
+                <rect x="124" y="124" width="4" height="4" fill="#000"/>
+                <!-- Timing patterns -->
+                <g fill="#000">
+                  <rect x="56" y="24" width="6" height="6"/><rect x="68" y="24" width="6" height="6"/><rect x="80" y="24" width="6" height="6"/><rect x="92" y="24" width="6" height="6"/>
+                  <rect x="24" y="56" width="6" height="6"/><rect x="24" y="68" width="6" height="6"/><rect x="24" y="80" width="6" height="6"/><rect x="24" y="92" width="6" height="6"/>
+                  <!-- Data modules matrix -->
+                  <rect x="56" y="56" width="8" height="8"/><rect x="70" y="56" width="6" height="6"/><rect x="82" y="56" width="8" height="8"/><rect x="96" y="56" width="6" height="6"/>
+                  <rect x="56" y="70" width="6" height="6"/><rect x="70" y="70" width="8" height="8"/><rect x="84" y="70" width="6" height="6"/><rect x="96" y="70" width="8" height="8"/>
+                  <rect x="56" y="84" width="8" height="8"/><rect x="68" y="84" width="6" height="6"/><rect x="80" y="84" width="8" height="8"/><rect x="94" y="84" width="6" height="6"/>
+                  <rect x="56" y="98" width="6" height="6"/><rect x="70" y="98" width="8" height="8"/><rect x="84" y="98" width="6" height="6"/><rect x="96" y="98" width="8" height="8"/>
+                  <!-- Top Data -->
+                  <rect x="56" y="12" width="6" height="6"/><rect x="68" y="12" width="8" height="8"/><rect x="82" y="12" width="6" height="6"/><rect x="94" y="12" width="8" height="8"/>
+                  <rect x="56" y="38" width="8" height="8"/><rect x="70" y="38" width="6" height="6"/><rect x="82" y="38" width="8" height="8"/><rect x="96" y="38" width="6" height="6"/>
+                  <!-- Left & Right Data -->
+                  <rect x="12" y="56" width="6" height="6"/><rect x="38" y="56" width="8" height="8"/>
+                  <rect x="12" y="70" width="8" height="8"/><rect x="38" y="70" width="6" height="6"/>
+                  <rect x="12" y="84" width="6" height="6"/><rect x="38" y="84" width="8" height="8"/>
+                  <rect x="12" y="98" width="8" height="8"/><rect x="38" y="98" width="6" height="6"/>
+                  <rect x="110" y="56" width="8" height="8"/><rect x="124" y="56" width="6" height="6"/><rect x="136" y="56" width="8" height="8"/>
+                  <rect x="110" y="70" width="6" height="6"/><rect x="124" y="70" width="8" height="8"/><rect x="136" y="70" width="6" height="6"/>
+                  <rect x="110" y="84" width="8" height="8"/><rect x="124" y="84" width="6" height="6"/><rect x="136" y="84" width="8" height="8"/>
+                  <rect x="110" y="98" width="6" height="6"/><rect x="124" y="98" width="8" height="8"/><rect x="136" y="98" width="6" height="6"/>
+                  <!-- Bottom Data -->
+                  <rect x="56" y="114" width="8" height="8"/><rect x="70" y="114" width="6" height="6"/><rect x="84" y="114" width="8" height="8"/><rect x="96" y="114" width="6" height="6"/>
+                  <rect x="56" y="128" width="6" height="6"/><rect x="68" y="128" width="8" height="8"/><rect x="82" y="128" width="6" height="6"/><rect x="94" y="128" width="8" height="8"/>
+                  <rect x="56" y="142" width="8" height="8"/><rect x="70" y="142" width="6" height="6"/><rect x="84" y="142" width="8" height="8"/><rect x="96" y="142" width="6" height="6"/>
+                </g>
+                <!-- PromptPay Mini Center Badge -->
+                <rect x="65" y="65" width="30" height="30" fill="#002d62" rx="4"/>
+                <path d="M72 75h16v3H72z M75 80h10v2H75z M77 71h6v2h-6z" fill="#ffffff"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="qr-footer-hint">สแกนผ่านแอปธนาคารได้ทุกธนาคาร</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-dismiss" onclick="closeDonateModal()">ปิดหน้าต่าง</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== หน้าต่าง External Playlist Multi-Window Add-on สำหรับหมวดซีรีส์ ==================== -->
+  <div id="mw-addon-overlay" class="mw-overlay" role="dialog" aria-modal="true" aria-labelledby="mw-window-title-text">
+    <div class="mw-window">
+      <div class="mw-topbar">
+        <div class="mw-topbar-left">
+          <button type="button" id="mw-back-btn" class="mw-nav-btn" title="ย้อนกลับหน้าต่างก่อนหน้า">
+            <span>⬅️ ย้อนกลับ</span>
+          </button>
+          <div class="mw-title-box">
+            <div class="mw-window-title">
+              <span class="mw-window-badge">Multi-Window Add-on</span>
+              <span id="mw-window-title-text">หมวดละคร / ซีรีส์</span>
+            </div>
+            <div id="mw-breadcrumbs" class="mw-breadcrumbs"></div>
+          </div>
+        </div>
+        <div class="mw-search-wrap">
+          <input type="text" id="mw-search-input" class="mw-search-input" placeholder="ค้นหาเรื่อง / ตอนในหน้าต่างนี้...">
+        </div>
+        <div class="mw-topbar-right">
+          <button type="button" id="mw-close-btn" class="mw-close-btn" title="ปิดหน้าต่าง Add-on">
+            <span>✕ ปิดหน้าต่าง</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="mw-toolbar">
+        <div id="mw-status-info">พร้อมแสดงรายการ</div>
+        <div class="mw-toolbar-actions">
+          <button type="button" id="mw-reload-btn" class="mw-action-btn" style="display:none;">🔄 โหลดเพลย์ลิสต์ใหม่</button>
+        </div>
+      </div>
+
+      <div id="mw-content" class="mw-content"></div>
+    </div>
+  </div>
+
+  <script>
+    // ==================== สคริปต์ควบคุมหน้าต่างโมดอล Donate ====================
+    let qrAttemptCount = 0;
+    let qrLoadedSuccessfully = false;
+    const GITHUB_REPO_BASE = (typeof GITHUB_KEYS_URL === "string" && GITHUB_KEYS_URL.includes("keys.json"))
+      ? GITHUB_KEYS_URL.replace(/keys\.json.*$/i, "")
+      : "";
+
+    const QR_FALLBACK_URLS = [
+      GITHUB_REPO_BASE ? (GITHUB_REPO_BASE + "qr.png") : "",
+      "qr.png",
+      "./qr.png",
+      GITHUB_REPO_BASE ? (GITHUB_REPO_BASE + "QR.png") : "",
+      "QR.png",
+      GITHUB_REPO_BASE ? (GITHUB_REPO_BASE + "qr.jpg") : "",
+      "qr.jpg",
+      GITHUB_REPO_BASE ? (GITHUB_REPO_BASE + "donate.png") : "",
+      "donate.png",
+      GITHUB_REPO_BASE ? (GITHUB_REPO_BASE + "promptpay.png") : "",
+      "promptpay.png"
+    ].filter(Boolean);
+
+    function handleQrImageLoad(img) {
+      qrLoadedSuccessfully = true;
+      if (img) img.style.display = "block";
+      const svgBox = document.getElementById("fallback-qr-svg");
+      if (svgBox) svgBox.style.display = "none";
+    }
+
+    function handleQrImageError(img) {
+      qrAttemptCount++;
+      if (qrAttemptCount < QR_FALLBACK_URLS.length) {
+        const nextUrl = QR_FALLBACK_URLS[qrAttemptCount];
+        img.src = nextUrl + (nextUrl.includes("?") ? "&" : "?") + "t=" + Date.now();
+      } else {
+        img.style.display = "none";
+        const svgBox = document.getElementById("fallback-qr-svg");
+        if (svgBox) svgBox.style.display = "block";
+      }
+    }
+
+    function startQrImageLoading() {
+      const img = document.getElementById("donate-qr-img");
+      if (!img || QR_FALLBACK_URLS.length === 0) return;
+      qrAttemptCount = 0;
+      qrLoadedSuccessfully = false;
+      img.style.display = "block";
+      const firstUrl = QR_FALLBACK_URLS[0];
+      img.src = firstUrl + (firstUrl.includes("?") ? "&" : "?") + "t=" + Date.now();
+    }
+
+    function openDonateModal() {
+      const modal = document.getElementById("donate-modal");
+      if (!qrLoadedSuccessfully) {
+        startQrImageLoading();
+      }
+      if (modal) {
+        modal.classList.add("active");
+        modal.setAttribute("aria-hidden", "false");
+        setTimeout(() => {
+          const closeBtn = modal.querySelector(".btn-modal-dismiss") || modal.querySelector(".modal-close-btn");
+          if (closeBtn) closeBtn.focus();
+        }, 80);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", startQrImageLoading);
+
+    function closeDonateModal() {
+      const modal = document.getElementById("donate-modal");
+      if (modal) {
+        modal.classList.remove("active");
+        modal.setAttribute("aria-hidden", "true");
+        const donateBtn = document.getElementById("header-donate-btn");
+        if (donateBtn) donateBtn.focus();
+      }
+    }
+
+    function handleModalBackdropClick(event) {
+      if (event.target && event.target.id === "donate-modal") {
+        closeDonateModal();
+      }
+    }
+  </script>
 
   <!-- ==================== แถบข้อความประกาศตัววิ่ง (Announcement Ticker) ==================== -->
   <div class="announcement-bar" role="region" aria-label="ประกาศถึงผู้ใช้งาน">
@@ -645,7 +1722,6 @@
       animation: ticker-scroll 24s linear infinite;
     }
 
-    /* ถ้าเอาเมาส์ชี้ให้หยุดวิ่งชั่วคราวเพื่อให้อ่านง่าย */
     .announcement-bar:hover .announcement-text {
       animation-play-state: paused;
     }
@@ -662,30 +1738,51 @@
 
   <script>
     (async function () {
+      const channelsUrl = 'https://dooduaikan-api.kruttha.workers.dev/channels.json';
+      if (!channelsUrl || channelsUrl.startsWith('about:')) return;
       try {
-        const res = await fetch('https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/channels.json?t=' + Date.now(), { cache: 'no-store' });
-        if (!res.ok) return;
-        const data = await res.json();
+        if (!window.__channelsDataPromise) {
+          window.__channelsDataPromise = fetch(channelsUrl + '?t=' + Date.now(), {
+            method: 'GET',
+            cache: 'no-store',
+            headers: {
+              'X-App-Secret': typeof APP_SECRET_KEY !== 'undefined' ? APP_SECRET_KEY : 'DooDuaiKan_Secret_2026_!@#'
+            }
+          })
+            .then(res => (res && res.ok) ? res.json() : null)
+            .catch(() => null);
+        }
+        const data = await window.__channelsDataPromise;
+        if (!data) return;
         const remoteMsg = data.notice || data.announcement || data.message;
         const textEl = document.getElementById('announcement-text');
         const barEl = document.querySelector('.announcement-bar');
         if (remoteMsg !== undefined && textEl && barEl) {
-          if (remoteMsg.trim() === '') barEl.style.display = 'none';
-          else textEl.textContent = remoteMsg;
+          if (String(remoteMsg).trim() === '') barEl.style.display = 'none';
+          else textEl.textContent = String(remoteMsg);
+        }
+
+        const customQrUrl = data.donate_qr || data.donate_image || data.qr;
+        if (customQrUrl && typeof customQrUrl === 'string' && customQrUrl.trim()) {
+          const qrImg = document.getElementById('donate-qr-img');
+          if (qrImg) {
+            qrLoadedSuccessfully = true;
+            qrImg.style.display = 'block';
+            qrImg.src = customQrUrl.trim();
+            const svgBox = document.getElementById('fallback-qr-svg');
+            if (svgBox) svgBox.style.display = 'none';
+          }
         }
       } catch (e) {}
     })();
   </script>
-
-  
   <!-- ==================== สิ้นสุดแถบข้อความประกาศตัววิ่ง ==================== -->
 
-  
   <main class="main-container">
     <div class="left-col">
       <section class="card" aria-label="เครื่องเล่นทีวีออนไลน์">
         <div class="player-wrapper">
-          <video id="tv-video" controls playsinline></video>
+          <video id="tv-video" controls playsinline webkit-playsinline></video>
           <div id="player-placeholder" class="player-placeholder">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="5 3 19 12 5 21 5 3"></polygon>
@@ -700,11 +1797,12 @@
             <div class="now-playing-title" id="current-title">เลือกช่องเพื่อรับชม</div>
             <div class="status-msg" id="error-msg" role="alert"></div>
           </div>
-          <a id="external-open-btn" href="#" target="_blank" style="display:none; background:#3b82f6; color:#fff; text-decoration:none; padding:8px 14px; border-radius:8px; font-size:0.8rem; font-weight:600; white-space:nowrap;">📲 เปิดในแอปภายนอก</a>
+          <button type="button" id="reopen-addon-btn" style="display:none; background:linear-gradient(135deg, #8b5cf6, #06b6d4); color:#fff; border:none; padding:8px 14px; border-radius:8px; font-size:0.8rem; font-weight:700; white-space:nowrap; cursor:pointer;">🗂️ เปิดหน้าต่างเลือกซีรีส์ / ตอน</button>
         </div>
         <div class="episode-bar" id="episode-bar">
           <div class="episode-bar-header">
             <span id="episode-bar-title">เลือกช่องย่อย / ตอนรับชม</span>
+            <button type="button" id="episode-bar-expand-btn" style="display:none; background:#1e293b; color:#38bdf8; border:1px solid #334155; padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:600; cursor:pointer;">🗂️ เปิดแบบ Multi-Window</button>
           </div>
           <div class="episode-list" id="episode-list"></div>
         </div>
@@ -735,35 +1833,395 @@
   </main>
 
   <script>
+    // ==================== ระบบตรวจสอบและเปิดแอป Wiseplay หลังบ้านอัตโนมัติ ====================
+    function isDirectMediaStreamUrl(urlStr) {
+      const clean = String(urlStr || '').trim().replace(/^wiseplay:\/\//i, '').toLowerCase();
+      if (!clean) return false;
+      if (/\.(m3u8|mp4|ts|mkv|webm|mov|avi|flv|mpd|ogg)($|\?|#)/i.test(clean)) return true;
+      if (clean.includes('master.txt') || clean.includes('/hls/') || clean.includes('chunklist') || clean.includes('index.m3u8')) return true;
+      return false;
+    }
+
+    function isWiseplayRequiredItem(itemOrUrl) {
+      if (!itemOrUrl) return false;
+      const rawUrl = (typeof itemOrUrl === 'string' ? itemOrUrl : (itemOrUrl.url || '')).trim();
+      if (!rawUrl) return false;
+      const lower = rawUrl.toLowerCase();
+      const strippedLower = lower.replace(/^wiseplay:\/\//i, '');
+
+      // หากลิงก์ข้างในเป็นสตรีมวิดีโอโดยตรง (.m3u8, .mp4, master.txt, /hls/) ให้ลองเล่นบนเว็บผ่าน player ปกติก่อนเสมอ
+      if (isDirectMediaStreamUrl(strippedLower) && /^https?:\/\//i.test(strippedLower)) {
+        return false;
+      }
+
+      if (typeof itemOrUrl === 'object') {
+        const playerProp = String(itemOrUrl.player || itemOrUrl.app || '').toLowerCase();
+        if ((playerProp === 'wiseplay' || itemOrUrl.wiseplay === true) && !isDirectMediaStreamUrl(strippedLower)) {
+          return true;
+        }
+      }
+
+      if (
+        (lower.startsWith('wiseplay://') && !isDirectMediaStreamUrl(strippedLower)) ||
+        (lower.startsWith('intent://') && lower.includes('com.wiseplay')) ||
+        lower.includes('workers.dev/playlist') ||
+        lower.endsWith('.w3u') ||
+        lower.includes('.w3u?')
+      ) {
+        return true;
+      }
+
+      return false;
+    }
+
+    function isPlaylistUrl(urlStr) {
+      const lower = String(urlStr || '').trim().toLowerCase();
+      if (!lower) return false;
+      if (isDirectMediaStreamUrl(lower)) {
+        return false;
+      }
+      return (
+        lower.startsWith('wiseplay://') ||
+        lower.includes('workers.dev/playlist') ||
+        lower.endsWith('.w3u') ||
+        lower.includes('.w3u?') ||
+        lower.endsWith('.m3u') ||
+        lower.includes('.m3u?') ||
+        lower.endsWith('.json') ||
+        lower.includes('.json?') ||
+        lower.includes('pastebin.com/') ||
+        lower.includes('rentry.co/') ||
+        lower.includes('raw.githubusercontent.com/') ||
+        lower.includes('gist.githubusercontent.com/')
+      );
+    }
+
+    function isRawMpegTsStreamUrl(urlStr) {
+      const lower = String(urlStr || '').trim().toLowerCase();
+      if (!lower.startsWith('http://') && !lower.startsWith('https://')) return false;
+      if (/\.(m3u8|mp4|mkv|webm|mov|mpd)($|\?|#)/i.test(lower) || isPlaylistUrl(lower)) {
+        return false;
+      }
+      if (lower.endsWith('.ts') || lower.includes('.ts?')) return true;
+      return /^https?:\/\/[^\/]+:\d+\/[^.?]+$/i.test(lower);
+    }
+
+    function buildWiseplayLaunchUrls(targetUrl) {
+      const raw = String(targetUrl || '').trim();
+      if (!raw) return { intentUrl: '', schemeUrl: '', rawUrl: '' };
+
+      if (raw.toLowerCase().startsWith('intent://')) {
+        return { intentUrl: raw, schemeUrl: raw, rawUrl: raw };
+      }
+
+      if (raw.toLowerCase().startsWith('wiseplay://')) {
+        const stripped = raw.replace(/^wiseplay:\/\//i, '');
+        const hasHttp = /^https?:\/\//i.test(stripped);
+        const cleanNoScheme = stripped.replace(/^https?:\/\//i, '');
+        const scheme = stripped.toLowerCase().startsWith('http://') ? 'http' : 'https';
+        const mimeSegment = isPlaylistUrl(stripped) ? '' : 'type=video/*;';
+        const intentUrl = hasHttp
+          ? ('intent://' + cleanNoScheme + '#Intent;scheme=' + scheme + ';' + mimeSegment + 'package=com.wiseplay;action=android.intent.action.VIEW;end')
+          : ('intent://' + stripped + '#Intent;scheme=wiseplay;package=com.wiseplay;action=android.intent.action.VIEW;end');
+        return { intentUrl: intentUrl, schemeUrl: raw, rawUrl: hasHttp ? stripped : raw };
+      }
+
+      const schemeMatch = raw.match(/^(https?):\/\/(.*)$/i);
+      if (schemeMatch) {
+        const scheme = schemeMatch[1].toLowerCase();
+        const rest = schemeMatch[2];
+        const mimeSegment = isPlaylistUrl(raw) ? '' : 'type=video/*;';
+        const intentUrl = 'intent://' + rest + '#Intent;scheme=' + scheme + ';' + mimeSegment + 'package=com.wiseplay;action=android.intent.action.VIEW;end';
+        const schemeUrl = 'wiseplay://' + raw;
+        return { intentUrl: intentUrl, schemeUrl: schemeUrl, rawUrl: raw };
+      }
+
+      return {
+        intentUrl: 'intent://' + raw + '#Intent;scheme=wiseplay;package=com.wiseplay;action=android.intent.action.VIEW;end',
+        schemeUrl: 'wiseplay://' + raw,
+        rawUrl: raw
+      };
+    }
+
+    function triggerExternalSchemeSilently(uri) {
+      if (!uri) return;
+      try {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.border = '0';
+        iframe.src = uri;
+        document.body.appendChild(iframe);
+        setTimeout(() => {
+          if (iframe && iframe.parentNode) {
+            iframe.parentNode.removeChild(iframe);
+          }
+        }, 2500);
+      } catch (e) {}
+    }
+
+    function launchWiseplayApp(targetUrl) {
+      const cleanUrl = String(targetUrl || '').trim();
+      if (!cleanUrl || cleanUrl === '#' || cleanUrl.startsWith('about:')) return false;
+
+      const { intentUrl, schemeUrl, rawUrl } = buildWiseplayLaunchUrls(cleanUrl);
+
+      try {
+        if (window.Android) {
+          if (typeof window.Android.openWiseplay === 'function') {
+            window.Android.openWiseplay(rawUrl);
+            return true;
+          }
+          if (typeof window.Android.launchApp === 'function') {
+            window.Android.launchApp('com.wiseplay', rawUrl);
+            return true;
+          }
+          if (typeof window.Android.openExternal === 'function') {
+            window.Android.openExternal(intentUrl || rawUrl);
+            return true;
+          }
+        }
+      } catch (e) {}
+
+      try {
+        const isAndroid = /Android/i.test(navigator.userAgent || '');
+        if (isAndroid && intentUrl) {
+          const tempLink = document.createElement('a');
+          tempLink.href = intentUrl;
+          tempLink.style.display = 'none';
+          document.body.appendChild(tempLink);
+          tempLink.click();
+          setTimeout(() => {
+            if (tempLink && tempLink.parentNode) tempLink.parentNode.removeChild(tempLink);
+          }, 1000);
+          return true;
+        }
+      } catch (e) {}
+
+      if (schemeUrl) {
+        triggerExternalSchemeSilently(schemeUrl);
+        return true;
+      }
+
+      return false;
+    }
+    // ==================== สิ้นสุดระบบเปิดแอป Wiseplay หลังบ้านอัตโนมัติ ====================
+
     (function () {
-      const channels = [];
+      const DEFAULT_CHANNELS = [
+        { id: "ch3", name: "ช่อง 3 HD (33)", category: "ฟรีทีวี", logo: "https://upload.wikimedia.org/wikipedia/th/thumb/a/a2/Channel_3_HD_logo.svg/300px-Channel_3_HD_logo.svg.png", url: "" },
+        { id: "ch7", name: "ช่อง 7 HD (35)", category: "ฟรีทีวี", logo: "https://upload.wikimedia.org/wikipedia/th/thumb/0/08/Channel_7_HD_Thailand_Logo.svg/300px-Channel_7_HD_Thailand_Logo.svg.png", url: "" },
+        { id: "ch9", name: "ช่อง 9 MCOT (30)", category: "ฟรีทีวี", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/MCOT_HD.svg/300px-MCOT_HD.svg.png", url: "" },
+        { id: "thairath", name: "ไทยรัฐทีวี 32 HD", category: "ข่าวสาร", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Thairath_TV_logo.png/300px-Thairath_TV_logo.png", url: "" },
+        { id: "amarintv", name: "อมรินทร์ทีวี 34 HD", category: "ทั่วไป", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Amarin_TV_HD_Logo.png/300px-Amarin_TV_HD_Logo.png", url: "" },
+        { id: "workpoint", name: "Workpoint 23", category: "บันเทิง", logo: "https://upload.wikimedia.org/wikipedia/th/thumb/7/7b/Workpoint_TV_logo.svg/300px-Workpoint_TV_logo.svg.png", url: "" },
+        { id: "mono29", name: "MONO 29", category: "ภาพยนตร์", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Mono29_logo.png/300px-Mono29_logo.png", url: "" },
+        { id: "one31", name: "ONE 31", category: "ละคร/ซีรีส์", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/One_31_logo.svg/300px-One_31_logo.svg.png", url: "" },
+        { id: "thaipbs", name: "Thai PBS HD", category: "ข่าวสาร", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Thai_PBS_logo.svg/300px-Thai_PBS_logo.svg.png", url: "" }
+      ];
+
+      const channels = [...DEFAULT_CHANNELS];
 
       let activeChannelId = null;
       let activeEpisodeIndex = 0;
+      let activePlayingStreamUrl = '';
       let selectedCategory = 'ทั้งหมด';
       let searchQuery = '';
       let hlsInstance = null;
+      let mpegtsPlayer = null;
+      let wakeLockSentinel = null;
+      let activeSubtitleBlobUrl = null;
+      let lastMultiWindowChannel = null;
+      let playbackSessionId = 0;
+      let fallbackTimerId = null;
 
       const videoEl = document.getElementById('tv-video');
       const placeholderEl = document.getElementById('player-placeholder');
       const currentTitleEl = document.getElementById('current-title');
       const currentCatEl = document.getElementById('current-cat');
       const errorMsgEl = document.getElementById('error-msg');
-      const externalOpenBtn = document.getElementById('external-open-btn');
+      const reopenAddonBtn = document.getElementById('reopen-addon-btn');
       const episodeBarEl = document.getElementById('episode-bar');
       const episodeBarTitleEl = document.getElementById('episode-bar-title');
+      const episodeBarExpandBtn = document.getElementById('episode-bar-expand-btn');
       const episodeListEl = document.getElementById('episode-list');
 
       const searchInput = document.getElementById('search-input');
       const categoryTabs = document.getElementById('category-tabs');
       const channelListEl = document.getElementById('channel-list');
 
-      // ฟังก์ชันดึงข้อมูลแบบมี Timeout 5 วินาทีต่อจุด (ป้องกันอาการกดแล้วนิ่งค้าง)
-      async function fetchWithTimeout(url, timeoutMs = 5500) {
+      // ==================== ตัวแปรสำหรับ External Playlist Multi-Window Add-on ====================
+      const mwOverlay = document.getElementById('mw-addon-overlay');
+      const mwBackBtn = document.getElementById('mw-back-btn');
+      const mwCloseBtn = document.getElementById('mw-close-btn');
+      const mwTitleText = document.getElementById('mw-window-title-text');
+      const mwBreadcrumbs = document.getElementById('mw-breadcrumbs');
+      const mwSearchInput = document.getElementById('mw-search-input');
+      const mwStatusInfo = document.getElementById('mw-status-info');
+      const mwReloadBtn = document.getElementById('mw-reload-btn');
+      const mwContent = document.getElementById('mw-content');
+
+      let mwWindowStack = [];
+      let mwSearchQuery = '';
+      const playlistCache = new Map();
+
+      if (reopenAddonBtn) {
+        reopenAddonBtn.addEventListener('click', function () {
+          if (mwWindowStack.length > 0) {
+            openMultiWindowOverlay();
+          } else if (lastMultiWindowChannel) {
+            openChannelInMultiWindowAddon(lastMultiWindowChannel);
+          }
+        });
+      }
+
+      if (episodeBarExpandBtn) {
+        episodeBarExpandBtn.addEventListener('click', function () {
+          if (lastMultiWindowChannel) {
+            openChannelInMultiWindowAddon(lastMultiWindowChannel);
+          }
+        });
+      }
+
+      async function requestScreenWakeLock() {
+        try {
+          if ('wakeLock' in navigator && !wakeLockSentinel) {
+            wakeLockSentinel = await navigator.wakeLock.request('screen');
+            wakeLockSentinel.addEventListener('release', () => {
+              wakeLockSentinel = null;
+            });
+          }
+        } catch (e) {}
+      }
+
+      videoEl.addEventListener('play', requestScreenWakeLock);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && !videoEl.paused) {
+          requestScreenWakeLock();
+        }
+      });
+
+      function clearFallbackTimer() {
+        if (fallbackTimerId) {
+          clearTimeout(fallbackTimerId);
+          fallbackTimerId = null;
+        }
+      }
+
+      function destroyActivePlayers() {
+        clearFallbackTimer();
+        if (hlsInstance) {
+          try { hlsInstance.destroy(); } catch (e) {}
+          hlsInstance = null;
+        }
+        if (mpegtsPlayer) {
+          try {
+            mpegtsPlayer.pause();
+            mpegtsPlayer.unload();
+            mpegtsPlayer.detachMediaElement();
+            mpegtsPlayer.destroy();
+          } catch (e) {}
+          mpegtsPlayer = null;
+        }
+      }
+
+      function showPlayerError(msg) {
+        if (!errorMsgEl) return;
+        if (msg) {
+          errorMsgEl.textContent = msg;
+          errorMsgEl.classList.add('visible');
+        } else {
+          errorMsgEl.textContent = '';
+          errorMsgEl.classList.remove('visible');
+        }
+      }
+
+      // ฟังก์ชันเด้งกลับหน้าหลักทันทีเมื่อไม่สามารถเล่นลิงก์ได้
+      function returnToMainHome() {
+        playbackSessionId++;
+        destroyActivePlayers();
+        try {
+          videoEl.pause();
+          videoEl.removeAttribute('src');
+          videoEl.load();
+        } catch (e) {}
+        videoEl.classList.remove('active');
+        if (placeholderEl) placeholderEl.style.display = '';
+
+        closeMultiWindowOverlay();
+        mwWindowStack = [];
+
+        if (episodeBarEl) episodeBarEl.classList.remove('visible');
+        if (episodeListEl) episodeListEl.innerHTML = '';
+        if (reopenAddonBtn) reopenAddonBtn.style.display = 'none';
+        if (episodeBarExpandBtn) episodeBarExpandBtn.style.display = 'none';
+
+        activeChannelId = null;
+        activeEpisodeIndex = 0;
+        activePlayingStreamUrl = '';
+
+        if (currentCatEl) currentCatEl.textContent = 'พร้อมใช้งาน';
+        if (currentTitleEl) currentTitleEl.textContent = 'เลือกช่องเพื่อรับชม';
+        showPlayerError('');
+
+        if (document.fullscreenElement && document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitFullscreenElement && document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+
+        renderChannels();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        setTimeout(() => {
+          const firstChannel = document.querySelector('.channel-item');
+          if (firstChannel) firstChannel.focus();
+        }, 60);
+      }
+
+      // ฟังก์ชันสลับไปเล่นด้วยแอป Wiseplay อัตโนมัติหลังบ้าน และหากยังเล่นไม่ได้ให้เด้งกลับหน้าหลักทันที
+      function autoFallbackToWiseplayOrReturnHome(targetUrl) {
+        const cleanUrl = String(targetUrl || '').trim();
+        destroyActivePlayers();
+        try {
+          videoEl.pause();
+          videoEl.removeAttribute('src');
+        } catch (e) {}
+
+        if (!cleanUrl || cleanUrl === '#' || cleanUrl.startsWith('about:')) {
+          returnToMainHome();
+          return;
+        }
+
+        const launched = launchWiseplayApp(cleanUrl);
+        if (!launched) {
+          returnToMainHome();
+          return;
+        }
+
+        // รอให้ระบบส่ง Intent ไปยังแอป Wiseplay หลังบ้านแล้วรีเซ็ตหน้าหลักกลับสู่สถานะปกติทันที
+        clearFallbackTimer();
+        fallbackTimerId = setTimeout(() => {
+          returnToMainHome();
+        }, 900);
+      }
+
+      async function fetchWithTimeout(url, timeoutMs = 7500) {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), timeoutMs);
         try {
-          const res = await fetch(url, { signal: controller.signal, cache: 'no-store' });
+          const isOurWorker = String(url || '').includes('dooduaikan-api.kruttha.workers.dev');
+          const fetchOptions = {
+            signal: controller.signal,
+            cache: 'no-store'
+          };
+          if (isOurWorker) {
+            fetchOptions.headers = {
+              'X-App-Secret': typeof APP_SECRET_KEY !== 'undefined' ? APP_SECRET_KEY : 'DooDuaiKan_Secret_2026_!@#'
+            };
+          }
+          const res = await fetch(url, fetchOptions);
           clearTimeout(timer);
           return res;
         } catch (err) {
@@ -772,19 +2230,26 @@
         }
       }
 
+      // รองรับการดึงเพลย์ลิสต์ภายนอกทั้งโดยตรง และผ่าน CORS Proxy หลายตัวสำรองกันอัตโนมัติ
       async function fetchTextWithFallback(targetUrl) {
-        const proxies = [
-          targetUrl,
-          'https://corsproxy.io/?' + encodeURIComponent(targetUrl),
-          'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl),
-          'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(targetUrl)
+        const rawUrl = String(targetUrl || '').trim();
+        if (!rawUrl || rawUrl.startsWith('about:')) {
+          throw new Error('ลิงก์ไม่ถูกต้อง');
+        }
+        const cleanHttpUrl = rawUrl.replace(/^wiseplay:\/\//i, '');
+        const candidateUrls = [
+          cleanHttpUrl,
+          'https://corsproxy.io/?' + encodeURIComponent(cleanHttpUrl),
+          'https://api.allorigins.win/raw?url=' + encodeURIComponent(cleanHttpUrl),
+          'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(cleanHttpUrl)
         ];
-        for (const u of proxies) {
+
+        for (const candidate of candidateUrls) {
           try {
-            const res = await fetchWithTimeout(u, 5500);
+            const res = await fetchWithTimeout(candidate, 8000);
             if (res && res.ok) {
               const txt = await res.text();
-              if (txt && txt.trim().length > 10) return txt.trim();
+              if (txt && txt.trim().length > 5) return txt.trim();
             }
           } catch (e) {}
         }
@@ -797,6 +2262,8 @@
         let currentName = '';
         let currentLogo = '';
         let currentGroup = '';
+        let currentReferer = '';
+        let currentUserAgent = '';
 
         for (let i = 0; i < lines.length; i++) {
           const line = lines[i].trim();
@@ -808,61 +2275,220 @@
             currentLogo = logoMatch ? logoMatch[1] : '';
             const groupMatch = line.match(/group-title="([^"]+)"/i);
             currentGroup = groupMatch ? groupMatch[1] : '';
-          } else if (!line.startsWith('#') && (line.startsWith('http://') || line.startsWith('https://'))) {
+            const refMatch = line.match(/http-referrer="([^"]+)"/i);
+            if (refMatch) currentReferer = refMatch[1];
+          } else if (line.startsWith('#EXTVLCOPT:')) {
+            const refOpt = line.match(/http-referrer=(.*)$/i);
+            if (refOpt) currentReferer = refOpt[1].trim();
+            const uaOpt = line.match(/http-user-agent=(.*)$/i);
+            if (uaOpt) currentUserAgent = uaOpt[1].trim();
+          } else if (!line.startsWith('#') && (line.startsWith('http://') || line.startsWith('https://') || line.startsWith('wiseplay://') || line.startsWith('intent://'))) {
+            let cleanLineUrl = line;
+            if (line.includes('|')) {
+              const parts = line.split('|');
+              cleanLineUrl = parts[0].trim();
+              const headerPart = parts.slice(1).join('|');
+              const rMatch = headerPart.match(/referer=([^&|]+)/i);
+              if (rMatch) currentReferer = decodeURIComponent(rMatch[1].trim());
+            }
+
             list.push({
-              name: currentName || ('ช่องที่ ' + (list.length + 1)),
+              name: currentName || ('ตอนที่ ' + (list.length + 1)),
               info: currentGroup || '',
               image: currentLogo || '',
-              url: line
+              url: cleanLineUrl,
+              referer: currentReferer || '',
+              userAgent: currentUserAgent || ''
             });
             currentName = '';
             currentLogo = '';
             currentGroup = '';
+            currentReferer = '';
+            currentUserAgent = '';
           }
         }
+
+        const distinctGroups = Array.from(new Set(list.map(item => item.info).filter(Boolean)));
+        if (distinctGroups.length > 1 && list.length > 12) {
+          return distinctGroups.map(gName => {
+            const groupItems = list.filter(item => item.info === gName);
+            return {
+              name: gName,
+              info: groupItems.length + ' ตอน/รายการ',
+              image: (groupItems[0] && groupItems[0].image) || '',
+              isGroup: true,
+              children: groupItems
+            };
+          });
+        }
+
         return list;
       }
 
-      function extractStationsFromJson(obj, parentName = '') {
+      function parseHierarchicalNodesFromJson(obj, fallbackImage = '', inheritedReferer = '') {
+        if (!obj) return [];
+
+        if (Array.isArray(obj)) {
+          let arrNodes = [];
+          obj.forEach(item => {
+            arrNodes = arrNodes.concat(parseHierarchicalNodesFromJson(item, fallbackImage, inheritedReferer));
+          });
+          return arrNodes;
+        }
+
+        if (typeof obj === 'object') {
+          const nodeImage = obj.image || obj.logo || fallbackImage || '';
+          const nodeReferer = obj.referer || obj.referrer || (obj.headers && (obj.headers.referer || obj.headers.Referer)) || inheritedReferer || '';
+          const childNodes = [];
+
+          if (Array.isArray(obj.groups) && obj.groups.length > 0) {
+            obj.groups.forEach((g, idx) => {
+              if (!g || typeof g !== 'object') return;
+              const gImg = g.image || g.logo || nodeImage || '';
+              const gRef = g.referer || g.referrer || (g.headers && (g.headers.referer || g.headers.Referer)) || nodeReferer || '';
+              const hasSubGroups = Array.isArray(g.groups) && g.groups.length > 0;
+              const hasSubStations = Array.isArray(g.stations) && g.stations.length > 0;
+              const gUrl = String(g.url || g.stream || g.link || g.file || g.src || '').trim();
+
+              if (hasSubGroups || hasSubStations) {
+                const subItems = parseHierarchicalNodesFromJson(g, gImg, gRef);
+                childNodes.push({
+                  name: g.name || ('หมวดย่อยที่ ' + (idx + 1)),
+                  info: g.info || (subItems.length + ' รายการ'),
+                  image: gImg,
+                  isGroup: true,
+                  children: subItems,
+                  url: gUrl,
+                  referer: gRef
+                });
+              } else if (gUrl) {
+                const isVideoExtG = isDirectMediaStreamUrl(gUrl);
+                const isExtList = (g.import === true) || (!isVideoExtG && (g.import !== false || isPlaylistUrl(gUrl)));
+                childNodes.push({
+                  name: g.name || ('รายการที่ ' + (idx + 1)),
+                  info: g.info || (isExtList ? 'เพลย์ลิสต์ย่อย' : ''),
+                  image: gImg,
+                  url: gUrl,
+                  referer: gRef,
+                  subtitle: g.subtitle || '',
+                  player: isVideoExtG ? '' : (g.player || ''),
+                  wiseplay: isVideoExtG ? false : Boolean(g.wiseplay),
+                  isExternalPlaylist: isExtList
+                });
+              }
+            });
+          }
+
+          if (Array.isArray(obj.stations) && obj.stations.length > 0) {
+            obj.stations.forEach((st, idx) => {
+              if (!st || typeof st !== 'object') return;
+              const stUrl = String(st.url || st.stream || st.link || st.file || st.src || '').trim();
+              const stImg = st.image || st.logo || nodeImage || '';
+              const stRef = st.referer || st.referrer || (st.headers && (st.headers.referer || st.headers.Referer)) || nodeReferer || '';
+              const hasNested = (Array.isArray(st.stations) && st.stations.length > 0) || (Array.isArray(st.groups) && st.groups.length > 0);
+
+              if (hasNested) {
+                const nestedChildren = parseHierarchicalNodesFromJson(st, stImg, stRef);
+                childNodes.push({
+                  name: st.name || ('รายการที่ ' + (idx + 1)),
+                  info: st.info || (nestedChildren.length + ' รายการ'),
+                  image: stImg,
+                  isGroup: true,
+                  children: nestedChildren,
+                  referer: stRef
+                });
+              } else if (stUrl) {
+                const isVideoExt = isDirectMediaStreamUrl(stUrl);
+                const isExtList = (st.import === true) || (st.import !== false && !isVideoExt && isPlaylistUrl(stUrl));
+                childNodes.push({
+                  name: st.name || ('ตอนที่ ' + (idx + 1)),
+                  info: st.info || obj.name || '',
+                  image: stImg,
+                  url: stUrl,
+                  referer: stRef,
+                  subtitle: st.subtitle || '',
+                  player: isVideoExt ? '' : (st.player || ''),
+                  wiseplay: isVideoExt ? false : Boolean(st.wiseplay),
+                  isExternalPlaylist: isExtList
+                });
+              }
+            });
+          }
+
+          if (childNodes.length > 0) {
+            return childNodes;
+          }
+
+          const rootSingleUrl = String(obj.url || obj.stream || obj.link || obj.file || obj.src || '').trim();
+          if (rootSingleUrl) {
+            const isVideoExtRoot = isDirectMediaStreamUrl(rootSingleUrl);
+            const isExt = !isVideoExtRoot && isPlaylistUrl(rootSingleUrl);
+            return [{
+              name: obj.name || 'รายการ',
+              info: obj.info || '',
+              image: nodeImage,
+              url: rootSingleUrl,
+              referer: nodeReferer,
+              subtitle: obj.subtitle || '',
+              player: isVideoExtRoot ? '' : (obj.player || ''),
+              wiseplay: isVideoExtRoot ? false : Boolean(obj.wiseplay),
+              isExternalPlaylist: isExt
+            }];
+          }
+        }
+
+        return [];
+      }
+
+      function extractStationsFromJson(obj, parentName = '', inheritedReferer = '') {
         let results = [];
         if (!obj) return results;
 
         if (Array.isArray(obj)) {
           obj.forEach(item => {
-            results = results.concat(extractStationsFromJson(item, parentName));
+            results = results.concat(extractStationsFromJson(item, parentName, inheritedReferer));
           });
           return results;
         }
 
         if (typeof obj === 'object') {
           const currentGroupName = obj.name || parentName || '';
+          const currentRef = obj.referer || obj.referrer || inheritedReferer || '';
           if (Array.isArray(obj.stations)) {
             obj.stations.forEach(st => {
-              if (st && st.url) {
+              const stUrl = st && (st.url || st.stream || st.link || st.file || st.src);
+              if (st && stUrl) {
+                const isVid = isDirectMediaStreamUrl(stUrl);
                 results.push({
                   name: st.name || currentGroupName || 'ช่องรายการ',
                   info: currentGroupName !== st.name ? currentGroupName : (st.info || ''),
                   image: st.image || st.logo || obj.image || '',
-                  url: st.url,
-                  referer: st.referer || '',
-                  subtitle: st.subtitle || ''
+                  url: stUrl,
+                  referer: st.referer || st.referrer || currentRef || '',
+                  subtitle: st.subtitle || '',
+                  player: isVid ? '' : (st.player || ''),
+                  wiseplay: isVid ? false : Boolean(st.wiseplay)
                 });
               }
             });
           }
           if (Array.isArray(obj.groups)) {
             obj.groups.forEach(g => {
-              results = results.concat(extractStationsFromJson(g, currentGroupName));
+              results = results.concat(extractStationsFromJson(g, currentGroupName, currentRef));
             });
           }
-          if (!obj.stations && !obj.groups && obj.url) {
+          const singleUrl = obj.url || obj.stream || obj.link || obj.file || obj.src;
+          if (!obj.stations && !obj.groups && singleUrl) {
+            const isVid = isDirectMediaStreamUrl(singleUrl);
             results.push({
               name: obj.name || 'ช่องรายการ',
               info: parentName || obj.info || '',
               image: obj.image || obj.logo || '',
-              url: obj.url,
-              referer: obj.referer || '',
-              subtitle: obj.subtitle || ''
+              url: singleUrl,
+              referer: currentRef,
+              subtitle: obj.subtitle || '',
+              player: isVid ? '' : (obj.player || ''),
+              wiseplay: isVid ? false : Boolean(obj.wiseplay)
             });
           }
         }
@@ -882,62 +2508,515 @@
         }
       }
 
+      async function fetchHierarchicalPlaylistNodes(playlistUrl, fallbackImg = '', forceReload = false) {
+        const cleanKey = String(playlistUrl || '').trim();
+        if (!forceReload && playlistCache.has(cleanKey)) {
+          return playlistCache.get(cleanKey);
+        }
+        const text = await fetchTextWithFallback(cleanKey);
+        let nodes = [];
+        if (text.startsWith('#EXTM3U') || text.includes('#EXTINF:')) {
+          nodes = parseM3U(text);
+        } else {
+          try {
+            const json = JSON.parse(text);
+            nodes = parseHierarchicalNodesFromJson(json, fallbackImg);
+          } catch (e) {
+            if (/^#EXTM3U/i.test(text) && (text.includes('#EXT-X-STREAM-INF') || text.includes('#EXT-X-TARGETDURATION'))) {
+              return [{
+                name: 'เล่นสตรีมหลัก',
+                info: 'HLS Stream',
+                image: fallbackImg,
+                url: cleanKey,
+                isDirectPlayable: true
+              }];
+            }
+            nodes = parseM3U(text);
+          }
+        }
+        if (nodes && nodes.length > 0) {
+          playlistCache.set(cleanKey, nodes);
+        }
+        return nodes;
+      }
+
       function isExternalPlaylistItem(channel) {
         if (!channel || !channel.url) return false;
-        if (channel.import === false) return true;
-        const lower = channel.url.toLowerCase();
-        if (lower.includes('.m3u8') || lower.includes('.mp4') || lower.includes('.ts')) return false;
-        return lower.includes('playlist') || lower.endsWith('.m3u') || lower.endsWith('.w3u') || lower.endsWith('.json');
+        if (channel.import === true) return true;
+        if (channel.import === false) return isPlaylistUrl(channel.url);
+        return isPlaylistUrl(channel.url);
+      }
+
+      function isSeriesMultiWindowChannel(channel) {
+        if (!channel) return false;
+        const cat = String(channel.category || '').trim();
+        const isSeriesCat = cat.includes('ซีรีส์') || cat.includes('ซีรี่') || cat.includes('ละคร') || cat.toLowerCase().includes('series');
+        if (!isSeriesCat) return false;
+        return true;
       }
 
       function normalizeItem(item, index) {
         const hasStations = Array.isArray(item.stations) && item.stations.length > 0;
+        const hasGroups = Array.isArray(item.groups) && item.groups.length > 0;
         if (!item._uid) item._uid = item.id || ('item_' + (index + 1));
         return {
           id: item._uid,
           name: item.name || 'ไม่มีชื่อรายการ',
-          category: item.category || (hasStations ? 'ละคร/ซีรีส์' : 'ทั่วไป'),
-          logo: item.logo || item.image || (hasStations && item.stations[0].image) || '',
+          category: item.category || ((hasStations || hasGroups) ? 'ละคร/ซีรีส์' : 'ทั่วไป'),
+          logo: item.logo || item.image || (hasStations && item.stations[0].image) || (hasGroups && item.groups[0].image) || '',
           url: item.url || (hasStations ? (item.stations[0].url || '') : ''),
-          referer: item.referer || '',
+          referer: item.referer || item.referrer || '',
           subtitle: item.subtitle || '',
           import: item.import,
+          player: item.player || item.app || '',
+          wiseplay: item.wiseplay || false,
           stations: hasStations ? item.stations : null,
+          groups: hasGroups ? item.groups : null,
+          rawObj: item,
           rawIndex: index
         };
       }
 
-            function showPlayerError(msg, externalUrl = '') {
-        if (msg) {
-          errorMsgEl.textContent = msg;
-          errorMsgEl.classList.add('visible');
+      function flattenStationsFromNodes(nodes) {
+        let flat = [];
+        if (!Array.isArray(nodes)) return flat;
+        nodes.forEach(n => {
+          if (n.isGroup && Array.isArray(n.children)) {
+            flat = flat.concat(flattenStationsFromNodes(n.children));
+          } else if (n.url && !n.isExternalPlaylist) {
+            flat.push(n);
+          }
+        });
+        return flat;
+      }
+
+      // ==================== ฟังก์ชันควบคุม External Playlist Multi-Window Add-on ====================
+      function openMultiWindowOverlay() {
+        if (!mwOverlay) return;
+        mwOverlay.classList.add('active');
+        renderCurrentMultiWindowView();
+      }
+
+      function closeMultiWindowOverlay() {
+        if (!mwOverlay) return;
+        mwOverlay.classList.remove('active');
+      }
+
+      function pushMultiWindowView(viewObj) {
+        mwSearchQuery = '';
+        if (mwSearchInput) mwSearchInput.value = '';
+        mwWindowStack.push(viewObj);
+        openMultiWindowOverlay();
+      }
+
+      function popMultiWindowView() {
+        if (mwWindowStack.length > 1) {
+          mwSearchQuery = '';
+          if (mwSearchInput) mwSearchInput.value = '';
+          mwWindowStack.pop();
+          renderCurrentMultiWindowView();
         } else {
-          errorMsgEl.textContent = '';
-          errorMsgEl.classList.remove('visible');
-        }
-        if (externalUrl) {
-          externalOpenBtn.href = externalUrl;
-          externalOpenBtn.style.display = 'inline-block';
-        } else {
-          externalOpenBtn.style.display = 'none';
+          closeMultiWindowOverlay();
         }
       }
 
+      function jumpToMultiWindowLevel(index) {
+        if (index >= 0 && index < mwWindowStack.length) {
+          mwSearchQuery = '';
+          if (mwSearchInput) mwSearchInput.value = '';
+          mwWindowStack = mwWindowStack.slice(0, index + 1);
+          renderCurrentMultiWindowView();
+        }
+      }
+
+      function renderMultiWindowState(htmlContent) {
+        if (!mwContent) return;
+        mwContent.innerHTML = htmlContent;
+      }
+
+      function renderCurrentMultiWindowView() {
+        if (mwWindowStack.length === 0) return;
+        const currentView = mwWindowStack[mwWindowStack.length - 1];
+
+        if (mwTitleText) {
+          mwTitleText.textContent = currentView.title || 'รายการซีรีส์';
+        }
+
+        if (mwBackBtn) {
+          mwBackBtn.onclick = () => popMultiWindowView();
+          mwBackBtn.innerHTML = mwWindowStack.length > 1 ? '<span>⬅️ ย้อนกลับ</span>' : '<span>⬅️ ปิดหน้าต่าง</span>';
+        }
+
+        if (mwBreadcrumbs) {
+          mwBreadcrumbs.innerHTML = '';
+          mwWindowStack.forEach((win, idx) => {
+            if (idx > 0) {
+              const sep = document.createElement('span');
+              sep.textContent = '›';
+              sep.style.opacity = '0.5';
+              mwBreadcrumbs.appendChild(sep);
+            }
+            const crumbBtn = document.createElement('button');
+            crumbBtn.type = 'button';
+            const isLast = idx === mwWindowStack.length - 1;
+            crumbBtn.className = 'mw-crumb' + (isLast ? ' current' : '');
+            crumbBtn.textContent = win.title || ('หน้าต่าง ' + (idx + 1));
+            if (!isLast) {
+              crumbBtn.addEventListener('click', () => jumpToMultiWindowLevel(idx));
+            }
+            mwBreadcrumbs.appendChild(crumbBtn);
+          });
+        }
+
+        if (mwReloadBtn) {
+          if (currentView.sourceUrl) {
+            mwReloadBtn.style.display = 'inline-flex';
+            mwReloadBtn.onclick = () => loadExternalUrlIntoWindow(currentView, true);
+          } else {
+            mwReloadBtn.style.display = 'none';
+          }
+        }
+
+        if (currentView.loading) {
+          if (mwStatusInfo) mwStatusInfo.textContent = '⏳ กำลังดึงข้อมูลเพลย์ลิสต์ภายนอก...';
+          renderMultiWindowState(
+            '<div class="mw-state-box">' +
+              '<div class="mw-spinner"></div>' +
+              '<div style="font-weight:600; color:#f8fafc;">กำลังเปิดเพลย์ลิสต์ภายนอก (External Playlist)...</div>' +
+              '<div style="font-size:0.8rem;">' + (currentView.title || '') + '</div>' +
+            '</div>'
+          );
+          return;
+        }
+
+        // หากดึงโครงสร้างเพลย์ลิสต์ไม่ได้ ให้สลับไปทำงานหลังบ้านอัตโนมัติโดยไม่มีปุ่มให้กด
+        if (currentView.error) {
+          if (currentView.sourceUrl) {
+            if (isDirectMediaStreamUrl(currentView.sourceUrl)) {
+              startPlaybackFromAddonItem({
+                name: currentView.title || 'รายการ',
+                url: currentView.sourceUrl,
+                image: currentView.fallbackImage || ''
+              }, currentView, []);
+            } else {
+              autoFallbackToWiseplayOrReturnHome(currentView.sourceUrl);
+            }
+          } else {
+            returnToMainHome();
+          }
+          return;
+        }
+
+        const allItems = Array.isArray(currentView.items) ? currentView.items : [];
+        const filteredItems = allItems.filter(it => {
+          if (!mwSearchQuery) return true;
+          const q = mwSearchQuery.toLowerCase();
+          return String(it.name || '').toLowerCase().includes(q) || String(it.info || '').toLowerCase().includes(q);
+        });
+
+        const groupCount = filteredItems.filter(it => it.isGroup || it.isExternalPlaylist).length;
+        const epCount = filteredItems.length - groupCount;
+
+        if (mwStatusInfo) {
+          mwStatusInfo.textContent =
+            'แสดง ' + filteredItems.length + ' รายการ' +
+            (groupCount > 0 ? (' • ' + groupCount + ' แฟ้ม/เพลย์ลิสต์ย่อย') : '') +
+            (epCount > 0 ? (' • ' + epCount + ' ตอนรับชม') : '');
+        }
+
+        if (filteredItems.length === 0) {
+          renderMultiWindowState(
+            '<div class="mw-state-box">' +
+              '<div style="font-size:2rem;">🔍</div>' +
+              '<div>ไม่พบรายการหรือตอนที่ค้นหาในหน้าต่างนี้</div>' +
+            '</div>'
+          );
+          return;
+        }
+
+        const grid = document.createElement('div');
+        grid.className = 'mw-grid';
+
+        filteredItems.forEach((item, idx) => {
+          const isFolder = Boolean(item.isGroup || item.isExternalPlaylist);
+          const isPlayingThis = !isFolder && item.url && item.url === activePlayingStreamUrl;
+
+          const card = document.createElement('div');
+          card.className = 'mw-card' + (isPlayingThis ? ' active-playing' : '');
+          card.setAttribute('role', 'button');
+          card.setAttribute('tabindex', '0');
+
+          const poster = document.createElement('div');
+          poster.className = 'mw-card-poster';
+
+          const badge = document.createElement('span');
+          badge.className = 'mw-card-type-tag' + (isFolder ? '' : ' ep');
+          badge.textContent = isFolder ? (item.isExternalPlaylist ? '🌐 เพลย์ลิสต์' : '📁 หมวด/เรื่อง') : ('▶ ตอนที่ ' + (idx + 1));
+          poster.appendChild(badge);
+
+          if (item.image) {
+            const img = document.createElement('img');
+            img.src = item.image.trim();
+            img.alt = item.name || '';
+            img.loading = 'lazy';
+            img.addEventListener('error', () => {
+              img.remove();
+              const fallbackIcon = document.createElement('div');
+              fallbackIcon.className = 'mw-card-icon';
+              fallbackIcon.textContent = isFolder ? '🗂️' : '🎬';
+              poster.appendChild(fallbackIcon);
+            });
+            poster.appendChild(img);
+          } else {
+            const icon = document.createElement('div');
+            icon.className = 'mw-card-icon';
+            icon.textContent = isFolder ? '🗂️' : '🎬';
+            poster.appendChild(icon);
+          }
+
+          const titleEl = document.createElement('div');
+          titleEl.className = 'mw-card-title';
+          titleEl.textContent = item.name || ('รายการที่ ' + (idx + 1));
+
+          const subEl = document.createElement('div');
+          subEl.className = 'mw-card-sub';
+          if (item.isGroup && Array.isArray(item.children)) {
+            subEl.textContent = item.info || (item.children.length + ' รายการย่อย');
+          } else if (item.isExternalPlaylist) {
+            subEl.textContent = item.info || 'คลิกเพื่อเปิดหน้าต่างเพลย์ลิสต์ย่อย';
+          } else {
+            subEl.textContent = isPlayingThis ? '🟢 กำลังเล่นตอนนี้' : (item.info || 'คลิกเพื่อเริ่มเล่น');
+          }
+
+          card.appendChild(poster);
+          card.appendChild(titleEl);
+          card.appendChild(subEl);
+
+          card.addEventListener('click', () => handleMultiWindowItemClick(item, currentView, allItems));
+          grid.appendChild(card);
+        });
+
+        mwContent.innerHTML = '';
+        mwContent.appendChild(grid);
+      }
+
+      async function loadExternalUrlIntoWindow(viewObj, forceReload = false) {
+        if (!viewObj || !viewObj.sourceUrl) {
+          returnToMainHome();
+          return;
+        }
+        viewObj.loading = true;
+        viewObj.error = false;
+        renderCurrentMultiWindowView();
+
+        try {
+          const nodes = await fetchHierarchicalPlaylistNodes(viewObj.sourceUrl, viewObj.fallbackImage || '', forceReload);
+          if (nodes && nodes.length > 0) {
+            if (nodes.length === 1 && nodes[0].isDirectPlayable) {
+              viewObj.loading = false;
+              startPlaybackFromAddonItem({
+                name: viewObj.title || 'รายการ',
+                url: viewObj.sourceUrl,
+                image: viewObj.fallbackImage || ''
+              }, viewObj, []);
+              return;
+            }
+
+            viewObj.items = nodes;
+            viewObj.loading = false;
+            viewObj.error = false;
+
+            if (viewObj.parentChannel) {
+              const flat = flattenStationsFromNodes(nodes);
+              if (flat.length > 0) {
+                viewObj.parentChannel.stations = flat;
+                renderEpisodes(viewObj.parentChannel);
+              }
+            }
+            renderCurrentMultiWindowView();
+          } else {
+            viewObj.loading = false;
+            viewObj.error = true;
+            renderCurrentMultiWindowView();
+          }
+        } catch (err) {
+          viewObj.loading = false;
+          viewObj.error = true;
+          renderCurrentMultiWindowView();
+        }
+      }
+
+      function startPlaybackFromAddonItem(item, currentView, siblingItems) {
+        if (!item || !item.url) {
+          returnToMainHome();
+          return;
+        }
+        const parentCh = (currentView && currentView.parentChannel) || lastMultiWindowChannel || {
+          id: 'series_addon',
+          name: (currentView && currentView.title) || 'ละคร/ซีรีส์',
+          category: 'ละคร/ซีรีส์'
+        };
+
+        const playableSiblings = (siblingItems || []).filter(it => !it.isGroup && !it.isExternalPlaylist && it.url);
+        if (playableSiblings.length > 0) {
+          parentCh.stations = playableSiblings;
+          const epIdx = playableSiblings.indexOf(item);
+          activeEpisodeIndex = epIdx >= 0 ? epIdx : 0;
+          renderEpisodes(parentCh);
+        }
+
+        activePlayingStreamUrl = item.url;
+        placeholderEl.style.display = 'none';
+        videoEl.classList.add('active');
+
+        const seriesTitle = (currentView && currentView.title) || parentCh.name || 'ละคร/ซีรีส์';
+        const epTitle = item.name || 'ตอนรับชม';
+        currentTitleEl.textContent = seriesTitle === epTitle ? epTitle : (seriesTitle + ' - ' + epTitle);
+        currentCatEl.textContent = 'หมวดหมู่: ' + (parentCh.category || 'ละคร/ซีรีส์') + (item.info ? ' (' + item.info + ')' : '');
+
+        if (reopenAddonBtn) reopenAddonBtn.style.display = 'inline-block';
+        if (episodeBarExpandBtn) episodeBarExpandBtn.style.display = 'inline-block';
+
+        showPlayerError('');
+        closeMultiWindowOverlay();
+        loadStreamUrl(item.url, item.subtitle, item);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function handleMultiWindowItemClick(item, currentView, siblingItems) {
+        if (!item) return;
+
+        if (item.isGroup && Array.isArray(item.children) && item.children.length > 0) {
+          pushMultiWindowView({
+            title: item.name || 'หมวดย่อย',
+            items: item.children,
+            sourceUrl: item.url || '',
+            fallbackImage: item.image || currentView.fallbackImage || '',
+            parentChannel: currentView.parentChannel
+          });
+          return;
+        }
+
+        if ((item.isExternalPlaylist || (!isDirectMediaStreamUrl(item.url) && isPlaylistUrl(item.url))) && item.url) {
+          const newView = {
+            title: item.name || 'เพลย์ลิสต์ย่อย',
+            items: [],
+            sourceUrl: item.url,
+            fallbackImage: item.image || currentView.fallbackImage || '',
+            parentChannel: currentView.parentChannel,
+            loading: true
+          };
+          pushMultiWindowView(newView);
+          loadExternalUrlIntoWindow(newView, false);
+          return;
+        }
+
+        if (item.url) {
+          startPlaybackFromAddonItem(item, currentView, siblingItems);
+        }
+      }
+
+      async function openChannelInMultiWindowAddon(channel) {
+        if (!channel) return;
+        activeChannelId = channel.id;
+        lastMultiWindowChannel = channel;
+        renderChannels();
+
+        if (reopenAddonBtn) reopenAddonBtn.style.display = 'inline-block';
+        if (episodeBarExpandBtn) episodeBarExpandBtn.style.display = 'inline-block';
+
+        mwWindowStack = [];
+
+        const rawSource = channel.rawObj || channel;
+        const preloadedNodes = parseHierarchicalNodesFromJson(rawSource, channel.logo, channel.referer || '');
+        const hasMultipleOrNested =
+          preloadedNodes.length > 1 ||
+          (preloadedNodes.length === 1 && (preloadedNodes[0].isGroup || preloadedNodes[0].isExternalPlaylist));
+
+        if (hasMultipleOrNested) {
+          pushMultiWindowView({
+            title: channel.name,
+            items: preloadedNodes,
+            sourceUrl: isPlaylistUrl(channel.url) ? channel.url : '',
+            fallbackImage: channel.logo,
+            parentChannel: channel
+          });
+          return;
+        }
+
+        const isDirectMedia = isDirectMediaStreamUrl(channel.url || '');
+        if (channel.url && (isExternalPlaylistItem(channel) || isPlaylistUrl(channel.url) || !isDirectMedia)) {
+          const rootView = {
+            title: channel.name,
+            items: [],
+            sourceUrl: channel.url,
+            fallbackImage: channel.logo,
+            parentChannel: channel,
+            loading: true
+          };
+          pushMultiWindowView(rootView);
+          await loadExternalUrlIntoWindow(rootView, false);
+          return;
+        }
+
+        const singleNode = {
+          name: channel.name,
+          info: 'คลิกเพื่อรับชมสตรีมสด / รายการนี้',
+          image: channel.logo,
+          url: channel.url,
+          referer: channel.referer || '',
+          subtitle: channel.subtitle,
+          player: channel.player,
+          wiseplay: channel.wiseplay
+        };
+        pushMultiWindowView({
+          title: channel.name,
+          items: [singleNode],
+          sourceUrl: '',
+          fallbackImage: channel.logo,
+          parentChannel: channel
+        });
+      }
+
+      if (mwCloseBtn) {
+        mwCloseBtn.addEventListener('click', closeMultiWindowOverlay);
+      }
+
+      if (mwOverlay) {
+        mwOverlay.addEventListener('click', function (e) {
+          if (e.target === mwOverlay) {
+            closeMultiWindowOverlay();
+          }
+        });
+      }
+
+      if (mwSearchInput) {
+        mwSearchInput.addEventListener('input', function (e) {
+          mwSearchQuery = e.target.value || '';
+          renderCurrentMultiWindowView();
+        });
+      }
+      // ==================== สิ้นสุดฟังก์ชัน External Playlist Multi-Window Add-on ====================
+
       async function attachSubtitle(subUrl) {
+        if (activeSubtitleBlobUrl) {
+          try { URL.revokeObjectURL(activeSubtitleBlobUrl); } catch (e) {}
+          activeSubtitleBlobUrl = null;
+        }
         Array.from(videoEl.querySelectorAll('track')).forEach(t => t.remove());
         if (!subUrl) return;
         try {
-          const res = await fetch(subUrl);
-          if (!res.ok) throw new Error();
-          let text = await res.text();
-          if (!text.trim().startsWith('WEBVTT')) {
-            text = 'WEBVTT\n\n' + text.replace(/(\d{2}:\d{2}:\d{2}),(\d{3})/g, '$1.$2');
+          const text = await fetchTextWithFallback(subUrl);
+          let vttText = text;
+          if (!vttText.trim().startsWith('WEBVTT')) {
+            vttText = 'WEBVTT\n\n' + vttText.replace(/(\d{2}:\d{2}:\d{2}),(\d{3})/g, '$1.$2');
           }
           const track = document.createElement('track');
           track.kind = 'subtitles';
           track.label = 'ไทย';
           track.srclang = 'th';
-          track.src = URL.createObjectURL(new Blob([text], { type: 'text/vtt' }));
+          activeSubtitleBlobUrl = URL.createObjectURL(new Blob([vttText], { type: 'text/vtt' }));
+          track.src = activeSubtitleBlobUrl;
           track.default = true;
           videoEl.appendChild(track);
         } catch (e) {
@@ -951,39 +3030,188 @@
         }
       }
 
-      function loadStreamUrl(streamUrl, subtitleUrl) {
-        if (hlsInstance) {
-          hlsInstance.destroy();
-          hlsInstance = null;
-        }
-        const url = (streamUrl || '').trim();
-        if (!url) {
-          showPlayerError('ไม่พบลิงก์สตรีมสำหรับรายการนี้');
+      // ระบบเล่น HLS / Native พร้อมสลับไปเปิด Wiseplay หลังบ้านอัตโนมัติเมื่อเล่นบนเว็บไม่ได้ และเด้งกลับหน้าหลักหากยังเล่นไม่ได้
+      function tryHlsOrNativeFallback(url, isExplicitHls = false, stationObj = null, attemptStage = 0, sessionToken = playbackSessionId) {
+        if (sessionToken !== playbackSessionId) return;
+        const cleanOrigUrl = String(url || '').trim().replace(/^wiseplay:\/\//i, '');
+        if (!cleanOrigUrl) {
+          returnToMainHome();
           return;
         }
-        if (url.toLowerCase().includes('.mpd')) {
-          showPlayerError('⚠️ ช่องนี้เข้ารหัส DRM (.mpd) กดปุ่มด้านขวาเพื่อเปิดในแอปภายนอก', url);
-          return;
-        }
-        const isHls = url.toLowerCase().includes('.m3u8') || !url.toLowerCase().includes('.mp4');
-        attachSubtitle(subtitleUrl);
 
-        if (isHls && window.Hls && window.Hls.isSupported()) {
-          hlsInstance = new window.Hls();
-          hlsInstance.loadSource(url);
-          hlsInstance.attachMedia(videoEl);
-          hlsInstance.on(window.Hls.Events.MANIFEST_PARSED, () => {
-            videoEl.play().catch(() => {});
-          });
-          hlsInstance.on(window.Hls.Events.ERROR, (event, data) => {
-            if (data && data.fatal) {
-              showPlayerError('⚠️ สตรีมนี้บล็อกการเล่นบนเว็บ กดปุ่มด้านขวาเพื่อเปิดผ่านแอปภายนอก', url);
+        let targetStreamUrl = cleanOrigUrl;
+
+        if (attemptStage === 1) {
+          const currentPolicy = videoEl.getAttribute('referrerpolicy') || 'no-referrer';
+          videoEl.setAttribute('referrerpolicy', currentPolicy === 'no-referrer' ? 'origin' : 'no-referrer');
+        } else if (attemptStage === 2) {
+          if (window.location.protocol === 'https:' && /^http:\/\//i.test(cleanOrigUrl)) {
+            targetStreamUrl = cleanOrigUrl.replace(/^http:\/\//i, 'https://');
+          } else {
+            return tryHlsOrNativeFallback(cleanOrigUrl, isExplicitHls, stationObj, 3, sessionToken);
+          }
+        } else if (attemptStage === 3) {
+          targetStreamUrl = 'https://corsproxy.io/?' + encodeURomponent(cleanOrigUrl);
+        }
+
+        if (window.Hls && window.Hls.isSupported()) {
+          destroyActivePlayers();
+          let manifestLoaded = false;
+
+          hlsInstance = new window.Hls({
+            enableWorker: true,
+            lowLatencyMode: false,
+            xhrSetup: function (xhr) {
+              xhr.withCredentials = false;
             }
           });
+
+          hlsInstance.loadSource(targetStreamUrl);
+          hlsInstance.attachMedia(videoEl);
+
+          hlsInstance.on(window.Hls.Events.MANIFEST_PARSED, () => {
+            if (sessionToken !== playbackSessionId) return;
+            manifestLoaded = true;
+            showPlayerError('');
+            videoEl.play().catch(() => {});
+          });
+
+          hlsInstance.on(window.Hls.Events.ERROR, (event, data) => {
+            if (sessionToken !== playbackSessionId) return;
+            if (data && data.fatal) {
+              if (data.type === window.Hls.ErrorTypes.MEDIA_ERROR) {
+                try {
+                  hlsInstance.recoverMediaError();
+                } catch (e) {
+                  autoFallbackToWiseplayOrReturnHome(cleanOrigUrl);
+                }
+              } else if (!manifestLoaded && attemptStage < 3) {
+                destroyActivePlayers();
+                tryHlsOrNativeFallback(cleanOrigUrl, isExplicitHls, stationObj, attemptStage + 1, sessionToken);
+              } else {
+                destroyActivePlayers();
+                videoEl.src = cleanOrigUrl;
+                videoEl.load();
+                videoEl.play().catch(() => {
+                  if (sessionToken !== playbackSessionId) return;
+                  autoFallbackToWiseplayOrReturnHome(cleanOrigUrl);
+                });
+              }
+            }
+          });
+        } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+          videoEl.src = targetStreamUrl;
+          videoEl.addEventListener('loadedmetadata', () => {
+            if (sessionToken !== playbackSessionId) return;
+            showPlayerError('');
+            videoEl.play().catch(() => {
+              if (sessionToken !== playbackSessionId) return;
+              autoFallbackToWiseplayOrReturnHome(cleanOrigUrl);
+            });
+          }, { once: true });
+          videoEl.addEventListener('error', () => {
+            if (sessionToken !== playbackSessionId) return;
+            autoFallbackToWiseplayOrReturnHome(cleanOrigUrl);
+          }, { once: true });
         } else {
-          videoEl.src = url;
-          videoEl.play().catch(() => {});
+          videoEl.src = cleanOrigUrl;
+          videoEl.load();
+          videoEl.play().catch(() => {
+            if (sessionToken !== playbackSessionId) return;
+            autoFallbackToWiseplayOrReturnHome(cleanOrigUrl);
+          });
         }
+      }
+
+      function loadStreamUrl(streamUrl, subtitleUrl, stationOrChannelObj = null) {
+        playbackSessionId++;
+        const currentSession = playbackSessionId;
+        destroyActivePlayers();
+
+        let url = (streamUrl || '').trim();
+        if (!url || url.startsWith('about:')) {
+          returnToMainHome();
+          return;
+        }
+
+        let extractedInlineReferer = '';
+        if (url.includes('|')) {
+          const parts = url.split('|');
+          url = parts[0].trim();
+          const headerStr = parts.slice(1).join('|');
+          const rMatch = headerStr.match(/referer=([^&|]+)/i);
+          if (rMatch) extractedInlineReferer = decodeURIComponent(rMatch[1].trim());
+        }
+
+        if (/^wiseplay:\/\/https?:\/\//i.test(url)) {
+          url = url.replace(/^wiseplay:\/\//i, '');
+        }
+
+        activePlayingStreamUrl = url;
+
+        // กรณีลิงก์บังคับใช้ Wiseplay หรือเข้ารหัส DRM (.mpd) ให้เปิด Wiseplay หลังบ้านอัตโนมัติและเด้งกลับหน้าหลัก
+        if (isWiseplayRequiredItem(stationOrChannelObj || url) || url.toLowerCase().includes('.mpd')) {
+          autoFallbackToWiseplayOrReturnHome(url);
+          return;
+        }
+
+        attachSubtitle(subtitleUrl);
+
+        const itemReferer = extractedInlineReferer || (stationOrChannelObj && typeof stationOrChannelObj === 'object' ? (stationOrChannelObj.referer || stationOrChannelObj.referrer || '') : '');
+        if (stationOrChannelObj && typeof stationOrChannelObj === 'object' && extractedInlineReferer && !stationOrChannelObj.referer) {
+          stationOrChannelObj.referer = extractedInlineReferer;
+        }
+        videoEl.setAttribute('referrerpolicy', itemReferer ? 'origin' : 'no-referrer');
+
+        const lowerUrl = url.toLowerCase();
+        const isRawTs = isRawMpegTsStreamUrl(url);
+        const isDirectVideoFile = /\.(mp4|mkv|webm|mov|ogg)($|\?|#)/i.test(lowerUrl);
+        const isHls = lowerUrl.includes('.m3u8') || lowerUrl.includes('m3u8') || lowerUrl.includes('hls') || lowerUrl.includes('master.txt') || lowerUrl.includes('chunklist');
+
+        if (isDirectVideoFile) {
+          videoEl.src = url;
+          videoEl.load();
+          videoEl.play().catch(() => {
+            if (currentSession !== playbackSessionId) return;
+            const curPol = videoEl.getAttribute('referrerpolicy');
+            videoEl.setAttribute('referrerpolicy', curPol === 'no-referrer' ? 'origin' : 'no-referrer');
+            videoEl.src = url;
+            videoEl.load();
+            videoEl.play().catch(() => {
+              if (currentSession !== playbackSessionId) return;
+              autoFallbackToWiseplayOrReturnHome(url);
+            });
+          });
+          return;
+        }
+
+        if (isRawTs && window.mpegts && window.mpegts.isSupported()) {
+          try {
+            mpegtsPlayer = window.mpegts.createPlayer({
+              type: 'mpegts',
+              isLive: true,
+              url: url,
+              cors: true
+            }, {
+              enableWorker: true,
+              enableStashBuffer: false,
+              stashInitialSize: 128
+            });
+            mpegtsPlayer.attachMediaElement(videoEl);
+            mpegtsPlayer.load();
+            mpegtsPlayer.play().catch(() => {});
+            mpegtsPlayer.on(window.mpegts.Events.ERROR, () => {
+              if (currentSession !== playbackSessionId) return;
+              destroyActivePlayers();
+              tryHlsOrNativeFallback(url, isHls, stationOrChannelObj, 0, currentSession);
+            });
+            return;
+          } catch (err) {
+            destroyActivePlayers();
+          }
+        }
+
+        tryHlsOrNativeFallback(url, isHls, stationOrChannelObj, 0, currentSession);
       }
 
       function renderEpisodes(channel) {
@@ -1001,21 +3229,35 @@
           btn.type = 'button';
           btn.className = 'ep-btn' + (idx === activeEpisodeIndex ? ' active' : '');
           const epName = st.name || ('รายการที่ ' + (idx + 1));
-          btn.innerHTML = '<span>' + epName + '</span>' + (st.info ? '<span class="ep-btn-sub">' + st.info + '</span>' : '');
+          const titleSpan = document.createElement('span');
+          titleSpan.textContent = epName;
+          btn.appendChild(titleSpan);
+          if (st.info) {
+            const subSpan = document.createElement('span');
+            subSpan.className = 'ep-btn-sub';
+            subSpan.textContent = st.info;
+            btn.appendChild(subSpan);
+          }
           btn.addEventListener('click', () => {
             activeEpisodeIndex = idx;
             currentTitleEl.textContent = channel.name + ' - ' + epName;
             currentCatEl.textContent = 'หมวดหมู่: ' + channel.category + (st.info ? ' (' + st.info + ')' : '');
             showPlayerError('');
-            loadStreamUrl(st.url, st.subtitle);
+            loadStreamUrl(st.url, st.subtitle, st);
             renderEpisodes(channel);
           });
           episodeListEl.appendChild(btn);
         });
       }
 
-          async function playChannel(channel) {
+      async function playChannel(channel) {
         if (!channel) return;
+
+        if (isSeriesMultiWindowChannel(channel)) {
+          openChannelInMultiWindowAddon(channel);
+          return;
+        }
+
         activeChannelId = channel.id;
         activeEpisodeIndex = 0;
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1026,15 +3268,8 @@
         currentCatEl.textContent = 'หมวดหมู่: ' + channel.category;
         renderChannels();
 
-        // ถ้าเป็นลิงก์เพลย์ลิสต์ภายนอกที่บล็อกเว็บ (เช่น aisfree...workers.dev) ให้แจ้งเตือนและแสดงปุ่มเปิดแอปทันทีโดยไม่ต้องรอค้าง
-        if (channel.url && channel.url.includes('workers.dev/playlist')) {
-          if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
-          videoEl.pause();
-          videoEl.removeAttribute('src');
-          episodeBarEl.classList.remove('visible');
-          currentCatEl.textContent = 'เพลย์ลิสต์ภายนอก (สำหรับแอป IPTV)';
-          showPlayerError('⚠️ ลิงก์นี้ล็อกให้เปิดเฉพาะในแอป IPTV (Wiseplay / OTT) กดปุ่มสีฟ้าด้านขวาเพื่อเปิด หรือคัดลอกลิงก์ไปใส่ในแอป IPTV', channel.url);
-          if (navigator.clipboard) navigator.clipboard.writeText(channel.url);
+        if (isWiseplayRequiredItem(channel) && (!channel.stations || channel.stations.length === 0)) {
+          autoFallbackToWiseplayOrReturnHome(channel.url);
           return;
         }
 
@@ -1049,11 +3284,11 @@
               }
               showPlayerError('');
             } else {
-              showPlayerError('⚠️ เพลย์ลิสต์นี้ต้องเปิดด้วยแอป IPTV ภายนอก', channel.url);
+              autoFallbackToWiseplayOrReturnHome(channel.url);
               return;
             }
           } catch (e) {
-            showPlayerError('⚠️ เซิร์ฟเวอร์ของ ' + channel.name + ' บล็อกการดึงผ่านเว็บ กดปุ่มด้านขวาเพื่อเปิดโดยตรง', channel.url);
+            autoFallbackToWiseplayOrReturnHome(channel.url);
             return;
           }
         } else {
@@ -1066,18 +3301,22 @@
           currentTitleEl.textContent = channel.name + ' - ' + epName;
           currentCatEl.textContent = 'หมวดหมู่: ' + channel.category + (firstEp.info ? ' (' + firstEp.info + ')' : '');
           renderEpisodes(channel);
-          loadStreamUrl(firstEp.url, firstEp.subtitle);
+          loadStreamUrl(firstEp.url, firstEp.subtitle, firstEp);
         } else {
           renderEpisodes(channel);
-          loadStreamUrl(channel.url, channel.subtitle);
+          loadStreamUrl(channel.url, channel.subtitle, channel);
         }
         renderChannels();
       }
 
-
       videoEl.addEventListener('error', () => {
-        if (activeChannelId) {
-          showPlayerError('⚠️ ไม่สามารถเล่นไฟล์สตรีมจากลิงก์นี้บนเว็บได้โดยตรง');
+        if (activeChannelId && !hlsInstance && !mpegtsPlayer) {
+          const currentUrl = activePlayingStreamUrl || videoEl.getAttribute('src') || '';
+          if (currentUrl) {
+            autoFallbackToWiseplayOrReturnHome(currentUrl);
+          } else {
+            returnToMainHome();
+          }
         }
       });
 
@@ -1093,9 +3332,7 @@
         if (filtered.length === 0) {
           const empty = document.createElement('div');
           empty.className = 'empty-state';
-          empty.textContent = normalizedList.length === 0
-            ? 'กำลังโหลดรายการช่องจากเซิร์ฟเวอร์...'
-            : 'ไม่พบช่องรายการที่ตรงกับการค้นหา';
+          empty.textContent = 'ไม่พบช่องรายการที่ตรงกับการค้นหา';
           channelListEl.appendChild(empty);
           return;
         }
@@ -1146,13 +3383,31 @@
         renderChannels();
       });
 
-      const REMOTE_CHANNELS_URL = 'https://raw.githubusercontent.com/AusawinNuang/Pic/refs/heads/main/channels.json';
+      const REMOTE_CHANNELS_URL = 'https://dooduaikan-api.kruttha.workers.dev/channels.json';
 
       async function loadLatestChannels() {
+        if (!REMOTE_CHANNELS_URL || REMOTE_CHANNELS_URL.startsWith('about:')) {
+          renderChannels();
+          return;
+        }
         try {
-          const res = await fetch(REMOTE_CHANNELS_URL + '?t=' + Date.now(), { cache: 'no-store' });
-          if (res.ok) {
-            const remoteData = await res.json();
+          let remoteData = null;
+          if (window.__channelsDataPromise) {
+            remoteData = await window.__channelsDataPromise;
+          }
+          if (!remoteData) {
+            const res = await fetch(REMOTE_CHANNELS_URL + '?t=' + Date.now(), {
+              method: 'GET',
+              cache: 'no-store',
+              headers: {
+                'X-App-Secret': typeof APP_SECRET_KEY !== 'undefined' ? APP_SECRET_KEY : 'DooDuaiKan_Secret_2026_!@#'
+              }
+            });
+            if (res.ok) {
+              remoteData = await res.json();
+            }
+          }
+          if (remoteData) {
             const items = Array.isArray(remoteData) ? remoteData : (Array.isArray(remoteData.groups) ? remoteData.groups : []);
             if (items.length > 0) {
               channels.length = 0;
@@ -1161,7 +3416,7 @@
             }
           }
         } catch (err) {
-          channelListEl.innerHTML = '<div class="empty-state">ไม่สามารถดึงไฟล์ channels.json ได้ กรุณาตรวจสอบรูปแบบไฟล์บน GitHub</div>';
+          renderChannels();
         }
       }
 
@@ -1169,6 +3424,7 @@
       loadLatestChannels();
     })();
   </script>
+
   <!-- ==================== ระบบรองรับรีโมทและหน้าจอ Android TV ==================== -->
   <style>
     /* 1. กรอบไฟสว่างเวลาใช้รีโมททีวีเลื่อน (Focus Ring) */
@@ -1176,8 +3432,12 @@
     input:focus,
     a:focus,
     .channel-item:focus,
+    .mw-card:focus,
     .tab-btn:focus,
-    .ep-btn:focus {
+    .ep-btn:focus,
+    .modal-close-btn:focus,
+    .btn-modal-dismiss:focus,
+    #emergency-login-btn:focus {
       outline: 3px solid #38bdf8 !important;
       outline-offset: 2px !important;
       box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.35), 0 8px 20px rgba(0, 0, 0, 0.6) !important;
@@ -1185,12 +3445,13 @@
       z-index: 10;
     }
 
-    .channel-item:focus {
+    .channel-item:focus,
+    .mw-card:focus {
       background-color: #334155 !important;
       border-color: #38bdf8 !important;
     }
 
-    /* 2. ปรับเลย์เอาต์แบ่งซ้าย-ขวาอัตโนมัติสำหรับจอทีวีแนวนอน (ไม่ต้องเลื่อนหน้าเว็บขึ้น-ลง) */
+    /* 2. ปรับเลย์เอาต์แบ่งซ้าย-ขวาอัตโนมัติสำหรับจอทีวีแนวนอน */
     @media (min-width: 960px) {
       .main-container {
         max-width: 1600px !important;
@@ -1218,7 +3479,6 @@
       const video = document.getElementById('tv-video');
       const nowPlayingBar = document.querySelector('.now-playing-bar');
 
-      // เพิ่มปุ่ม "ขยายเต็มจอ (Fullscreen)" ขนาดใหญ่สำหรับกดด้วยรีโมททีวี
       if (nowPlayingBar && video) {
         const fsBtn = document.createElement('button');
         fsBtn.type = 'button';
@@ -1228,9 +3488,14 @@
         nowPlayingBar.appendChild(fsBtn);
       }
 
+      function isCurrentlyFullscreen() {
+        return !!(document.fullscreenElement || document.webkitFullscreenElement);
+      }
+
       function toggleFullScreen() {
         if (!video) return;
-        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (!isCurrentlyFullscreen()) {
+          try { history.pushState({ tvFullscreen: true }, ''); } catch (e) {}
           if (video.requestFullscreen) {
             video.requestFullscreen().catch(() => {});
           } else if (video.webkitRequestFullscreen) {
@@ -1247,13 +3512,51 @@
         }
       }
 
-      // ระบบควบคุมด้วยปุ่มลูกศรและปุ่ม OK บนรีโมท Android TV
+      window.addEventListener('popstate', function () {
+        if (isCurrentlyFullscreen()) {
+          if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        }
+      });
+
+      function isLockVisible() {
+        const lockScreen = document.getElementById('auth-lock-screen');
+        return !!lockScreen && window.getComputedStyle(lockScreen).display !== 'none';
+      }
+
+      function isDonateModalVisible() {
+        const modal = document.getElementById('donate-modal');
+        return !!modal && modal.classList.contains('active');
+      }
+
+      function isMultiWindowVisible() {
+        const mw = document.getElementById('mw-addon-overlay');
+        return !!mw && mw.classList.contains('active');
+      }
+
       function getVisibleFocusableElements() {
         const lockScreen = document.getElementById('auth-lock-screen');
         if (lockScreen && window.getComputedStyle(lockScreen).display !== 'none') {
           return Array.from(lockScreen.querySelectorAll('input, button')).filter(el => !el.disabled);
         }
-        const selectors = 'header button, .now-playing-bar button, .now-playing-bar a, .ep-btn, #search-input, .tab-btn, .channel-item';
+
+        if (isDonateModalVisible()) {
+          const modal = document.getElementById('donate-modal');
+          return Array.from(modal.querySelectorAll('button')).filter(el => {
+            const style = window.getComputedStyle(el);
+            return style.display !== 'none' && style.visibility !== 'hidden' && !el.disabled;
+          });
+        }
+
+        if (isMultiWindowVisible()) {
+          const mw = document.getElementById('mw-addon-overlay');
+          return Array.from(mw.querySelectorAll('button, input, .mw-card')).filter(el => {
+            const style = window.getComputedStyle(el);
+            return style.display !== 'none' && style.visibility !== 'hidden' && !el.disabled && el.offsetParent !== null;
+          });
+        }
+
+        const selectors = 'header button, .now-playing-bar button, .now-playing-bar a, #episode-bar-expand-btn, .ep-btn, #search-input, .tab-btn, .channel-item';
         return Array.from(document.querySelectorAll(selectors)).filter(el => {
           const style = window.getComputedStyle(el);
           return style.display !== 'none' && style.visibility !== 'hidden' && el.offsetParent !== null;
@@ -1262,28 +3565,79 @@
 
       document.addEventListener('keydown', function (e) {
         const key = e.key;
+        const code = e.keyCode;
         const activeEl = document.activeElement;
+        const isOkKey = (key === 'Enter' || key === ' ' || code === 13 || code === 23 || code === 66);
+        const isBackKey = (key === 'Escape' || key === 'GoBack' || key === 'BrowserBack' || code === 27 || code === 4);
 
-        // 1. เมื่อกดปุ่ม OK (Enter) บนรีโมททีวีตรงช่องรายการ (.channel-item)
-        if ((key === 'Enter' || key === ' ' || e.keyCode === 13 || e.keyCode === 23) && activeEl && activeEl.classList && activeEl.classList.contains('channel-item')) {
+        if (isBackKey && isDonateModalVisible()) {
           e.preventDefault();
-          // ถ้ากดปุ่ม OK ซ้ำที่ช่องเดิมที่กำลังเล่นอยู่ ให้ขยายเต็มจอทันที!
-          if (activeEl.classList.contains('active')) {
+          closeDonateModal();
+          return;
+        }
+
+        if (isBackKey && isMultiWindowVisible()) {
+          e.preventDefault();
+          const backBtn = document.getElementById('mw-back-btn');
+          if (backBtn) backBtn.click();
+          return;
+        }
+
+        if (isBackKey && isCurrentlyFullscreen()) {
+          e.preventDefault();
+          if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+          return;
+        }
+
+        if (isLockVisible() && !(activeEl && activeEl.closest && activeEl.closest('#auth-lock-screen'))) {
+          const lockFirst = document.getElementById('license-input');
+          if (lockFirst && (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key) || isOkKey)) {
+            e.preventDefault();
+            lockFirst.focus();
+          }
+          return;
+        }
+
+        if ((code === 23 || code === 66) && activeEl && (activeEl.tagName === 'BUTTON' || activeEl.tagName === 'A')) {
+          e.preventDefault();
+          activeEl.click();
+          return;
+        }
+
+        if (isOkKey && activeEl && activeEl.classList && activeEl.classList.contains('mw-card')) {
+          e.preventDefault();
+          activeEl.click();
+          setTimeout(() => {
+            if (isMultiWindowVisible()) {
+              const firstCard = document.querySelector('#mw-addon-overlay .mw-card');
+              if (firstCard) firstCard.focus();
+            }
+          }, 80);
+          return;
+        }
+
+        if (isOkKey && activeEl && activeEl.classList && activeEl.classList.contains('channel-item')) {
+          e.preventDefault();
+          if (activeEl.classList.contains('active') && !isMultiWindowVisible()) {
             toggleFullScreen();
             return;
           }
-          // ถ้ากดช่องใหม่ ให้สั่งคลิกเพื่อเล่นช่องนั้น แล้วดึงกรอบสีฟ้ากลับมาไว้ที่ช่องที่เพิ่งเลือก
           activeEl.click();
           setTimeout(() => {
+            if (isMultiWindowVisible()) {
+              const firstMwCard = document.querySelector('#mw-addon-overlay .mw-card') || document.getElementById('mw-close-btn');
+              if (firstMwCard) firstMwCard.focus();
+              return;
+            }
             const newActiveChannel = document.querySelector('.channel-item.active');
             if (newActiveChannel) {
               newActiveChannel.focus();
             }
-          }, 60);
+          }, 80);
           return;
         }
 
-        // 2. ถ้ากำลังพิมพ์ในช่องค้นหาหรือช่องรหัสผ่าน ให้กดลูกศรซ้าย-ขวาเลื่อนตัวอักษรได้ตามปกติ
         if (activeEl && activeEl.tagName === 'INPUT' && (key === 'ArrowLeft' || key === 'ArrowRight')) {
           return;
         }
@@ -1293,10 +3647,18 @@
         const focusables = getVisibleFocusableElements();
         if (focusables.length === 0) return;
 
-        // 3. ถ้ายังไม่มีปุ่มไหนมีกรอบสีฟ้า ให้จับโฟกัสไปที่ช่องปัจจุบันหรือช่องแรกทันที
         if (!focusables.includes(activeEl)) {
           e.preventDefault();
-          const firstTarget = document.querySelector('.channel-item.active') || document.querySelector('.channel-item') || focusables[0];
+          const lockOn = focusables.some(el => el.closest && el.closest('#auth-lock-screen'));
+          const donateOn = isDonateModalVisible();
+          const mwOn = isMultiWindowVisible();
+          const firstTarget = lockOn
+            ? focusables[0]
+            : (donateOn
+              ? focusables[0]
+              : (mwOn
+                ? (document.querySelector('#mw-addon-overlay .mw-card') || focusables[0])
+                : (document.querySelector('.channel-item.active') || document.querySelector('.channel-item') || focusables[0])));
           firstTarget.focus();
           firstTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           return;
